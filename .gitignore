@@ -52,7 +52,7 @@ hs_err_pid*
 
 # IntelliJ
 /out/
-
+/out
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -81,3 +81,7 @@ web-departments/target/classes/
 model/target/test-classes/
 rest/target/
 web-departments/target/
+/META-INF/
+/web-departments/web-departments.iml
+/Department.iml
+!/web-departments/web-departments.iml

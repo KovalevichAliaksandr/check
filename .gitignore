@@ -75,6 +75,7 @@ gen
 
 .idea/workspace.xml
 
+
 rest/target/classes/
 web-departments/target/classes/
 model/target/test-classes/

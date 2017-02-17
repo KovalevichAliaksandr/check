@@ -8,6 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+
     <groupId>com.departments</groupId>
     <artifactId>rest</artifactId>
     <version>1.0-SNAPSHOT</version>

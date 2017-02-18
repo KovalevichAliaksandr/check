@@ -66,6 +66,7 @@ public class DepartmentController {
     }
 
 
+
     @RequestMapping(value = "/getDepartment/{id}",method = RequestMethod.GET)
     public String findContactById(@PathVariable Long id,Model model){
         log.debug("show department/{}",id);

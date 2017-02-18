@@ -1,0 +1,59 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: alex
+  Date: 16.2.17
+  Time: 11.58
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0" xmlns:joda="http://java.sun.com/jsf/composite">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <c:out value="List of departments with an average salary"/>
+
+    <spring:message code="label_department" var="labelDepartment"/>
+    <spring:message code="label_department_id" var="labelDepartmentId"/>
+
+    <spring:message code="label_department_name" var="labelDepartmentName"/>
+    <spring:message code="label_department_show" var="labelDepartmentShow"/>
+    <spring:message code="label_department_update" var="labelDepartmentUpdate"/>
+    <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
+
+    <spring:message code="date_format_pattern" var="dateFormatPattern"/>
+    <spring:url value="/departments/deleteDepartment" var="editDepartmentUrl"/>
+    <spring:url value="/departments/deleteDepartment}" var="deleteDepartmentUrl"/>
+    <spring:url value="/departments/showDepartment}" var="showDepartmentUrl"/>
+
+    <!--<c:if test="$(not empty listDepartmentsWithAvgSalary)">-->
+    <table border="4">
+        <thead>
+        <tr>
+            <th>Department</th>
+            <th>Average salary</th>
+            <th>Operation</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${listDepartmentsWitAvgSalary}" var="departmentsWithAvgSalary">
+            <tr>
+                <!--<td>${departmentsWithAvgSalary.nameDepartment}</td>-->
+                <td><a href="${showDepartmentUrl}/${department.id}?formShow">${departmentsWithAvgSalary.nameDepartment}</a></td>
+                <td>${departmentsWithAvgSalary.avgSalary}</td>
+                <td><a href="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>
+                    <br/>
+                    <a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete}</a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+    <!--</c:if>-->
+    <!--<a href ="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>-->
+    <!--<a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete }</a>-->
+
+
+</jsp:root>

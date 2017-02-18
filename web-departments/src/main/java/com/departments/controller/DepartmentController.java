@@ -1,5 +1,6 @@
 package com.departments.controller;
 
+import com.departments.controller.message.Message;
 import com.departments.model.Department;
 import com.departments.model.Departments;
 import com.departments.model.DepartmentsWithAvgSalary;
@@ -7,14 +8,20 @@ import com.departments.service.DepartmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -28,7 +35,17 @@ public class DepartmentController {
     private static final Logger log= LoggerFactory.getLogger(DepartmentController.class);
 
     @Autowired
-    DepartmentService departmentService;
+    private DepartmentService departmentService;
+    private MessageSource messageSource;
+
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    public void setDepartmentService(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
+
 
     @RequestMapping(value = "/listDepartmentsWitAvgSalary",method = RequestMethod.GET)
     public String listDepartmentsWitAvgSalary(Model model){
@@ -60,13 +77,49 @@ public class DepartmentController {
 
 
     @RequestMapping(value = "/createDepartment",method = RequestMethod.POST)
-    public String create (@RequestBody Department department,Model model){
+    public String create (@Valid Department department, BindingResult bindingResult, Model model,
+                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,Locale locale){
         log.debug("Create department " , department);
-        departmentService.save(department);
-        model.addAttribute("department",department);
-        log.debug("Department create successfully with info{}", department );
-        return "department/createDepartment";
+        if(bindingResult.hasErrors()){
+            model.addAttribute("message",new Message("error",messageSource.getMessage("department_save_fail",new Object[]{},locale)));
+            model.addAttribute("department",department);
+            return "contacts/create";
+        }
+        try {
+            departmentService.save(department);
+            model.addAttribute("department",department);
+            log.debug("Department create successfully with info {}", department );
+            return "department/listDepartmentsWitAvgSalary";
+        } catch (DuplicateKeyException e) {
+            model.addAttribute("message",new Message("error",messageSource.getMessage("department_already_exists",new Object[]{},locale)));
+            return "department/editDepartment";
+        }
+
     }
+
+//    @RequestMapping(params = "form",method = RequestMethod.GET)
+//    public String createForm(Model uiModel){
+//        Contact contact=new Contact();
+//        uiModel.addAttribute("contact",contact);
+//
+//
+//        return "contacts/create";
+//    }
+//    @RequestMapping(params = "form",method = RequestMethod.POST)
+//    public String create(@Valid Contact contact,BindingResult bindingResult,Model uiModel,
+//                         HttpServletRequest httpServletRequest,
+//                         RedirectAttributes redirectAttributes,Locale locale){
+//        log.info("Create new contact");
+//        if(bindingResult.hasErrors()){
+//            uiModel.addAttribute("message",new Message("error",messageSource.getMessage("contact_save_fail",new Object[]{},locale)));
+//            uiModel.addAttribute("contact",contact);
+//            return "contacts/create";
+//        }
+//        uiModel.asMap().clear();
+//        redirectAttributes.addFlashAttribute("message",new Message("success",messageSource.getMessage("contact_save_success",new Object[] {},locale)));
+//        uiModel.addAttribute("contact",contactService.save(contact));
+//        return "redirect:/contacts/"+UrlUtil.encodeUrlPathSegment(contact.getId().toString(),httpServletRequest);
+//    }
 //    @RequestMapping(value="/signup",method=RequestMethod.POST) public String doSignup(@Valid SignupForm form,Errors result,WebRequest request){
 //        if (result.hasErrors()) {
 //            return "signup";

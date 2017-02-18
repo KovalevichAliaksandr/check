@@ -71,7 +71,7 @@ fabric.properties
 .idea
 *.iml
 out
-gen
+
 
 .idea/workspace.xml
 

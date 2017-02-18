@@ -67,6 +67,29 @@ public class DepartmentController {
         log.debug("Department create successfully with info{}", department );
         return "department/createDepartment";
     }
+//    @RequestMapping(value="/signup",method=RequestMethod.POST) public String doSignup(@Valid SignupForm form,Errors result,WebRequest request){
+//        if (result.hasErrors()) {
+//            return "signup";
+//        }
+//        WhirlwindUserDetails userDetails=WhirlwindUserDetails.createEnabledUser(form.getEmail(),form.getPassword());
+//        if (exists(form)) {
+//            result.rejectValue("email","accounts.emailAlreadyRegistered");
+//        }
+//        if (result.hasErrors()) {
+//            return "signup";
+//        }
+//        try {
+//            SignInUtils.signin(userDetails.getUsername());
+//            ProviderSignInUtils.handlePostSignUp(userDetails.getUsername(),request);
+//            saveUser(userDetails);
+//            return "redirect:/";
+//        }
+//        catch (  DuplicateKeyException e) {
+//            result.rejectValue("email","accounts.emailAlreadyRegistered");
+//            return "signup";
+//        }
+//    }
+
 
     @ResponseBody
     @RequestMapping(value = "/createDepartments",method = RequestMethod.POST)

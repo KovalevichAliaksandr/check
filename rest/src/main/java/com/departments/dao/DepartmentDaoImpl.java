@@ -11,6 +11,7 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -35,8 +36,8 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private static final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT * FROM department WHERE id =:id";
-    private static final String SQL_FIND_ALL_DEPARTMENTS = "SELECT * FROM department";
+    private static final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT id,name_department FROM department WHERE id =:id";
+    private static final String SQL_FIND_ALL_DEPARTMENTS = "SELECT id,name_department FROM department";
     private static final String SQL_SAVE_DEPARTMENT = "INSERT into department(name_department) VALUES (:name_department)";
     private static final String SQL_UPDATE_DEPARTMENT = "UPDATE department SET name_department=:name_department WHERE id=:id ";
     private static final String SQL_DELETE_DEPARTMENT = "DELETE FROM  department WHERE id =:id";

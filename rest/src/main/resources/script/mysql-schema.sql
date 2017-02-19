@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `job`.`department` (
 
 CREATE TABLE IF NOT EXISTS `job`.`employee` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(45) NOT NULL NULL,
+  `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL ,
   `dob` DATE NULL,
   `salary` INT NULL,

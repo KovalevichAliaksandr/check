@@ -34,6 +34,19 @@ public class Employee {
     @NotNull
     private Long idDepartment;
 
+    public Employee() {
+
+    }
+
+    public Employee(Long id, String firstName, String lastName, Date dob, Integer salary, Long idDepartment) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.salary = salary;
+        this.idDepartment = idDepartment;
+    }
+
     public Long getId() {
         return id;
     }

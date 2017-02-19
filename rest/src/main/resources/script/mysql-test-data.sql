@@ -5,7 +5,6 @@ insert INTO job.department(name_department) VALUE ('cash');
 insert INTO job.department(name_department) VALUE ('automation');
 insert INTO job.department(name_department) VALUE ('accounting');
 
-SELECT * FROM job.department ORDER BY  id;
 INSERT INTO job.employee (first_name, last_name, dob, salary, id_department) VALUES ('Scott','Wolf','1944-05-18',5000,1);
 INSERT INTO job.employee (first_name, last_name, dob, salary, id_department) VALUES ('Henry','Jackson','1974-02-11',3000,2);
 INSERT INTO job.employee (first_name, last_name, dob, salary, id_department) VALUES ('Raul','Chan','1988-11-15',2000,3);

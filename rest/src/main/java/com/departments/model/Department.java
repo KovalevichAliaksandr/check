@@ -30,6 +30,18 @@ public class Department implements Serializable {
     @Size(min = 1,max = 45)
     private String nameDepartment;
 
+    public Department() {
+    }
+
+    public Department(String nameDepartment) {
+        this.nameDepartment = nameDepartment;
+    }
+
+    public Department(long id, String nameDepartment) {
+        this.id = id;
+        this.nameDepartment = nameDepartment;
+    }
+
     public long getId() {
         return id;
     }

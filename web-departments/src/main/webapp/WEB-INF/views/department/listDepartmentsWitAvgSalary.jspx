@@ -23,9 +23,9 @@
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
-    <spring:url value="/departments/deleteDepartment" var="editDepartmentUrl"/>
-    <spring:url value="/departments/deleteDepartment}" var="deleteDepartmentUrl"/>
-    <spring:url value="/departments/showDepartment}" var="showDepartmentUrl"/>
+    <spring:url value="/department/editDepartment" var="editDepartmentUrl"/>
+    <spring:url value="/department/deleteDepartment" var="deleteDepartmentUrl"/>
+    <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
 
     <!--<c:if test="$(not empty listDepartmentsWithAvgSalary)">-->
         <table border="4">
@@ -41,11 +41,12 @@
             <c:forEach items="${listDepartmentsWitAvgSalary}" var="departmentsWithAvgSalary">
                 <tr>
                     <!--<td>${departmentsWithAvgSalary.nameDepartment}</td>-->
-                    <td><a href="${showDepartmentUrl}/${department.id}?formShow">${departmentsWithAvgSalary.nameDepartment}</a></td>
+                    <td><a href="${showDepartmentUrl}/${departmentsWithAvgSalary.id}?formShow">${departmentsWithAvgSalary.nameDepartment}</a></td>
                     <td>${departmentsWithAvgSalary.avgSalary}</td>
-                    <td><a href="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>
+                    <td>
+                        <a href="${editDepartmentUrl}/${departmentsWithAvgSalary.id}?formUpdate"> ${labelDepartmentUpdate}</a>
                         <br/>
-                        <a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete}</a>
+                        <a href="${deleteDepartmentUrl}/${departmentsWithAvgSalary.id}?formDelete"> ${labelDepartmentDelete}</a>
                     </td>
                 </tr>
             </c:forEach>

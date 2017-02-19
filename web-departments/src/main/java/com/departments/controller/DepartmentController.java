@@ -65,9 +65,7 @@ public class DepartmentController {
         return "department/listDepartments";
     }
 
-
-
-    @RequestMapping(value = "/getDepartment/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/showDepartment/{id}",method = RequestMethod.GET)
     public String findContactById(@PathVariable Long id,Model model){
         log.debug("show department/{}",id);
         Department department=departmentService.findDepartmentById(id);
@@ -95,7 +93,6 @@ public class DepartmentController {
             model.addAttribute("message",new Message("error",messageSource.getMessage("department_already_exists",new Object[]{},locale)));
             return "department/editDepartment";
         }
-
     }
 
 //    @RequestMapping(params = "form",method = RequestMethod.GET)

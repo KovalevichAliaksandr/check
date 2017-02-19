@@ -11,20 +11,15 @@ public class Departments {
 
     public Departments() {
     }
-
     public Departments(ArrayList<Department> departments){
         this.departments=departments;
     }
-
-
     public ArrayList<Department> getDepartments() {
         return departments;
     }
-
     public void setDepartments(ArrayList<Department> departments) {
         this.departments = departments;
     }
-
     public Long getTotalCount(){
         return totalDepartment;
     }

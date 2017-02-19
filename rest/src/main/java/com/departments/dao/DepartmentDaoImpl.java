@@ -1,20 +1,23 @@
 package com.departments.dao;
 
+import com.departments.dao.exception.department.DeleteDepartmentException;
+import com.departments.dao.exception.department.DuplicateNameDepartmentException;
+import com.departments.dao.exception.department.UpdateDepartmentException;
 import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
-import com.departments.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -74,15 +77,15 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
         return namedParameterJdbcTemplate.query(SQL_FIND_ALL_DEPARTMENTS, new DepartmentRowMapper());
     }
 
-
     @Override
-    public Long save(Department department) {
+    @Transactional
+    public Long save(Department department) throws DuplicateNameDepartmentException   {
         log.debug("Save new employee ={} ", department);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             namedParameterJdbcTemplate.update(SQL_SAVE_DEPARTMENT, mapSqlParameterSource(department), keyHolder, new String[]{"id"});
-        } catch (DuplicateKeyException exception) {
-            throw new DuplicateKeyException(department.getNameDepartment());
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateNameDepartmentException(department.getNameDepartment());
         }
         Long id = keyHolder.getKey().longValue();
         department.setId(id);
@@ -90,17 +93,27 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     }
 
     @Override
-    public void delete(Long id) {
+    @Transactional
+    public void delete(Long id) throws  DeleteDepartmentException{
         log.debug("Delete  department with id ={} ", id);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);
-        namedParameterJdbcTemplate.update(SQL_DELETE_DEPARTMENT, parameters);
+        try {
+            namedParameterJdbcTemplate.update(SQL_DELETE_DEPARTMENT, parameters);
+        }catch (DataAccessException e){
+            throw new DeleteDepartmentException(id);
+        }
     }
 
     @Override
-    public void update(Department department) {
+    @Transactional
+    public void update(Department department) throws UpdateDepartmentException {
         log.debug("Update  department ={} ", department);
-        namedParameterJdbcTemplate.update(SQL_UPDATE_DEPARTMENT, mapSqlParameterSource(department));
+        try{
+            namedParameterJdbcTemplate.update(SQL_UPDATE_DEPARTMENT, mapSqlParameterSource(department));
+        }catch (DataAccessException e){
+            throw new UpdateDepartmentException(department.getNameDepartment());
+        }
     }
 
     @Override

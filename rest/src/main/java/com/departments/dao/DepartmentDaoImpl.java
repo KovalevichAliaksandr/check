@@ -73,7 +73,7 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
         namedParameters.put("id", id);
         try {
             return namedParameterJdbcTemplate.queryForObject(SQL_FIND_DEPARTMENT_BY_ID, namedParameters, new DepartmentRowMapper());
-        } catch (EntityNotFoundException e){
+        } catch (EmptyResultDataAccessException e){
             throw new FindDepartmentByIdException(id);
         }
     }

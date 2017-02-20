@@ -47,6 +47,14 @@ public class Employee {
         this.idDepartment = idDepartment;
     }
 
+    public Employee(String firstName, String lastName, Date dob, Integer salary, Long idDepartment) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.salary = salary;
+        this.idDepartment = idDepartment;
+    }
+
     public Long getId() {
         return id;
     }

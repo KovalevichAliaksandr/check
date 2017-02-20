@@ -1,7 +1,5 @@
 package com.departments.dao;
 
-import com.departments.dao.exception.DuplicateNameDepartmentException;
-import com.departments.dao.exception.department.DeleteDepartmentException;
 import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
 import org.junit.Assert;
@@ -9,9 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -50,7 +45,6 @@ public class DepartmentDaoImplTest {
     }
 
     @Test
-
     public void saveShouldReturnTrue() throws Exception {
         Department department = new Department("Add new department");
         departmentDao.save(department);
@@ -93,13 +87,7 @@ public class DepartmentDaoImplTest {
         assertEquals(department,newDepartment);
     }
 
-    // not work . namedParameterJdbcTemplate generetes a new key??? and work as an insert ???
-//    @Test(expected = RuntimeException.class)
-//    public void updateShouldReturnErrorMessage() throws Exception {
-//        Department department=new Department(4,"Update department");
-//        departmentDao.update(department);
-//
-//    }
+
 
     @Test
     public void findDepartmentsWithAvgSalary() throws Exception {

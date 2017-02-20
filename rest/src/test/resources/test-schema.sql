@@ -10,7 +10,7 @@ CREATE TABLE employee (
   id    BIGINT          NOT NULL AUTO_INCREMENT,
   first_name       VARCHAR(45) NOT NULL ,
   `last_name` VARCHAR(45) NOT NULL ,
-  `dob` DATE NULL,
+  `dob` DATETIME NULL,
   `salary` INT NULL,
   `id_department` BIGINT NOT NULL ,
   PRIMARY KEY (id),

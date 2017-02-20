@@ -54,7 +54,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Long save(Department department) {
-        Assert.notNull(department.getNameDepartment(),"Namemust be not null");
+        Assert.notNull(department.getNameDepartment(),"Name must be not null");
         Long id=departmentDao.save(department);
         return id;
     }

@@ -28,6 +28,9 @@
     <bean id="departmentDao" class="com.departments.dao.DepartmentDaoImpl">
         <constructor-arg ref="dataSource"/>
     </bean>
+    <bean id="employeeDao" class="com.departments.dao.EmployeeDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />

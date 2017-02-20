@@ -1,6 +1,8 @@
 package com.departments.dao;
 
+import com.departments.dao.exception.department.DuplicateNameDepartmentException;
 import com.departments.dao.exception.employee.DeleteEmployeeException;
+import com.departments.dao.exception.employee.EmptyResultEmployeeException;
 import com.departments.dao.exception.employee.UpdateEmployeeException;
 import com.departments.model.Employee;
 import org.slf4j.Logger;
@@ -8,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -65,7 +69,12 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
         log.info("Find employee by id={} ",id);
         Map<String,Object> namedParameters=new HashMap<>();
         namedParameters.put("id",id);
-        return namedParameterJdbcTemplate.queryForObject(SQL_FIND_EMPLOYEE_BY_ID,namedParameters,new EmployeeRowMapper());
+        try {
+            return namedParameterJdbcTemplate.queryForObject(SQL_FIND_EMPLOYEE_BY_ID,namedParameters,new EmployeeRowMapper());
+        }catch (EmptyResultDataAccessException e){
+            throw new EmptyResultEmployeeException(id);
+        }
+
     }
 
     @Override
@@ -79,6 +88,7 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
     public Long save(Employee employee)  throws RuntimeException {
         log.info("Save new employee ={} ",employee);
         KeyHolder keyHolder=new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(SQL_SAVE_EMPLOYEE, mapSqlParameterSource(employee), keyHolder, new String[]{"id"});
         Long id=keyHolder.getKey().longValue();
         employee.setId(id);
         return id;

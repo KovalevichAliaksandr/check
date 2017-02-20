@@ -14,6 +14,12 @@ public class DepartmentsWithAvgSalary implements Serializable {
     public DepartmentsWithAvgSalary() {
     }
 
+    public DepartmentsWithAvgSalary(Long id, String nameDepartment, Integer avgSalary) {
+        this.id = id;
+        this.nameDepartment = nameDepartment;
+        this.avgSalary = avgSalary;
+    }
+
     public Long getId() {
         return id;
     }

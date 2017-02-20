@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by alex on 8.2.17.
  */
-//@Repository
+
 @Transactional
 @Service(value = "employeeService")
 public class EmployeeServiceImpl implements EmployeeService {

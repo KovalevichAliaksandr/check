@@ -2,6 +2,7 @@ package com.departments.dao;
 
 import com.departments.dao.exception.department.DeleteDepartmentException;
 import com.departments.dao.exception.department.DuplicateNameDepartmentException;
+import com.departments.dao.exception.department.FindDepartmentByIdException;
 import com.departments.dao.exception.department.UpdateDepartmentException;
 import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
@@ -20,6 +21,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -69,7 +71,11 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
         log.debug("Find contact by id={} ", id);
         Map<String, Object> namedParameters = new HashMap<>();
         namedParameters.put("id", id);
-        return namedParameterJdbcTemplate.queryForObject(SQL_FIND_DEPARTMENT_BY_ID, namedParameters, new DepartmentRowMapper());
+        try {
+            return namedParameterJdbcTemplate.queryForObject(SQL_FIND_DEPARTMENT_BY_ID, namedParameters, new DepartmentRowMapper());
+        } catch (EntityNotFoundException e){
+            throw new FindDepartmentByIdException(id);
+        }
     }
 
     @Override

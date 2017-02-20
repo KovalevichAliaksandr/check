@@ -14,6 +14,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,6 +26,8 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-spring-db.xml"})
+@Transactional
+@TransactionConfiguration(defaultRollback=true)
 public class DepartmentDaoImplTest {
 
     @Autowired
@@ -47,8 +50,7 @@ public class DepartmentDaoImplTest {
     }
 
     @Test
-    @Transactional
-    @Rollback(true)
+
     public void saveShouldReturnTrue() throws Exception {
         Department department = new Department("Add new department");
         departmentDao.save(department);
@@ -57,9 +59,7 @@ public class DepartmentDaoImplTest {
     }
 
 
-    @Transactional
-    @Rollback(true)
-//    @Test(expected = DuplicateNameDepartmentException.class)
+//        not work !!! why????-   @Test(expected = DuplicateNameDepartmentException.class)
     @Test(expected = RuntimeException.class)
     public void saveShouldReturnErrorMessage() throws Exception {
         Department department = new Department("Add new department");
@@ -68,66 +68,38 @@ public class DepartmentDaoImplTest {
     }
 
     @Test
-    @Transactional
-    @Rollback(true)
     public void deleteShouldReturnTrue() throws Exception {
+        long countUserBefore=  departmentDao.findAllDepartments().size();
         departmentDao.delete(2L);
-        Department department = departmentDao.findDepartmentById(2L);
-        assertNull("Department is not null.", department);
+        long countUserAfter=departmentDao.findAllDepartments().size();
+        assertEquals(countUserBefore, countUserAfter+1);
     }
 
-
-    @Transactional
-    @Rollback(true)
-//    @Test(expected = RuntimeException.class)
-    @Test(expected = DeleteDepartmentException.class)
-//    @Test(expected = DataAccessException.class)
-    public void deleteShouldReturnMessage() throws Exception {
+    @Test(expected = RuntimeException.class)
+    public void deleteShouldReturnErrorMessage() throws Exception {
         departmentDao.delete(1L);
-        Department department = departmentDao.findDepartmentById(-1L);
-
-//        List<User> users = userDao.getAllUsers();
-//        Integer sizeBeforeDelete = users.size();
-//
-//        User user = userDao.getUserById(COUNT_OF_ALL_USERS);
-//        assertNotNull(user);
-//
-//        userDao.deleteUser(COUNT_OF_ALL_USERS);
-//
-//        users = userDao.getAllUsers();
-//        Integer sizeAfterDelete = users.size();
-//        assertEquals(1,sizeBeforeDelete-sizeAfterDelete);
-//        assertEquals(null,userDao.getUserById(COUNT_OF_ALL_USERS));
-//
-//
-//        thrown.expect(Exception.class);
-//        thrown.expectMessage(UserDaoImpl.ERR_USER_IS_NOT_EXIST);
-//        userDao.deleteUser(COUNT_OF_ALL_USERS+1);
-
-
     }
+
+
     @Test
-    @Transactional
-    @Rollback(true)
-    public void update() throws Exception {
-//        User user = new User(
-//                COUNT_OF_ALL_USERS+1,
-//                "UpdatedUser",
-//                "UpdatedPassword",
-//                "UpdatedDescription");
-//        thrown.expect(Exception.class);
-//        thrown.expectMessage(UserDaoImpl.ERR_USER_IS_NOT_EXIST);
-//        userDao.updateUser(user);
-//
-//        user.setUserId(COUNT_OF_ALL_USERS-1);
-//        User oldUser = userDao.getUserById(COUNT_OF_ALL_USERS-1);
-//        assertNotEquals(oldUser,user);
-//
-//        userDao.updateUser(user);
-//        User newUser = userDao.getUserById(COUNT_OF_ALL_USERS-1);
-//        assertEquals(user,newUser);
-//
+     public void updateShouldReturnTrue() throws Exception {
+        Department department=new Department(2,"Update department");
+        Department oldDepartment=departmentDao.findDepartmentById(2L);
+        departmentDao.update(department);
+        assertNotEquals(oldDepartment,department);
+
+        Department newDepartment=departmentDao.findDepartmentById(2L);
+        departmentDao.update(department);
+        assertEquals(department,newDepartment);
     }
+
+    // not work . namedParameterJdbcTemplate generetes a new key??? and work as an insert ???
+//    @Test(expected = RuntimeException.class)
+//    public void updateShouldReturnErrorMessage() throws Exception {
+//        Department department=new Department(4,"Update department");
+//        departmentDao.update(department);
+//
+//    }
 
     @Test
     public void findDepartmentsWithAvgSalary() throws Exception {

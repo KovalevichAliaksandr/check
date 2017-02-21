@@ -1,4 +1,4 @@
-package com.departments.dao.controller;
+package com.departments.controller;
 
 import com.departments.service.EmployeeService;
 import com.departments.model.Employee;
@@ -24,19 +24,19 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @ResponseBody
-    @RequestMapping(value = "/listEmployees",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/listEmployees",method = RequestMethod.GET)
     public Employees listData(){
         return new Employees((ArrayList<Employee>) employeeService.findAllEmployees());
     }
 
     @ResponseBody
-    @RequestMapping(value = "/getEmployee/{id}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getEmployee/{id}",method = RequestMethod.GET)
     public Employee findContactById(@PathVariable Long id){
         return employeeService.findEmployeeById(id);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/createEmployee",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/createEmployee",method = RequestMethod.POST)
     public Employee create (@RequestBody Employee employee){
         log.debug("Create employee " , employee);
         employeeService.save(employee);
@@ -44,22 +44,9 @@ public class EmployeeController {
         return employee;
     }
 
-//
-//    @ResponseBody
-//    @RequestMapping(value = "/createEmployees",method = RequestMethod.POST)
-//    public Employees employees(@RequestBody Employees employees){
-//        ArrayList<Employee> employeeArrayList= employees.getEmployees();
-//        for (Employee employee:employeeArrayList){
-//            log.debug("Create employee " , employee);
-//            employeeService.save(employee);
-//            log.debug("Employee create successfully with info{}", employee );
-//        }
-//        return employees;
-//
-//    }
 
     @ResponseBody
-    @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT)
     public Employee update (@RequestBody Employee employee, @PathVariable Long id){
         log.debug("Update employee {}" , employee);
         employee.setId(id);
@@ -69,7 +56,7 @@ public class EmployeeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/deleteEmployee/{id}",method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/deleteEmployee/{id}",method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
         Employee employee=employeeService.findEmployeeById(id);
         log.debug("Delete employee {}",employee);

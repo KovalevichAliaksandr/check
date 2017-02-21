@@ -19,7 +19,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
@@ -32,7 +31,6 @@ import java.util.Map;
 /**
  * Created by alex on 8.2.17.
  */
-
 public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     private static final Logger log = LoggerFactory.getLogger(DepartmentDaoImpl.class);
     private DataSource dataSource;

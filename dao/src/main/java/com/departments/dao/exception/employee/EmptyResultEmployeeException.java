@@ -7,7 +7,7 @@ public class EmptyResultEmployeeException extends EmployeeException {
     private Long id;
 
     public EmptyResultEmployeeException(Long id ){
-        super("Find employee with  id = "+id+"error");
+        super("Find employee with  id = "+id+" error");
         this.id=id;
     }
     public String getId(){

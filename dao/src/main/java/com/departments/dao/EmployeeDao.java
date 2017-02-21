@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface EmployeeDao {
 
-    public Employee findEmployeeById(Long id);
-    public List<Employee> findAllEmployees();
-    public Long save(Employee Employee);
-    public void delete(Long id);
-    public void update(Employee Employee);
+     Employee findEmployeeById(Long id);
+     List<Employee> findAllEmployees();
+     Long save(Employee Employee);
+     void delete(Long id);
+     void update(Employee Employee);
 }

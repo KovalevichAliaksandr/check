@@ -10,11 +10,11 @@ import java.util.List;
  */
 
 public interface DepartmentService {
-    public Department findDepartmentById(Long id);
-    public Long save(Department department);
-    public void delete(Long id);
-    public void update(Department department);
-    public List<Department> findAllDepartments();
-    public List<DepartmentsWithAvgSalary> findDepartmentsWithAvgSalary();
+     Department findDepartmentById(Long id);
+     Long save(Department department);
+     void delete(Long id);
+     void update(Department department);
+     List<Department> findAllDepartments();
+     List<DepartmentsWithAvgSalary> findDepartmentsWithAvgSalary();
 
 }

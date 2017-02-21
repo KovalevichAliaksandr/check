@@ -6,7 +6,7 @@
 
 
     <context:component-scan base-package="com.departments"/>
-    <import resource="classpath:spring/data-source-mysql.xml"/>
+    <!--<import resource="classpath:spring/data-source-mysql.xml"/>-->
     <import resource="servlet/servlet-context.xml"/>
 
 

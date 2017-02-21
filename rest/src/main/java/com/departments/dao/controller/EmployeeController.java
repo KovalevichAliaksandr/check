@@ -6,6 +6,7 @@ import com.departments.model.Employees;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,19 +24,19 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @ResponseBody
-    @RequestMapping(value = "/listEmployees",method = RequestMethod.GET)
+    @RequestMapping(value = "/listEmployees",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public Employees listData(){
         return new Employees((ArrayList<Employee>) employeeService.findAllEmployees());
     }
 
     @ResponseBody
-    @RequestMapping(value = "/getEmployee/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getEmployee/{id}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee findContactById(@PathVariable Long id){
         return employeeService.findEmployeeById(id);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/createEmployee",method = RequestMethod.POST)
+    @RequestMapping(value = "/createEmployee",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee create (@RequestBody Employee employee){
         log.debug("Create employee " , employee);
         employeeService.save(employee);
@@ -58,7 +59,7 @@ public class EmployeeController {
 //    }
 
     @ResponseBody
-    @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT,produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee update (@RequestBody Employee employee, @PathVariable Long id){
         log.debug("Update employee {}" , employee);
         employee.setId(id);
@@ -68,7 +69,7 @@ public class EmployeeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/deleteEmployee/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteEmployee/{id}",method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(@PathVariable Long id){
         Employee employee=employeeService.findEmployeeById(id);
         log.debug("Delete employee {}",employee);

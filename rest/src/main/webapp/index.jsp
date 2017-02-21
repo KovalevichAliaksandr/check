@@ -11,7 +11,7 @@
     <title>Test rest service</title>
 </head>
 <body>
-Test application!!!
+Test rest application!!!
 <table>
     <tbody>test</tbody>
     <tbody>test</tbody>

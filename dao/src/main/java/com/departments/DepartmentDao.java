@@ -1,4 +1,4 @@
-package com.departments.dao;
+package com.departments;
 
 
 

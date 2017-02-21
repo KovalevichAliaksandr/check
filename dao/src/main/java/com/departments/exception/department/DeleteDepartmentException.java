@@ -1,12 +1,12 @@
-package com.departments.dao.exception.employee;
+package com.departments.exception.department;
 
 /**
  * Created by ALex on 19.02.2017.
  */
-public class DeleteEmployeeException extends EmployeeException {
+public class DeleteDepartmentException extends DepartmentException {
     private Long id;
 
-    public DeleteEmployeeException(Long id){
+    public DeleteDepartmentException(Long id){
         super("Delete department with id "+id+" error");
         this.id=id;
     }

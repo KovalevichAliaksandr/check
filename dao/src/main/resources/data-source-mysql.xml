@@ -23,11 +23,11 @@
         <jdbc:script location="classpath*:script/mysql-test-data.sql"/>
     </jdbc:initialize-database>
 
-    <bean id="employeeDao" class="com.departments.dao.EmployeeDaoImpl">
+    <bean id="employeeDao" class="com.departments.EmployeeDaoImpl">
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="departmentDao" class="com.departments.dao.DepartmentDaoImpl">
+    <bean id="departmentDao" class="com.departments.DepartmentDaoImpl">
         <constructor-arg ref="dataSource"/>
     </bean>
 

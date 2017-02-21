@@ -1,8 +1,8 @@
-package com.departments.dao;
+package com.departments;
 
-import com.departments.dao.exception.employee.DeleteEmployeeException;
-import com.departments.dao.exception.employee.EmptyResultEmployeeException;
-import com.departments.dao.exception.employee.UpdateEmployeeException;
+import com.departments.exception.employee.DeleteEmployeeException;
+import com.departments.exception.employee.EmptyResultEmployeeException;
+import com.departments.exception.employee.UpdateEmployeeException;
 import com.departments.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
@@ -65,7 +64,7 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
         }
     }
     @Override
-    public Employee findEmployeeById(Long id) {
+    public Employee findEmployeeById(Long id) throws EmptyResultDataAccessException {
         log.info("Find employee by id={} ",id);
         Map<String,Object> namedParameters=new HashMap<>();
         namedParameters.put("id",id);
@@ -78,7 +77,7 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
     }
 
     @Override
-    public List<Employee> findAllEmployees() {
+    public List<Employee> findAllEmployees() throws DataAccessException{
         log.info("Find all employees ");
         return namedParameterJdbcTemplate.query(SQL_FIND_ALL_EMPLOYEES,new EmployeeRowMapper());
     }
@@ -96,7 +95,7 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id) throws DataAccessException{
         log.info("Delete  employee with id ={} ",id);
         Map<String,Object> parameters=new HashMap<>();
         parameters.put("id",id);
@@ -109,7 +108,7 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
     }
     @Override
     @Transactional
-    public void update(Employee employee) {
+    public void update(Employee employee) throws DataAccessException{
         log.info("Update  employee ={} ",employee);
         try {
             namedParameterJdbcTemplate.update(SQL_UPDATE_EMPLOYEE,mapSqlParameterSource(employee));

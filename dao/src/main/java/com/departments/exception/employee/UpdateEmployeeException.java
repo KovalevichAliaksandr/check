@@ -1,4 +1,4 @@
-package com.departments.dao.exception.employee;
+package com.departments.exception.employee;
 
 /**
  * Created by ALex on 19.02.2017.

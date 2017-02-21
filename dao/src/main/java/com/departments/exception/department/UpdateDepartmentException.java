@@ -1,4 +1,4 @@
-package com.departments.dao.exception.department;
+package com.departments.exception.department;
 
 /**
  * Created by ALex on 19.02.2017.

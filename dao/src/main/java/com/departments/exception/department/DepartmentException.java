@@ -1,4 +1,4 @@
-package com.departments.dao.exception.department;
+package com.departments.exception.department;
 
 /**
  * Created by alex on 18.2.17.

@@ -1,4 +1,4 @@
-package com.departments.dao.exception.employee;
+package com.departments.exception.employee;
 
 /**
  * Created by alex on 18.2.17.

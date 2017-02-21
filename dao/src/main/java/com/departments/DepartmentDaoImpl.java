@@ -1,9 +1,9 @@
-package com.departments.dao;
+package com.departments;
 
-import com.departments.dao.exception.department.DeleteDepartmentException;
-import com.departments.dao.exception.department.DuplicateNameDepartmentException;
-import com.departments.dao.exception.department.FindDepartmentByIdException;
-import com.departments.dao.exception.department.UpdateDepartmentException;
+import com.departments.exception.department.DeleteDepartmentException;
+import com.departments.exception.department.DuplicateNameDepartmentException;
+import com.departments.exception.department.FindDepartmentByIdException;
+import com.departments.exception.department.UpdateDepartmentException;
 import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     }
 
     @Override
-    public Department findDepartmentById(Long id) {
+    public Department findDepartmentById(Long id) throws DataAccessException {
         log.debug("Find contact by id={} ", id);
         Map<String, Object> namedParameters = new HashMap<>();
         namedParameters.put("id", id);
@@ -78,7 +78,7 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     }
 
     @Override
-    public List<Department> findAllDepartments() {
+    public List<Department> findAllDepartments() throws DataAccessException{
         log.debug("Find all contacts ");
         return namedParameterJdbcTemplate.query(SQL_FIND_ALL_DEPARTMENTS, new DepartmentRowMapper());
     }
@@ -100,7 +100,7 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
 
     @Override
     @Transactional
-    public void delete(Long id) throws  DeleteDepartmentException{
+    public void delete(Long id) throws DeleteDepartmentException {
         log.debug("Delete  department with id ={} ", id);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id", id);
@@ -123,7 +123,7 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     }
 
     @Override
-    public List<DepartmentsWithAvgSalary> findDepartmentsWithAvgSalary() {
+    public List<DepartmentsWithAvgSalary> findDepartmentsWithAvgSalary() throws DataAccessException{
         log.debug("select departments with average salary  ");
         return namedParameterJdbcTemplate.query(SQL_GET_DEPARTMENTS_WITH_AVG_SALARY, new DepartmentWithSAvgSalaryRowMapper());
     }

@@ -1,7 +1,6 @@
 package com.departments.controller;
 
 import com.departments.model.Department;
-import com.departments.model.Departments;
 import com.departments.model.DepartmentsWithAvgSalary;
 import com.departments.service.DepartmentService;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +25,8 @@ public class DepartmentController {
 
     @ResponseBody
     @RequestMapping(value = "/listDepartments",method = RequestMethod.GET)
-    public Departments listDepartments(){
-        return new Departments((ArrayList<Department>) departmentService.findAllDepartments());
+    public List<Department> listDepartments(){
+        return  departmentService.findAllDepartments() ;
     }
 
     @ResponseBody
@@ -50,18 +48,6 @@ public class DepartmentController {
         departmentService.save(department);
         log.debug("Department create successfully with info{}", department );
         return department;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/createDepartments",method = RequestMethod.POST)
-    public Departments departments(@RequestBody Departments departments){
-        ArrayList<Department> departmentArrayList= departments.getDepartments();
-        for (Department department:departmentArrayList){
-            log.debug("Create departmentsDto " , department);
-            departmentService.save(department);
-            log.debug("Department create successfully with info{}", department );
-        }
-        return departments;
     }
 
     @ResponseBody

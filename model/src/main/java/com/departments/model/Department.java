@@ -15,19 +15,12 @@ import java.util.Objects;
  */
 
 public class Department implements Serializable {
-    @AssertTrue(message = "Should by Name of department")
-    public boolean isShouldNameOfDepartment(){
-        Boolean result=true;
-        if(nameDepartment==null){
-            result=false;
-        }
-        return result;
-    }
 
-    @NotNull
+    @NotNull(message =" id  not be null")
     private long id ;
-    @NotNull
-    @Size(min = 1,max = 45)
+    @NotNull(message =" department name not be null")
+
+    @Size(min = 1,max = 45,message="department name should be between 1 - 45 symbols")
     private String nameDepartment;
 
     public Department() {

@@ -13,14 +13,15 @@ import java.util.Objects;
  * Created by alex on 7.2.17.
  */
 public class Employee {
-    @NotNull
+
+    @NotNull(message =" id  not be null")
     private Long id;
 
-    @NotNull
+    @NotNull(message =" First name not be null")
     @Size(min = 1,max = 45,message="first name should be between 1 - 45 symbols")
     private String firstName;
 
-    @NotNull
+    @NotNull(message =" Last name not be null")
     @Size(min = 1,max = 45,message="last name should be between 1 - 45 symbols")
     private String lastName;
 

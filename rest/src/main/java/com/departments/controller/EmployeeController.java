@@ -2,7 +2,6 @@ package com.departments.controller;
 
 import com.departments.service.EmployeeService;
 import com.departments.model.Employee;
-import com.departments.model.Employees;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alex on 10.2.17.
@@ -25,8 +25,8 @@ public class EmployeeController {
 
     @ResponseBody
     @RequestMapping(value = "/listEmployees",method = RequestMethod.GET)
-    public Employees listData(){
-        return new Employees((ArrayList<Employee>) employeeService.findAllEmployees());
+    public List<Employee> listData(){
+        return employeeService.findAllEmployees();
     }
 
     @ResponseBody
@@ -43,7 +43,6 @@ public class EmployeeController {
         log.debug("Employee create successfully with info{}", employee );
         return employee;
     }
-
 
     @ResponseBody
     @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT)

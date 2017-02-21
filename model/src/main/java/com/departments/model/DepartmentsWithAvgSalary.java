@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Created by alex on 14.2.17.
+ * The class is used to pass the name of the department and the average salary on it between
+ * the layers of the program.
  */
 public class DepartmentsWithAvgSalary implements Serializable {
     private Long id;

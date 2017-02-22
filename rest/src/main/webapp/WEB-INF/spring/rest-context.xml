@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+      <!--load data in MySql  -->
+    <import resource="classpath*:data-source-mysql.xml"/>
+
+
+    <bean id="employeeDao" class="com.departments.dao.EmployeeDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="departmentDao" class="com.departments.dao.DepartmentDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="employeeService" class="com.departments.service.EmployeeServiceImpl">
+        <constructor-arg ref="employeeDao"/>
+    </bean>
+
+    <bean id="departmentService" class="com.departments.service.DepartmentServiceImpl">
+        <constructor-arg ref="departmentDao"/>
+    </bean>
+
+
+</beans>

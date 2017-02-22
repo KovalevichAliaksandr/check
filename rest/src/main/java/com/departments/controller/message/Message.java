@@ -1,4 +1,4 @@
-package com.departments.dao.controller.message;
+package com.departments.controller.message;
 
 /**
  * Created by alex on 18.2.17.

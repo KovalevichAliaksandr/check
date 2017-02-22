@@ -1,11 +1,11 @@
 package com.departments.dao;
 
-import com.departments.dao.exception.department.DeleteDepartmentException;
 import com.departments.dao.exception.department.DuplicateNameDepartmentException;
+import com.departments.dao.exception.department.DeleteDepartmentException;
 import com.departments.dao.exception.department.FindDepartmentByIdException;
 import com.departments.dao.exception.department.UpdateDepartmentException;
-import com.departments.dao.model.Department;
-import com.departments.dao.model.DepartmentsWithAvgSalary;
+import com.departments.model.Department;
+import com.departments.model.DepartmentsWithAvgSalary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -85,7 +85,7 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
 
     @Override
     @Transactional
-    public Long save(Department department) throws DuplicateNameDepartmentException   {
+    public Long save(Department department) throws DuplicateNameDepartmentException {
         log.debug("Save new employee ={} ", department);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {

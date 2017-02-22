@@ -8,9 +8,13 @@
        http://www.springframework.org/schema/jdbc
        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--<import resource="classpath*:test-spring-db.xml"/>-->
 
+
+    <import resource="classpath*:test-spring-db.xml"/>
     <bean id="departmentDao" class="com.departments.dao.DepartmentDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    <bean id="employeeDao" class="com.departments.dao.EmployeeDaoImpl">
         <constructor-arg ref="dataSource"/>
     </bean>
 

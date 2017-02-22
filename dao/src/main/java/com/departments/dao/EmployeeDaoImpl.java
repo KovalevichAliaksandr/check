@@ -1,9 +1,9 @@
 package com.departments.dao;
 
-import com.departments.dao.exception.employee.EmptyResultEmployeeException;
 import com.departments.dao.exception.employee.DeleteEmployeeException;
+import com.departments.dao.exception.employee.EmptyResultEmployeeException;
 import com.departments.dao.exception.employee.UpdateEmployeeException;
-import com.departments.dao.model.Employee;
+import com.departments.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;

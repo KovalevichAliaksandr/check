@@ -1,4 +1,4 @@
-package com.departments.dao.model;
+package com.departments.model;
 
 
 import javax.validation.constraints.NotNull;

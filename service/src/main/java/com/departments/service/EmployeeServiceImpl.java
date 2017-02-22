@@ -1,7 +1,7 @@
-package com.departments.dao.service;
+package com.departments.service;
 
 import com.departments.dao.EmployeeDao;
-import com.departments.dao.model.Employee;
+import com.departments.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

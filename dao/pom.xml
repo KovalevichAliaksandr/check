@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.departments</groupId>
     <artifactId>dao</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>

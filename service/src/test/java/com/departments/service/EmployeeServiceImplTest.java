@@ -1,4 +1,4 @@
-package com.departments.dao.service;
+package com.departments.service;
 
 import org.junit.Test;
 import org.slf4j.Logger;

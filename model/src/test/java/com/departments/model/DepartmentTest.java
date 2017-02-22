@@ -1,4 +1,4 @@
-package com.departments.dao.model;
+package com.departments.model;
 
 import org.junit.Assert;
 import org.junit.Before;

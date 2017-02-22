@@ -2,8 +2,8 @@ package com.departments.dao;
 
 
 
-import com.departments.dao.model.Department;
-import com.departments.dao.model.DepartmentsWithAvgSalary;
+import com.departments.model.Department;
+import com.departments.model.DepartmentsWithAvgSalary;
 
 import java.util.List;
 

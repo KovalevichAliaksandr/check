@@ -1,8 +1,8 @@
-package com.departments.dao.service;
+package com.departments.service;
 
 import com.departments.dao.DepartmentDao;
-import com.departments.dao.model.Department;
-import com.departments.dao.model.DepartmentsWithAvgSalary;
+import com.departments.model.Department;
+import com.departments.model.DepartmentsWithAvgSalary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

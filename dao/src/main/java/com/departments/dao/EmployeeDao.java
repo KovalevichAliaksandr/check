@@ -1,6 +1,6 @@
 package com.departments.dao;
 
-import com.departments.dao.model.Employee;
+import com.departments.model.Employee;
 
 import java.util.List;
 

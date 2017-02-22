@@ -7,11 +7,10 @@
         <groupId>com.departments</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
-    <groupId>com.departments</groupId>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>test-db</artifactId>
-    <packaging>jar</packaging>
 
+    <artifactId>data-db</artifactId>
+    <groupId>com.departments</groupId>
+    <version>1.0-SNAPSHOT</version>
 
 </project>

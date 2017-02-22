@@ -44,6 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Long save(Employee employee) {
+        Assert.notNull(employee);
         Assert.notNull(employee.getFirstName(),"First name must be not null");
         Assert.notNull(employee.getLastName(),"Last Name must be not null");
         Assert.isTrue(employee.getSalary()>=0,"salary must greater or equally than 0 ");
@@ -61,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void update(Employee employee) {
+        Assert.notNull(employee);
         Assert.notNull(employee.getId(),"id must not be null");
         Assert.isTrue(employee.getId()>0,"id must greater than 0 ");
         Assert.notNull(employee.getFirstName(),"First name must be not null");

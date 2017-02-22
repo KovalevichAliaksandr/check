@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DepartmentServiceImplTest {
-    private static final Logger log= LoggerFactory.getLogger(DepartmentServiceImplTest.class);
+    private static final Logger log = LoggerFactory.getLogger(DepartmentServiceImplTest.class);
 
     @Mock
     DepartmentDao departmentDao;
@@ -34,47 +34,55 @@ public class DepartmentServiceImplTest {
     Department department2;
 
     @Before
-    public void setUp(){
-        department1=new Department(1,"credit");
-        department2=new Department(2,"cash");
+    public void setUp() {
+        department1 = new Department(1, "credit");
+        department2 = new Department(2, "cash");
     }
+
     @Test
     public void findDepartmentByIdShouldReturnTrue() throws Exception {
         when(departmentDao.findDepartmentById(1L)).thenReturn(department1);
-        assertEquals(department1,departmentService.findDepartmentById(1L));
+        assertEquals(department1, departmentService.findDepartmentById(1L));
         verify(departmentDao, times(1)).findDepartmentById(1L);
     }
 
     @Test
     public void findAllDepartmentsShouldReturnTrue() throws Exception {
-        List<Department> departmentList=new ArrayList<Department>();
+        List<Department> departmentList = new ArrayList<Department>();
         departmentList.add(department1);
         departmentList.add(department2);
 
         when(departmentDao.findAllDepartments()).thenReturn(departmentList);
-        assertEquals(departmentList.size(),departmentService.findAllDepartments().size());
+        assertEquals(departmentList.size(), departmentService.findAllDepartments().size());
         verify(departmentDao, times(1)).findAllDepartments();
     }
 
     @Test
     public void findDepartmentsWithAvgSalaryShouldReturnTrue() throws Exception {
-        List<DepartmentsWithAvgSalary> departmentsWithAvgSalaryList=new ArrayList<>();
-        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L,"credit",100));
-        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(2L,"cash",200));
+        List<DepartmentsWithAvgSalary> departmentsWithAvgSalaryList = new ArrayList<>();
+        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L, "credit", 100));
+        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(2L, "cash", 200));
 
         when(departmentDao.findDepartmentsWithAvgSalary()).thenReturn(departmentsWithAvgSalaryList);
-        assertEquals(departmentsWithAvgSalaryList.size(),departmentService.findDepartmentsWithAvgSalary().size());
+        assertEquals(departmentsWithAvgSalaryList.size(), departmentService.findDepartmentsWithAvgSalary().size());
         verify(departmentDao, times(1)).findDepartmentsWithAvgSalary();
     }
 
     @Test
     public void saveShouldReturnTrue() throws Exception {
         when(departmentDao.save(department1)).thenReturn(1L);
-        assertEquals(1L,(long)departmentService.save(department1));
+        assertEquals(1L, (long) departmentService.save(department1));
+        verify(departmentDao, times(1)).save(department1);
+    }
+
+    @Test
+    public void deleteShouldReturnTrue() throws Exception {
+        departmentService.delete(1L);
+        verify(departmentDao, times(1)).delete(1L);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void saveNullNameDeparmentShouldReturnIllegalArgumentException() throws Exception {
+    public void saveNullNameDepartmentShouldReturnIllegalArgumentException() throws Exception {
         departmentService.save(new Department());
     }
 
@@ -83,22 +91,20 @@ public class DepartmentServiceImplTest {
         departmentService.delete(0L);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void updateDepartmentWithNullIdReturnIllegalArgumentException() throws Exception {
-
-        departmentService.update(new Department(0,"new department"));
-    }
-    @Test(expected = IllegalArgumentException.class)
-    public void updateDepartmentWithNullNameReturnIllegalArgumentException() throws Exception {
-        departmentService.update(new Department(0,null));
-
-    }
-
-
     @Test
     public void updateShouldReturnTrue() throws Exception {
         departmentService.update(department1);
         verify(departmentDao, times(1)).update(department1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateDepartmentWithNullIdReturnIllegalArgumentException() throws Exception {
+        departmentService.update(new Department(0, "new department"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateDepartmentWithNullNameReturnIllegalArgumentException() throws Exception {
+        departmentService.update(new Department(0, null));
     }
 
 }

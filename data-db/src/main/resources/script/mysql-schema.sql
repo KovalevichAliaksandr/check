@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `job`.`employee` (
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL ,
   `dob` DATE NULL,
-  `salary` INT NULL,
+  `salary` INT NULL DEFAULT 0,
   `id_department` BIGINT NOT NULL ,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_department`)  REFERENCES job.`department` (`id`)

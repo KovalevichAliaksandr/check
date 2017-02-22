@@ -17,6 +17,7 @@
         <module>model</module>
         <module>dao</module>
         <module>service</module>
+        <module>test-db</module>
 
 
     </modules>

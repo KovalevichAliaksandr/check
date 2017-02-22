@@ -11,40 +11,23 @@
 
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${jdbc.DriverClassName}"/>
+      <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
-    <jdbc:initialize-database data-source="dataSource"  ignore-failures="DROPS">
+
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
         <jdbc:script location="classpath*:script/mysql-schema.sql"/>
         <jdbc:script location="classpath*:script/mysql-test-data.sql"/>
     </jdbc:initialize-database>
-
-    <bean id="employeeDao" class="com.departments.EmployeeDaoImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
-
-    <bean id="departmentDao" class="com.departments.DepartmentDaoImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
-
-    <!--<bean id="employeeService" class="com.departments.dao.">-->
-        <!--<constructor-arg ref="employeeDao"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="departmentService" class="com.DepartmentServiceImpl">-->
-        <!--<constructor-arg ref="departmentDao"/>-->
-    <!--</bean>-->
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-
-    <context:component-scan base-package="com.departments"/>
 
 
 </beans>

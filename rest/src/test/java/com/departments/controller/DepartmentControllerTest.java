@@ -40,7 +40,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 public class DepartmentControllerTest {
 
 
+    public static final String URL_DEPARTMENT_LIST_DEPARTMENTS = "/department/listDepartments";
+    public static final String URL_DEPARTMENT_LIST_DEPARTMENTS_WIT_AVG_SALARY = "/department/listDepartmentsWitAvgSalary";
+    public static final String URL_DEPARTMENT_GET_DEPARTMENT_1 = "/department/getDepartment/1";
+    public static final String URL_DEPARTMENT_CREATE_DEPARTMENT = "/department/createDepartment";
+    public static final String URL_DEPARTMENT_UPDATE_DEPARTMENT_1 = "/department/updateDepartment/1";
+    public static final String URL_DEPARTMENT_DELETE_DEPARTMENT_1 = "/department/deleteDepartment/1";
 
+    public static final String DEPARTMENTS_LIST = "[{\"id\":1,\"nameDepartment\":\"credit\"}]";
+    public static final String DEPARTMENTS_LIST_AVG_SALARY = "[{\"id\":1,\"nameDepartment\":\"credit\",\"avgSalary\":300}]";
+    public static final String DEPARTMENT_STRING = "{\"id\":1,\"nameDepartment\":\"credit\"}";
     @Mock
     private DepartmentService departmentService;
 
@@ -59,8 +68,6 @@ public class DepartmentControllerTest {
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .build();
         department1 = new Department(1, "credit");
-        departmentString = "{\"id\":1,\"nameDepartment\":\"credit\"}";
-
     }
 
 
@@ -70,11 +77,11 @@ public class DepartmentControllerTest {
         departmentList.add(department1);
         when(departmentService.findAllDepartments()).thenReturn(departmentList);
 
-        this.mockMvc.perform(get("/department/listDepartments")
+        this.mockMvc.perform(get(URL_DEPARTMENT_LIST_DEPARTMENTS)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(content().string("[{\"id\":1,\"nameDepartment\":\"credit\"}]"));
+                .andExpect(content().string(DEPARTMENTS_LIST));
     }
 
     @Test
@@ -83,31 +90,31 @@ public class DepartmentControllerTest {
         departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L, "credit", 300));
         when(departmentService.findDepartmentsWithAvgSalary()).thenReturn(departmentsWithAvgSalaryList);
 
-        this.mockMvc.perform(get("/department/listDepartmentsWitAvgSalary")
+        this.mockMvc.perform(get(URL_DEPARTMENT_LIST_DEPARTMENTS_WIT_AVG_SALARY)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(content().string("[{\"id\":1,\"nameDepartment\":\"credit\",\"avgSalary\":300}]"));
+                .andExpect(content().string(DEPARTMENTS_LIST_AVG_SALARY));
     }
 
     @Test
     public void findContactById() throws Exception {
         when(departmentService.findDepartmentById(1L)).thenReturn(department1);
-        this.mockMvc.perform(get("/department/getDepartment/1")
+        this.mockMvc.perform(get(URL_DEPARTMENT_GET_DEPARTMENT_1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(content().string(departmentString));
+                .andExpect(content().string(DEPARTMENT_STRING));
     }
 
     @Test
     public void create() throws Exception {
         when(departmentService.save(any(Department.class))).thenReturn(1L);
         this.mockMvc
-                .perform(post("/department/createDepartment")
+                .perform(post(URL_DEPARTMENT_CREATE_DEPARTMENT)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(departmentString))
+                        .content(DEPARTMENT_STRING))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().string("1"));
@@ -117,10 +124,10 @@ public class DepartmentControllerTest {
     @Test
     public void update() throws Exception {
         this.mockMvc
-                .perform(put("/department/updateDepartment/1")
+                .perform(put(URL_DEPARTMENT_UPDATE_DEPARTMENT_1)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(departmentString))
+                        .content(DEPARTMENT_STRING))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -130,7 +137,7 @@ public class DepartmentControllerTest {
     @Test
     public void deleteShouldBy() throws Exception {
         this.mockMvc
-                .perform(delete("/department/deleteDepartment/1")
+                .perform(delete(URL_DEPARTMENT_DELETE_DEPARTMENT_1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

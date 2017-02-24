@@ -39,7 +39,14 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class EmployeeControllerTest {
 
 
-
+    public static final String URL_EMPLOYEE_LIST_EMPLOYEES = "/employee/listEmployees";
+    public static final String URL_EMPLOYEE_GET_EMPLOYEE_1 = "/employee/getEmployee/1";
+    public static final String URL_EMPLOYEE_CREATE_EMPLOYEE = "/employee/createEmployee";
+    public static final String URL_EMPLOYEE_UPDATE_EMPLOYEE_1 = "/employee/updateEmployee/1";
+    public static final String URL_EMPLOYEE_DELETE_EMPLOYEE_1 = "/employee/deleteEmployee/1";
+    public static final String EMPLOYEE_STRING = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Smith\",\"dob\":\"1944-05-17\",\"salary\":5000,\"idDepartment\":2}";
+    public static final String EMPLOYEE_LIST = "[{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Smith\",\"dob\":\"1944-05-17\",\"salary\":5000,\"idDepartment\":2}]"
+            ;
     @Mock
     private EmployeeService employeeService;
 
@@ -48,7 +55,7 @@ public class EmployeeControllerTest {
 
     private MockMvc mockMvc;
     private Employee employee;
-    private String employeeString;
+
 
 
     @Before
@@ -58,7 +65,7 @@ public class EmployeeControllerTest {
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .build();
         employee = new Employee(1L, "John", "Smith", Timestamp.valueOf("1944-05-18 00:00:00"), 5000, 2L);
-        employeeString = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Smith\",\"dob\":\"1944-05-17\",\"salary\":5000,\"idDepartment\":2}";
+
     }
 
     @Test
@@ -67,21 +74,21 @@ public class EmployeeControllerTest {
         employeeList.add(employee);
         when(employeeService.findAllEmployees()).thenReturn(employeeList);
 
-        this.mockMvc.perform(get("/employee/listEmployees")
+        this.mockMvc.perform(get(URL_EMPLOYEE_LIST_EMPLOYEES)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(content().string("[{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Smith\",\"dob\":\"1944-05-17\",\"salary\":5000,\"idDepartment\":2}]"));
+                .andExpect(content().string(EMPLOYEE_LIST));
     }
 
     @Test
     public void findEmployeeById() throws Exception {
         when(employeeService.findEmployeeById(1L)).thenReturn(employee);
-        this.mockMvc.perform(get("/employee/getEmployee/1")
+        this.mockMvc.perform(get(URL_EMPLOYEE_GET_EMPLOYEE_1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(content().string(employeeString));
+                .andExpect(content().string(EMPLOYEE_STRING));
 
     }
 
@@ -89,10 +96,10 @@ public class EmployeeControllerTest {
     public void create() throws Exception {
         when(employeeService.save(any(Employee.class))).thenReturn(1L);
         this.mockMvc
-                .perform(post("/employee/createEmployee")
+                .perform(post(URL_EMPLOYEE_CREATE_EMPLOYEE)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(employeeString))
+                        .content(EMPLOYEE_STRING))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().string("1"));
@@ -102,10 +109,10 @@ public class EmployeeControllerTest {
     @Test
     public void update() throws Exception {
         this.mockMvc
-                .perform(put("/employee/updateEmployee/1")
+                .perform(put(URL_EMPLOYEE_UPDATE_EMPLOYEE_1)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(employeeString))
+                        .content(EMPLOYEE_STRING))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -114,7 +121,7 @@ public class EmployeeControllerTest {
     @Test
     public void deleteBy() throws Exception {
         this.mockMvc
-                .perform(delete("/employee/deleteEmployee/1")
+                .perform(delete(URL_EMPLOYEE_DELETE_EMPLOYEE_1)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

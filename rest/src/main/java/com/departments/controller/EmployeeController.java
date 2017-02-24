@@ -36,7 +36,7 @@ public class EmployeeController {
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/getEmployee/{id}",method = RequestMethod.GET)
-    public Employee findContactById(@PathVariable Long id){
+    public Employee findEmployeeById(@PathVariable Long id){
         return employeeService.findEmployeeById(id);
     }
 
@@ -51,7 +51,7 @@ public class EmployeeController {
     }
 
     @ResponseBody
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT)
     public Employee update (@RequestBody Employee employee, @PathVariable Long id){
         log.debug("Update employee {}" , employee);
@@ -62,7 +62,7 @@ public class EmployeeController {
     }
 
     @ResponseBody
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/deleteEmployee/{id}",method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
         Employee employee=employeeService.findEmployeeById(id);

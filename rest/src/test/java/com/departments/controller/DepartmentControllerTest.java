@@ -70,7 +70,8 @@ public class DepartmentControllerTest {
         departmentList.add(department1);
         when(departmentService.findAllDepartments()).thenReturn(departmentList);
 
-        this.mockMvc.perform(get("/department/listDepartments").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/department/listDepartments")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
                 .andExpect(content().string("[{\"id\":1,\"nameDepartment\":\"credit\"}]"));
@@ -82,7 +83,8 @@ public class DepartmentControllerTest {
         departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L, "credit", 300));
         when(departmentService.findDepartmentsWithAvgSalary()).thenReturn(departmentsWithAvgSalaryList);
 
-        this.mockMvc.perform(get("/department/listDepartmentsWitAvgSalary").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/department/listDepartmentsWitAvgSalary")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
                 .andExpect(content().string("[{\"id\":1,\"nameDepartment\":\"credit\",\"avgSalary\":300}]"));
@@ -91,7 +93,8 @@ public class DepartmentControllerTest {
     @Test
     public void findContactById() throws Exception {
         when(departmentService.findDepartmentById(1L)).thenReturn(department1);
-        this.mockMvc.perform(get("/department/getDepartment/1").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/department/getDepartment/1")
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound())
                 .andExpect(content().string(departmentString));
@@ -126,7 +129,6 @@ public class DepartmentControllerTest {
 
     @Test
     public void deleteShouldBy() throws Exception {
-//        departmentService.delete(Mockito.any(Long.class));
         this.mockMvc
                 .perform(delete("/department/deleteDepartment/1")
                 .accept(MediaType.APPLICATION_JSON))

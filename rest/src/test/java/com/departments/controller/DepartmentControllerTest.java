@@ -54,7 +54,6 @@ public class DepartmentControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-//        this.mockMvc = MockMvcBuilders.standaloneSetup(departmentController).build();
         this.mockMvc = standaloneSetup(departmentController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .build();

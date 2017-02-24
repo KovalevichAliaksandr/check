@@ -15,13 +15,13 @@
         <constructor-arg ref="dataSource"/>
     </bean>
 
-    <bean id="employeeService" class="com.departments.service.EmployeeServiceImpl">
-        <constructor-arg ref="employeeDao"/>
-    </bean>
+    <!--<bean id="employeeService" class="com.departments.service.EmployeeServiceImpl">-->
+        <!--<constructor-arg ref="employeeDao"/>-->
+    <!--</bean>-->
 
-    <bean id="departmentService" class="com.departments.service.DepartmentServiceImpl">
-        <constructor-arg ref="departmentDao"/>
-    </bean>
+    <!--<bean id="departmentService" class="com.departments.service.DepartmentServiceImpl">-->
+        <!--<constructor-arg ref="departmentDao"/>-->
+    <!--</bean>-->
 
 
 </beans>

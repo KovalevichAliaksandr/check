@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,12 +38,16 @@ public class EmployeeServiceImplTest {
 
     Employee employee1;
     Employee employee2;
+    Date nextDay;
 
     @Before
     public void setUp() {
         employee1 = new Employee(1L, "firstName1", "lastName1", Timestamp.valueOf("1944-05-18 00:00:00"), 5000, 1L);
         employee2 = new Employee(2L, "firstName2", "lastName2", Timestamp.valueOf("1954-12-08 00:00:00"), 8000, 2L);
-        ;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE,1);
+        nextDay=calendar.getTime();
     }
 
     @Test
@@ -94,7 +99,7 @@ public class EmployeeServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void saveWrongBodReturnIllegalArgumentException() throws Exception {
-        employee1.setDob(new Date());
+        employee1.setDob(nextDay);
         employeeService.save(employee1);
     }
 
@@ -145,7 +150,7 @@ public class EmployeeServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void updateWrongBodReturnIllegalArgumentException() throws Exception {
-        employee1.setDob(new Date());
+        employee1.setDob(nextDay);
         employeeService.update(employee1);
     }
 

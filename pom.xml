@@ -179,7 +179,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring.security}</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!--Validation-->
@@ -227,6 +227,12 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <!-- for MockMvcBuilders.standaloneSetup-->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>2.2</version>
+        </dependency>
 
         <!--WEB-->
 
@@ -235,6 +241,14 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <!--ffor MockMvcBuilders.standaloneSetup-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
     </dependencies>
 
 

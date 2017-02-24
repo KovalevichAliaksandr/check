@@ -5,6 +5,7 @@ import com.departments.model.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,28 +22,36 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    public EmployeeController(EmployeeService employeeService) {
+          this.employeeService=employeeService;
+    }
+
     @ResponseBody
+    @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/listEmployees",method = RequestMethod.GET)
     public List<Employee> listData(){
         return employeeService.findAllEmployees();
     }
 
     @ResponseBody
+    @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/getEmployee/{id}",method = RequestMethod.GET)
     public Employee findContactById(@PathVariable Long id){
         return employeeService.findEmployeeById(id);
     }
 
     @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/createEmployee",method = RequestMethod.POST)
-    public Employee create (@RequestBody Employee employee){
+    public Long create (@RequestBody Employee employee){
         log.debug("Create employee " , employee);
-        employeeService.save(employee);
+        Long id=employeeService.save(employee);
         log.debug("Employee create successfully with info{}", employee );
-        return employee;
+        return id;
     }
 
     @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT)
     public Employee update (@RequestBody Employee employee, @PathVariable Long id){
         log.debug("Update employee {}" , employee);
@@ -53,6 +62,7 @@ public class EmployeeController {
     }
 
     @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/deleteEmployee/{id}",method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
         Employee employee=employeeService.findEmployeeById(id);

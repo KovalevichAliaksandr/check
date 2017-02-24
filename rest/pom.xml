@@ -17,16 +17,6 @@
     <packaging>war</packaging>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>com.departments</groupId>-->
-            <!--<artifactId>model</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.departments</groupId>-->
-            <!--<artifactId>dao</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.departments</groupId>
             <artifactId>service</artifactId>
@@ -37,5 +27,5 @@
             <artifactId>data-db</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-       </dependencies>
+        </dependencies>
 </project>

@@ -143,7 +143,6 @@ public class DepartmentControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
-
     @Test
     public void deleteShouldReturnStatusIsOk() throws Exception {
         this.mockMvc

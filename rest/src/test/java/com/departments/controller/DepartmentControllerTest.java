@@ -5,6 +5,7 @@ import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
 import com.departments.model.Employee;
 import com.departments.service.DepartmentService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 
 import java.util.ArrayList;
@@ -120,8 +122,8 @@ public class DepartmentControllerTest {
         when(departmentService.save(any(Department.class))).thenReturn(1L);
         this.mockMvc
                 .perform(post(URL_CREATE_DEPARTMENT)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(DEPARTMENT_STRING))
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -132,13 +134,12 @@ public class DepartmentControllerTest {
 
     }
 
-
     @Test
     public void updateShouldReturnStatusIsOk() throws Exception {
         this.mockMvc
                 .perform(put(URL_UPDATE_DEPARTMENT_1)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(DEPARTMENT_STRING))
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -148,9 +149,30 @@ public class DepartmentControllerTest {
     public void deleteShouldReturnStatusIsOk() throws Exception {
         this.mockMvc
                 .perform(delete(URL_DELETE_DEPARTMENT_1)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+    @Test
+    public void checkWrongMediaTypeShouldReturnStatusIs3xxRedirection() throws Exception {
+        this.mockMvc
+                .perform(get(URL_GET_DEPARTMENT_1)
+                        .accept(MediaType.TEXT_PLAIN))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection());
+    }
+    @Test
+    public void checkWrongUrlShouldReturnStatusIsNotFound() throws Exception {
+
+        MvcResult mvcResult=mockMvc
+                .perform(post(URL_CREATE_DEPARTMENT+1)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(DEPARTMENT_STRING))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+
     }
 
 }

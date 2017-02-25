@@ -16,6 +16,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class EmployeeControllerTest {
         when(employeeService.findAllEmployees()).thenReturn(employeeList);
 
         this.mockMvc.perform(get(URL_EMPLOYEE_LIST)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isFound())
@@ -87,7 +88,7 @@ public class EmployeeControllerTest {
     public void findEmployeeByIdShouldReturnStatusIsFound() throws Exception {
         when(employeeService.findEmployeeById(1L)).thenReturn(employee);
         this.mockMvc.perform(get(URL_GET_EMPLOYEE_1)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isFound())
@@ -101,8 +102,8 @@ public class EmployeeControllerTest {
         when(employeeService.save(any(Employee.class))).thenReturn(1L);
         this.mockMvc
                 .perform(post(URL_CREATE_EMPLOYEE)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(EMPLOYEE_STRING))
                 .andDo(print())
                 .andExpect(status().isCreated())
@@ -115,8 +116,8 @@ public class EmployeeControllerTest {
     public void updateShouldReturnStatusIsOk() throws Exception {
         this.mockMvc
                 .perform(put(URL_UPDATE_EMPLOYEE_1)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(EMPLOYEE_STRING))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -126,8 +127,29 @@ public class EmployeeControllerTest {
     public void deleteByShouldReturnStatusIsOk() throws Exception {
         this.mockMvc
                 .perform(delete(URL_DELETE_EMPLOYEE_1)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+    @Test
+    public void checkWrongMediaTypeShouldReturnStatusIs3xxRedirection() throws Exception {
+        this.mockMvc
+                .perform(get(URL_GET_EMPLOYEE_1)
+                        .accept(MediaType.TEXT_PLAIN))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection());
+    }
+    @Test
+    public void checkWrongUrlShouldReturnStatusIsNotFound() throws Exception {
+
+        MvcResult mvcResult=mockMvc
+                .perform(post(URL_CREATE_EMPLOYEE+1)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(EMPLOYEE_STRING))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+
     }
 }

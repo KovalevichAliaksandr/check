@@ -23,7 +23,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,14 +39,15 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class EmployeeControllerTest {
 
 
-    public static final String URL_EMPLOYEE_LIST_EMPLOYEES = "/employee/listEmployees";
-    public static final String URL_EMPLOYEE_GET_EMPLOYEE_1 = "/employee/getEmployee/1";
-    public static final String URL_EMPLOYEE_CREATE_EMPLOYEE = "/employee/createEmployee";
-    public static final String URL_EMPLOYEE_UPDATE_EMPLOYEE_1 = "/employee/updateEmployee/1";
-    public static final String URL_EMPLOYEE_DELETE_EMPLOYEE_1 = "/employee/deleteEmployee/1";
+    public static final String URL_EMPLOYEE_LIST = "/employee/listEmployees";
+    public static final String URL_GET_EMPLOYEE_1 = "/employee/getEmployee/1";
+    public static final String URL_CREATE_EMPLOYEE = "/employee/createEmployee";
+    public static final String URL_UPDATE_EMPLOYEE_1 = "/employee/updateEmployee/1";
+    public static final String URL_DELETE_EMPLOYEE_1 = "/employee/deleteEmployee/1";
+
     public static final String EMPLOYEE_STRING = "{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Smith\",\"dob\":\"1944-05-17\",\"salary\":5000,\"idDepartment\":2}";
-    public static final String EMPLOYEE_LIST = "[{\"id\":1,\"firstName\":\"John\",\"lastName\":\"Smith\",\"dob\":\"1944-05-17\",\"salary\":5000,\"idDepartment\":2}]"
-            ;
+    public static final String EMPLOYEE_LIST ="["+EMPLOYEE_STRING+"]";
+
     @Mock
     private EmployeeService employeeService;
 
@@ -57,7 +58,6 @@ public class EmployeeControllerTest {
     private Employee employee;
 
 
-
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -65,63 +65,67 @@ public class EmployeeControllerTest {
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .build();
         employee = new Employee(1L, "John", "Smith", Timestamp.valueOf("1944-05-18 00:00:00"), 5000, 2L);
-
     }
 
     @Test
-    public void listData() throws Exception {
+    public void listDataShouldReturnStatusIsFound() throws Exception {
         List<Employee> employeeList = new ArrayList<>();
         employeeList.add(employee);
         when(employeeService.findAllEmployees()).thenReturn(employeeList);
 
-        this.mockMvc.perform(get(URL_EMPLOYEE_LIST_EMPLOYEES)
+        this.mockMvc.perform(get(URL_EMPLOYEE_LIST)
                 .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isFound())
                 .andExpect(content().string(EMPLOYEE_LIST));
+        verify(employeeService, times(1)).findAllEmployees();
+        verifyNoMoreInteractions(employeeService);
     }
 
     @Test
-    public void findEmployeeById() throws Exception {
+    public void findEmployeeByIdShouldReturnStatusIsFound() throws Exception {
         when(employeeService.findEmployeeById(1L)).thenReturn(employee);
-        this.mockMvc.perform(get(URL_EMPLOYEE_GET_EMPLOYEE_1)
+        this.mockMvc.perform(get(URL_GET_EMPLOYEE_1)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isFound())
                 .andExpect(content().string(EMPLOYEE_STRING));
-
+        verify(employeeService, times(1)).findEmployeeById(1L);
+        verifyNoMoreInteractions(employeeService);
     }
 
     @Test
-    public void create() throws Exception {
+    public void createShouldReturnStatusIsCreated() throws Exception {
         when(employeeService.save(any(Employee.class))).thenReturn(1L);
         this.mockMvc
-                .perform(post(URL_EMPLOYEE_CREATE_EMPLOYEE)
+                .perform(post(URL_CREATE_EMPLOYEE)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(EMPLOYEE_STRING))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().string("1"));
-
+        verify(employeeService, times(1)).save(any(Employee.class));
+        verifyNoMoreInteractions(employeeService);
     }
 
     @Test
-    public void update() throws Exception {
+    public void updateShouldReturnStatusIsOk() throws Exception {
         this.mockMvc
-                .perform(put(URL_EMPLOYEE_UPDATE_EMPLOYEE_1)
+                .perform(put(URL_UPDATE_EMPLOYEE_1)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(EMPLOYEE_STRING))
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
 
     @Test
-    public void deleteBy() throws Exception {
+    public void deleteByShouldReturnStatusIsOk() throws Exception {
         this.mockMvc
-                .perform(delete(URL_EMPLOYEE_DELETE_EMPLOYEE_1)
+                .perform(delete(URL_DELETE_EMPLOYEE_1)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

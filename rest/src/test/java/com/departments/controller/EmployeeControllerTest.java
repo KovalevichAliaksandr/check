@@ -142,7 +142,7 @@ public class EmployeeControllerTest {
     @Test
     public void checkWrongUrlShouldReturnStatusIsNotFound() throws Exception {
 
-        MvcResult mvcResult=mockMvc
+        this.mockMvc
                 .perform(post(URL_CREATE_EMPLOYEE+1)
                         .accept(MediaType.APPLICATION_JSON_UTF8)
                         .contentType(MediaType.APPLICATION_JSON_UTF8)

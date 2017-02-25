@@ -164,14 +164,13 @@ public class DepartmentControllerTest {
     @Test
     public void checkWrongUrlShouldReturnStatusIsNotFound() throws Exception {
 
-        MvcResult mvcResult=mockMvc
+        this.mockMvc
                 .perform(post(URL_CREATE_DEPARTMENT+1)
                         .accept(MediaType.APPLICATION_JSON_UTF8)
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(DEPARTMENT_STRING))
                 .andDo(print())
-                .andExpect(status().isNotFound())
-                .andReturn();
+                .andExpect(status().isNotFound());
 
     }
 

@@ -52,7 +52,7 @@ public class DepartmentController {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/createDepartment",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE/*,produces = MediaType.APPLICATION_JSON_VALUE*/)
+    @RequestMapping(value = "/createDepartment",method = RequestMethod.POST)
     public  Long create (@RequestBody Department department){
         log.debug("Create department " , department);
         Long id=departmentService.save(department);

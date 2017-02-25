@@ -9,27 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>com.departments</groupId>
-    <artifactId>web-departments</artifactId>
+    <artifactId>model</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <packaging>war</packaging>
-
-    <dependencies>
-
-        <!--<dependency>-->
-            <!--<groupId>com.departments</groupId>-->
-            <!--<artifactId>rest</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.departments</groupId>-->
-            <!--<artifactId>model</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
-    </dependencies>
-
+    <packaging>jar</packaging>
 
 
 

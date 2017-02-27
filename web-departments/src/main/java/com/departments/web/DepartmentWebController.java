@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -112,44 +116,6 @@ public class DepartmentWebController {
 //        model.addAttribute("department",department);
 //        return "department/createDepartment";
 //    }
-//    @RequestMapping(params = "form",method = RequestMethod.POST)
-//    public String create(@Valid Contact contact,BindingResult bindingResult,Model uiModel,
-//                         HttpServletRequest httpServletRequest,
-//                         RedirectAttributes redirectAttributes,Locale locale){
-//        log.info("Create new contact");
-//        if(bindingResult.hasErrors()){
-//            uiModel.addAttribute("message",new Message("error",messageSource.getMessage("contact_save_fail",new Object[]{},locale)));
-//            uiModel.addAttribute("contact",contact);
-//            return "contacts/create";
-//        }
-//        uiModel.asMap().clear();
-//        redirectAttributes.addFlashAttribute("message",new Message("success",messageSource.getMessage("contact_save_success",new Object[] {},locale)));
-//        uiModel.addAttribute("contact",contactService.save(contact));
-//        return "redirect:/contacts/"+UrlUtil.encodeUrlPathSegment(contact.getId().toString(),httpServletRequest);
-//    }
-//    @RequestMapping(value="/signup",method=RequestMethod.POST) public String doSignup(@Valid SignupForm form,Errors result,WebRequest request){
-//        if (result.hasErrors()) {
-//            return "signup";
-//        }
-//        WhirlwindUserDetails userDetails=WhirlwindUserDetails.createEnabledUser(form.getEmail(),form.getPassword());
-//        if (exists(form)) {
-//            result.rejectValue("email","accounts.emailAlreadyRegistered");
-//        }
-//        if (result.hasErrors()) {
-//            return "signup";
-//        }
-//        try {
-//            SignInUtils.signin(userDetails.getUsername());
-//            ProviderSignInUtils.handlePostSignUp(userDetails.getUsername(),request);
-//            saveUser(userDetails);
-//            return "redirect:/";
-//        }
-//        catch (  DuplicateKeyException e) {
-//            result.rejectValue("email","accounts.emailAlreadyRegistered");
-//            return "signup";
-//        }
-//    }
-
 
     @RequestMapping(value = "/updateDepartment/{id}",params = "formUpdate", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model model){
@@ -179,9 +145,14 @@ public class DepartmentWebController {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", department.getId());
-        restTemplate.put(URL_UPDATE_DEPARTMENT_BY_ID, Department.class,params);
+//        restTemplate.put(URL_UPDATE_DEPARTMENT_BY_ID, Department.class,params);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        HttpEntity<Department> requestUpdate = new HttpEntity<>(department, headers);
+        restTemplate.exchange(URL_UPDATE_DEPARTMENT_BY_ID, HttpMethod.PUT, requestUpdate, Department.class,department.getId());
         return "redirect:/department/listDepartmentsWitAvgSalary" ;
-//                + UrlUtil.encodeUrlPathSegment(department.getId().(),    httpServletRequest);
+
     }
 
 

@@ -1,21 +1,27 @@
 package com.departments.web;
 
-//        import com.departments.controller.message.Message;
+//        import com.departments.web.message.Message;
 
 import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
+import com.departments.web.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -26,19 +32,21 @@ import java.util.Map;
 public class DepartmentWebController {
     private static final Logger log = LoggerFactory.getLogger(DepartmentWebController.class);
 
-    public static final String URL_GET_LIST_DEPARTMENTS = "http://localhost:8080/department/listDepartments";
-    public static final String URL_GET_LIST_DEPARTMENTS_WIT_AVG_SALARY = "http://localhost:8080/department/listDepartmentsWitAvgSalary";
-    public static final String URL_GET_DEPARTMENT_BY_ID = "http://localhost:8080/department/getDepartment/{id}";
-    public static final String URL_CREATE_DEPARTMENT = "http://localhost:8080/department/createDepartment";
-    public static final String URL_UPDATE_DEPARTMENT_BY_ID = "http://localhost:8080/department/updateDepartment/1";
-    public static final String URL_DELETE_DEPARTMENT_BY_ID = "http://localhost:8080/department/deleteDepartment/1";
+    public static final String URL_GET_LIST_DEPARTMENTS = "http://localhost:8080/rest/department/listDepartments";
+    public static final String URL_GET_LIST_DEPARTMENTS_WIT_AVG_SALARY = "http://localhost:8080/rest/department/listDepartmentsWitAvgSalary";
+    public static final String URL_GET_DEPARTMENT_BY_ID = "http://localhost:8080/rest/department/getDepartment/{id}";
+    public static final String URL_CREATE_DEPARTMENT = "http://localhost:8080/rest/department/createDepartment";
+    public static final String URL_UPDATE_DEPARTMENT_BY_ID = "http://localhost:8080/rest/department/updateDepartment/{id}";
+    public static final String URL_DELETE_DEPARTMENT_BY_ID = "http://localhost:8080/rest/department/deleteDepartment/{id}";
 
     //    @Autowired
 //    private DepartmentService departmentService;
     private MessageSource messageSource;
 
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource){
+        this.messageSource=messageSource;
     }
 
 //    public void setDepartmentService(DepartmentService departmentService) {
@@ -76,19 +84,19 @@ public class DepartmentWebController {
         log.debug("fetch department  ={}",department);
         return "department/showDepartment";
     }
-//
+
 //
 //    @RequestMapping(value = "/createDepartment",method = RequestMethod.POST)
 //    public String create (@Valid Department department, BindingResult bindingResult, Model model,
-//                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,Locale locale){
+//                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale){
 //        log.debug("Create department " , department);
 //        if(bindingResult.hasErrors()){
 //            model.addAttribute("message",new Message("error",messageSource.getMessage("department_save_fail",new Object[]{},locale)));
 //            model.addAttribute("department",department);
-//            return "contacts/create";
+//            return "department/createDepartment";
 //        }
 //        try {
-//            departmentService.save(department);
+////            departmentService.save(department);
 //            model.addAttribute("department",department);
 //            log.debug("Department create successfully with info {}", department );
 //            return "department/listDepartmentsWitAvgSalary";
@@ -97,14 +105,12 @@ public class DepartmentWebController {
 //            return "department/editDepartment";
 //        }
 //    }
-
+//
 //    @RequestMapping(params = "form",method = RequestMethod.GET)
-//    public String createForm(Model uiModel){
-//        Contact contact=new Contact();
-//        uiModel.addAttribute("contact",contact);
-//
-//
-//        return "contacts/create";
+//    public String createForm(Model model){
+//        Department department=new Department();
+//        model.addAttribute("department",department);
+//        return "department/createDepartment";
 //    }
 //    @RequestMapping(params = "form",method = RequestMethod.POST)
 //    public String create(@Valid Contact contact,BindingResult bindingResult,Model uiModel,
@@ -145,35 +151,62 @@ public class DepartmentWebController {
 //    }
 
 
-//    @ResponseBody
-//    @RequestMapping(value = "/createDepartments",method = RequestMethod.POST)
-//    public Departments departments(@RequestBody Departments departments){
-//        ArrayList<Department> departmentArrayList= departments.getDepartments();
-//        for (Department department:departmentArrayList){
-//            log.debug("Create departments " , department);
-//            departmentService.save(department);
-//            log.debug("Department create successfully with info{}", department );
-//        }
-//        return departments;
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping(value = "/updateDepartment/{id}",method = RequestMethod.PUT)
-//    public Department update (@RequestBody Department department, @PathVariable Long id){
-//        log.debug("Update department {}" , department);
-//        department.setId(id);
-//        departmentService.update(department);
-//        log.debug("Department updated successfully with info {}", department );
-//        return department;
-//    }
-//
-//    @ResponseBody
-//    @RequestMapping(value = "/deleteDepartment/{id}",method = RequestMethod.DELETE)
-//    public void delete(@PathVariable Long id){
-//        Department department=departmentService.findDepartmentById(id);
-//        log.debug("Delete department {}",department);
-//        departmentService.delete(id);
-//        log.debug("Delete department successfully {}",department);
-//    }
+    @RequestMapping(value = "/updateDepartment/{id}",params = "formUpdate", method = RequestMethod.GET)
+    public String updateForm(@PathVariable("id") Long id, Model model){
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Long> params = new HashMap<String, Long>();
+        params.put("id", id);
+        Department department = restTemplate.getForObject(URL_GET_DEPARTMENT_BY_ID, Department.class,params);
+        model.addAttribute("department",department);
+        return "department/updateDepartment";
+    }
+
+
+    @RequestMapping(value = "/updateDepartment/{id}", params = "formUpdate", method = RequestMethod.POST)
+    public String update(@Valid Department department, BindingResult bindingResult, Model model,
+                         HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
+                         Locale locale) {
+        log.info("Updating department");
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("message", new Message("error",
+                    messageSource.getMessage("department_save_fail", new Object[]{}, locale)));
+            model.addAttribute("department", department);
+            return "department/updateDepartment";
+        }
+//        model.asMap().clear();
+        redirectAttributes.addFlashAttribute("message", new Message("success",
+                messageSource.getMessage("department_save_success", new Object[]{}, locale)));
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Long> params = new HashMap<String, Long>();
+        params.put("id", department.getId());
+        restTemplate.put(URL_UPDATE_DEPARTMENT_BY_ID, Department.class,params);
+        return "redirect:/department/listDepartmentsWitAvgSalary" ;
+//                + UrlUtil.encodeUrlPathSegment(department.getId().(),    httpServletRequest);
+    }
+
+
+    @RequestMapping(value = "/deleteDepartment/{id}",params = "formDelete",method = RequestMethod.DELETE)
+    public String delete(@PathVariable Long id){
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Long> params = new HashMap<String, Long>();
+        params.put("id", id);
+        Department department=restTemplate.getForObject(URL_GET_DEPARTMENT_BY_ID, Department.class,params);
+        log.debug("Delete department {}",department);
+        restTemplate.delete(URL_DELETE_DEPARTMENT_BY_ID,  params );
+        log.debug("Delete department successfully {}",department);
+        return "redirect:/department/listDepartmentsWitAvgSalary" ;
+    }
+
+    @RequestMapping(value = "/deleteDepartment/{id}",params = "formDelete",method = RequestMethod.GET)
+    public String deleteForm(@PathVariable("id")  Long id, Model model){
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Long> params = new HashMap<String, Long>();
+        params.put("id", id);
+        Department department=restTemplate.getForObject(URL_GET_DEPARTMENT_BY_ID, Department.class,params);
+        model.addAttribute("department",department);
+        return "/department/deleteDepartment";
+    }
+
+
 
 }

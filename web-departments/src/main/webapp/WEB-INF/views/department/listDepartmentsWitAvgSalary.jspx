@@ -23,7 +23,7 @@
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
-    <spring:url value="/department/editDepartment" var="editDepartmentUrl"/>
+    <spring:url value="/department/updateDepartment" var="updateDepartment"/>
     <spring:url value="/department/deleteDepartment" var="deleteDepartmentUrl"/>
     <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
 
@@ -40,11 +40,10 @@
             <tbody>
             <c:forEach items="${listDepartmentsWitAvgSalary}" var="departmentsWithAvgSalary">
                 <tr>
-                    <!--<td>${departmentsWithAvgSalary.nameDepartment}</td>-->
                     <td><a href="${showDepartmentUrl}/${departmentsWithAvgSalary.id}?formShow">${departmentsWithAvgSalary.nameDepartment}</a></td>
                     <td>${departmentsWithAvgSalary.avgSalary}</td>
                     <td>
-                        <a href="${editDepartmentUrl}/${departmentsWithAvgSalary.id}?formUpdate"> ${labelDepartmentUpdate}</a>
+                        <a href="${updateDepartment}/${departmentsWithAvgSalary.id}?formUpdate"> ${labelDepartmentUpdate}</a>
                         <br/>
                         <a href="${deleteDepartmentUrl}/${departmentsWithAvgSalary.id}?formDelete"> ${labelDepartmentDelete}</a>
                     </td>

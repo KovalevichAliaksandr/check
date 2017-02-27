@@ -1,4 +1,4 @@
-package com.departments.controller.message;
+package com.departments.web.message;
 
 /**
  * Created by alex on 18.2.17.

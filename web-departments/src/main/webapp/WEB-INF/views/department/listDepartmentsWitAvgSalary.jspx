@@ -29,7 +29,12 @@
     <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
     <spring:url value="/department/createDepartment" var="createDepartmentUrl"/>
 
-    <!--<c:if test="$(not empty listDepartmentsWithAvgSalary)">-->
+    <!--<c:if test="$(not empty listDepartmentsWitAvgSalary)">-->
+
+    <c:if test="${not empty message}">
+        <div id="message" class="${message.type}" >${message.message}</div>
+    </c:if>
+
         <table border="4">
             <thead>
             <tr>

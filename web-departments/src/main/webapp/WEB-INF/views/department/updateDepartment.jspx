@@ -32,9 +32,9 @@
     <div id="departmentUpdate">
         <form:form modelAttribute="department" id="departmentUpdateForm" method="post">
 
-            <!--<c:if test="${not empty message}">-->
-                <!--<div id="message" class="${message.type}">${message.message}</div>-->
-            <!--</c:if>-->
+            <c:if test="${not empty message}">
+                <div id="message" class="${message.type}">${message.message}</div>
+            </c:if>
 
             <form:label path="nameDepartment">${labelDepartmentName}*</form:label>
             <form:input path="nameDepartment"/>

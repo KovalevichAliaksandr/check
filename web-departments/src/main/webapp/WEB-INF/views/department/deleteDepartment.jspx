@@ -14,15 +14,20 @@
     <spring:message code="label_department_name" var="labelDepartmentName"/>
     <spring:message code="label_department_update" var="labelDepartmentUpdate"/>
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
+    <spring:message code="label_department_list" var="labelDepartmentList"/>
+
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
     <spring:url value="/department/editDepartment" var="editDepartmentUrl"/>
     <spring:url value="/department/deleteDepartment}" var="deleteDepartmentUrl"/>
+    <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
 
 
 
     <div id="departmentDelete">
+        <p style="text-align: center">
         <form:form modelAttribute="department" id="departmentDeleteForm" method="delete" action="">
-            <table>
+            <spring:message code="label_department_list" var="labelDepartmentList"/>
+            <table border="4">
                 <tr>
                     <td>${labelDepartmentId}</td>
                     <td>${department.id}</td>
@@ -36,8 +41,11 @@
             <br/>
             <p style="text-align: center">
                 <button type="submit">Delete</button>
-                <button type="submit" formmethod="get" value="listDepartmentsWitAvgSalary">Cancel</button>
+                <!--<button type="submit" formmethod="get" value="/department/listDepartmentsWitAvgSalary">Reset</button>-->
             </p>
         </form:form>
+    </p>
     </div>
+
+    <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a>
 </jsp:root>

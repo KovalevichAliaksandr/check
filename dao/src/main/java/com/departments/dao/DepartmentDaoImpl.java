@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
@@ -33,9 +34,14 @@ import java.util.Map;
  * Created by alex on 8.2.17.
  */
 public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
+
     private static final Logger log = LoggerFactory.getLogger(DepartmentDaoImpl.class);
+
+    @Autowired
     private DataSource dataSource;
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${department.selectDepartmentById}")
@@ -53,8 +59,6 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
 
     public DepartmentDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
 

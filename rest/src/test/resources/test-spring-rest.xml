@@ -27,6 +27,12 @@
     <bean id="departmentDao" class="com.departments.dao.DepartmentDaoImpl">
         <constructor-arg ref="dataSource"/>
     </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
 
 
 

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,8 +33,11 @@ import java.util.Map;
 
 public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
 
+    @Autowired
     private DataSource dataSource;
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${employee.selectEmployeeById}")
@@ -51,8 +55,6 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
 
     public EmployeeDaoImpl(DataSource dataSource) {
         this.dataSource=dataSource;
-        jdbcTemplate=new JdbcTemplate(dataSource);
-        namedParameterJdbcTemplate=new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override

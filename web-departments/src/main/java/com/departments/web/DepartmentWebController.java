@@ -42,9 +42,8 @@ public class DepartmentWebController {
     public static final String URL_CREATE_DEPARTMENT = "http://localhost:8080/rest/department/createDepartment";
     public static final String URL_UPDATE_DEPARTMENT_BY_ID = "http://localhost:8080/rest/department/updateDepartment/{id}";
     public static final String URL_DELETE_DEPARTMENT_BY_ID = "http://localhost:8080/rest/department/deleteDepartment/{id}";
-    String et="sds";
-    //    @Autowired
-//    private DepartmentService departmentService;
+
+
     private MessageSource messageSource;
 
 
@@ -53,9 +52,6 @@ public class DepartmentWebController {
         this.messageSource=messageSource;
     }
 
-//    public void setDepartmentService(DepartmentService departmentService) {
-//        this.departmentService = departmentService;
-//    }
 
     @RequestMapping(value = "/listDepartmentsWitAvgSalary", method = RequestMethod.GET)
     public String listDepartmentsWitAvgSalary(Model model) {
@@ -110,12 +106,12 @@ public class DepartmentWebController {
 //        }
 //    }
 //
-//    @RequestMapping(params = "form",method = RequestMethod.GET)
-//    public String createForm(Model model){
-//        Department department=new Department();
-//        model.addAttribute("department",department);
-//        return "department/createDepartment";
-//    }
+    @RequestMapping(params = "formCreate",method = RequestMethod.GET)
+    public String createForm(Model model){
+        Department department=new Department();
+        model.addAttribute("department",department);
+        return "department/createDepartment";
+    }
 
     @RequestMapping(value = "/updateDepartment/{id}",params = "formUpdate", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model model){

@@ -21,11 +21,13 @@
     <spring:message code="label_department_show" var="labelDepartmentShow"/>
     <spring:message code="label_department_update" var="labelDepartmentUpdate"/>
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
+    <spring:message code="label_department_create" var="labelDepartmentCreate"/>
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
     <spring:url value="/department/updateDepartment" var="updateDepartment"/>
     <spring:url value="/department/deleteDepartment" var="deleteDepartmentUrl"/>
     <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
+    <spring:url value="/department/createDepartment" var="createDepartmentUrl"/>
 
     <!--<c:if test="$(not empty listDepartmentsWithAvgSalary)">-->
         <table border="4">
@@ -52,6 +54,7 @@
             </tbody>
         </table>
     <!--</c:if>-->
+    <a href="${createDepartmentUrl}?formCreate"> ${labelDepartmentCreate}</a>
     <!--<a href ="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>-->
     <!--<a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete }</a>-->
 

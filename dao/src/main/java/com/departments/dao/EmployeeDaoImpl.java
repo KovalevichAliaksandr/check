@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,13 +36,16 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private static final String SQL_FIND_EMPLOYEE_BY_ID="SELECT * FROM employee WHERE id =:id";
-    private static final String SQL_FIND_ALL_EMPLOYEES="SELECT * FROM employee";
-    private static final String SQL_SAVE_EMPLOYEE="INSERT into employee(first_name,last_name,dob,salary,id_department) " +
-            "VALUES (:first_name,:last_name,:dob,:salary,:id_department)";
-    private static final String SQL_UPDATE_EMPLOYEE="UPDATE employee SET first_name=:first_name,last_name=:last_name," +
-            "dob=:dob,salary=:salary, id_department=:id_department WHERE id=:id ";
-    private static final String SQL_DELETE_EMPLOYEE="DELETE FROM  employee WHERE id =:id";
+    @Value("${employee.selectEmployeeById}")
+    String SQL_FIND_EMPLOYEE_BY_ID;
+    @Value("${employee.selectListEmployees}")
+    String SQL_FIND_ALL_EMPLOYEES;
+    @Value("${employee.saveEmployee}")
+    String SQL_SAVE_EMPLOYEE;
+    @Value("${employee.updateEmployee}")
+    String SQL_UPDATE_EMPLOYEE;
+    @Value("${employee.deleteEmployee}")
+    String SQL_DELETE_EMPLOYEE;
 
     private static final Logger log= LoggerFactory.getLogger(EmployeeDaoImpl.class);
 

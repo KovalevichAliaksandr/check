@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -37,13 +38,18 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private static final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT id,name_department FROM department WHERE id =:id";
-    private static final String SQL_FIND_ALL_DEPARTMENTS = "SELECT id,name_department FROM department";
-    private static final String SQL_SAVE_DEPARTMENT = "INSERT into department(name_department) VALUES (:name_department)";
-    private static final String SQL_UPDATE_DEPARTMENT = "UPDATE department SET name_department=:name_department WHERE id=:id ";
-    private static final String SQL_DELETE_DEPARTMENT = "DELETE FROM  department WHERE id =:id";
-    private static final String SQL_GET_DEPARTMENTS_WITH_AVG_SALARY = "SELECT department.id,department.name_department,avg(salary) as avg_salary" +
-            " FROM department LEFT JOIN employee on (department.id=employee.id_department)GROUP BY department.id";
+    @Value("${department.selectDepartmentById}")
+    String SQL_FIND_DEPARTMENT_BY_ID ;
+    @Value("${department.selectListDepartments}")
+    String SQL_FIND_ALL_DEPARTMENTS ;
+    @Value("${department.saveDepartment}")
+    String SQL_SAVE_DEPARTMENT ;
+    @Value("${department.updateDepartment}")
+    String SQL_UPDATE_DEPARTMENT;
+    @Value("${department.deleteDepartment}")
+    String SQL_DELETE_DEPARTMENT;
+    @Value("${department.selectListDepartmentsWithAvgSalary}")
+    String SQL_GET_DEPARTMENTS_WITH_AVG_SALARY;
 
     public DepartmentDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;

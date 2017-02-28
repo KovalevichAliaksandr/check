@@ -10,6 +10,15 @@
 
     <import resource="classpath*:data-source-mysql.xml"/>
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:mysql-jdbc.properties</value>
+                <value>classpath:sql.properties</value>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="employeeDao" class="com.departments.dao.EmployeeDaoImpl">
         <constructor-arg ref="dataSource"/>

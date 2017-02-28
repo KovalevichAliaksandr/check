@@ -143,12 +143,10 @@ public class DepartmentWebController {
         redirectAttributes.addFlashAttribute("message", new Message("success",
                 messageSource.getMessage("department_save_success", new Object[]{}, locale)));
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, Long> params = new HashMap<String, Long>();
-        params.put("id", department.getId());
-//        restTemplate.put(URL_UPDATE_DEPARTMENT_BY_ID, Department.class,params);
+//        Map<String, Long> params = new HashMap<String, Long>();
+//        params.put("id", department.getId());
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-
         HttpEntity<Department> requestUpdate = new HttpEntity<>(department, headers);
         restTemplate.exchange(URL_UPDATE_DEPARTMENT_BY_ID, HttpMethod.PUT, requestUpdate, Department.class,department.getId());
         return "redirect:/department/listDepartmentsWitAvgSalary" ;

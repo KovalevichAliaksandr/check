@@ -7,7 +7,7 @@ public class UpdateDepartmentException extends DepartmentException {
     private String nameDepartment;
 
     public UpdateDepartmentException(String nameDepartment){
-        super("Update department name "+nameDepartment+"error");
+        super("Update department name "+nameDepartment+" error");
         this.nameDepartment=nameDepartment;
     }
     public String getNameDepartment(){

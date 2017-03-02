@@ -74,7 +74,7 @@ public class DepartmentWebController {
     }
 
     @RequestMapping(value = "/showDepartment/{id}", method = RequestMethod.GET)
-    public String findContactById(@PathVariable Long id, Model model) {
+    public String findDepartmentById(@PathVariable Long id, Model model) {
         log.debug("show department/{}", id);
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
@@ -115,8 +115,7 @@ public class DepartmentWebController {
 
     @RequestMapping(value = "/createDepartment", params = "formCreate", method = RequestMethod.GET)
     public String createForm(Model model) {
-        Department department = new Department();
-        model.addAttribute("department", department);
+        model.addAttribute("department", new Department());
         return "department/createDepartment";
     }
 

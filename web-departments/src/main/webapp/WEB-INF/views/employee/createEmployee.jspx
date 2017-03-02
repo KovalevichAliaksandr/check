@@ -1,0 +1,114 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: alex
+  Date: 16.2.17
+  Time: 11.58
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0"
+          xmlns:joda="http://www.joda.org/joda/time/tags"
+          xmlns:form="http://www.springframework.org/tags/form"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.joda.org/joda/time/tags ">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+
+    <c:out value="List of employees with an average salary"/>
+
+    <spring:message code="label_employee" var="labelEmployee"/>
+    <spring:message code="label_employee_id" var="labelEmployeeId"/>
+    <spring:message code="label_employee_first_name" var="labelEmployeeFirstName"/>
+    <spring:message code="label_employee_last_name" var="labelEmployeeLastName"/>
+    <spring:message code="label_employee_dob" var="labelEmployeeDob"/>
+    <spring:message code="label_employee_salary" var="labelEmployeeSalary"/>
+    <spring:message code="label_employee_department_name" var="labelEmployeeDepartment"/>
+    <spring:message code="label_employee_department_id" var="labelDepartmentId"/>
+
+
+    <spring:message code="label_operations" var="labelOperations"/>
+
+    <spring:message code="label_employee_show" var="labelEmployeeShow"/>
+    <spring:message code="label_employee_with_departments" var="labelListEmployeesWithDepartments"/>
+    <spring:message code="label_employee_update" var="labelEmployeeUpdate"/>
+    <spring:message code="label_employee_delete" var="labelEmployeeDelete"/>
+    <spring:message code="label_employee_create" var="labelEmployeeCreate"/>
+    <spring:message code="label_department" var="labelDepartment"/>
+
+
+    <spring:message code="date_format_pattern" var="dateFormatPattern"/>
+    <spring:url value="/employee/updateEmployee" var="updateEmployeeUrl"/>
+    <spring:url value="/employee/deleteEmployee" var="deleteEmployeeUrl"/>
+    <spring:url value="/employee/showEmployee" var="showEmployeeUrl"/>
+    <spring:url value="/employee/createEmployee" var="createEmployeeUrl"/>
+    <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
+
+    <spring:message code="date_format_pattern" var="dateFormatPattern"/>
+
+    <style>
+        .error {
+            color: #ff0000;
+        }
+    </style>
+
+
+    <c:out value="${labelEmployeeCreate}"/>
+
+    <div id="employeeCreate">
+        <form:form modelAttribute="employee" id="employeeCreateForm" method="post">
+
+            <c:if test="${not empty message}">
+                <div id="message" class="${message.type}">${message.message}</div>
+            </c:if>
+
+            <form:label path="firstName">${labelEmployeeFirstName}*</form:label>
+            <form:input path="firstName"/>
+            <div>
+                <form:errors path="firstName" cssClass="error"/>
+            </div>
+            <p/>
+
+            <form:label path="lastName">${labelEmployeeLastName}*</form:label>
+            <form:input path="lastName"/>
+            <div>
+                <form:errors path="lastName" cssClass="error"/>
+            </div>
+            <p/>
+
+            <form:label path="dob">${labelEmployeeDob} (yyyy-MM-dd) </form:label>
+            <form:input type="date" path="dob" />
+            <!--<form:input path="dob"/>-->
+            <div>
+                <form:errors path="dob" cssClass="error"/>
+            </div>
+            <p/>
+
+            <form:label path="salary">${labelEmployeeSalary}</form:label>
+            <form:input path="salary" />
+            <div>
+                <form:errors path="salary" cssClass="error"/>
+            </div>
+            <p/>
+
+            <form:label path="idDepartment">${labelDepartment}</form:label>
+            <form:select path="idDepartment">
+                <form:option value="0" label="--- Select ---" />
+                <form:options items="${listDepartments}" itemValue="id" itemLabel="nameDepartment"/>
+            </form:select>
+            <div>
+                <form:errors path="idDepartment" cssClass="error"/>
+            </div>
+            <p/>
+
+            <button type="submit">Save</button>
+            <button type="reset">Reset</button>
+        </form:form>
+    </div>
+    <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a>
+    <!--<a href ="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>-->
+    <!--<a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete }</a>-->
+</jsp:root>

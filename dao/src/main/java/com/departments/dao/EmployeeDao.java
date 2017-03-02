@@ -1,6 +1,7 @@
 package com.departments.dao;
 
 import com.departments.model.Employee;
+import com.departments.model.EmployeeWithDepartment;
 
 import java.util.List;
 
@@ -10,8 +11,11 @@ import java.util.List;
 public interface EmployeeDao {
 
      Employee findEmployeeById(Long id);
+     EmployeeWithDepartment findEmployeeWithDepartmentById(Long id);
      List<Employee> findAllEmployees();
+     List<EmployeeWithDepartment> findAllEmployeesWithDepartments();
      Long save(Employee Employee);
      void delete(Long id);
      void update(Employee Employee);
+
 }

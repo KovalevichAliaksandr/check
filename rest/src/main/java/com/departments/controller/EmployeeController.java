@@ -1,5 +1,6 @@
 package com.departments.controller;
 
+import com.departments.model.EmployeeWithDepartment;
 import com.departments.service.EmployeeService;
 import com.departments.model.Employee;
 import org.slf4j.Logger;
@@ -31,6 +32,20 @@ public class EmployeeController {
     @RequestMapping(value = "/listEmployees",method = RequestMethod.GET)
     public List<Employee> listData(){
         return employeeService.findAllEmployees();
+    }
+
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.FOUND)
+    @RequestMapping(value = "/listEmployeesWithDepartments",method = RequestMethod.GET)
+    public List<EmployeeWithDepartment> listDataWithDepartments(){
+        return employeeService.findAllEmployeesWithDepartments();
+    }
+
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.FOUND)
+    @RequestMapping(value = "/getEmployeeWithDepartment/{id}",method = RequestMethod.GET)
+    public EmployeeWithDepartment findEmployeeWithDepartmentById(@PathVariable Long id){
+        return employeeService.findEmployeeWithDepartmentById(id);
     }
 
     @ResponseBody

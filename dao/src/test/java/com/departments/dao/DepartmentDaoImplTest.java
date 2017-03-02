@@ -22,7 +22,6 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-spring-dao.xml"})
 @Transactional
-@TransactionConfiguration(defaultRollback=true)
 public class DepartmentDaoImplTest {
 
     @Autowired

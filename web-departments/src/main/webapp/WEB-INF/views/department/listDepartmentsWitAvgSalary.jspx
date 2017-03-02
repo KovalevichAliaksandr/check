@@ -31,6 +31,13 @@
 
     <!--<c:if test="$(not empty listDepartmentsWitAvgSalary)">-->
 
+
+    <style>
+        .error {
+            color: #ff0000;
+        }
+    </style>
+
     <c:if test="${not empty message}">
         <div id="message" class="${message.type}" >${message.message}</div>
     </c:if>

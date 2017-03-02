@@ -30,6 +30,12 @@
     <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
 
+    <style>
+        .error {
+            color: #ff0000;
+        }
+    </style>
+
     <c:out value="Create department"/>
 
     <div id="departmentUpdate">

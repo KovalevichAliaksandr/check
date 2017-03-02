@@ -2,6 +2,7 @@ package com.departments.service;
 
 import com.departments.dao.EmployeeDao;
 import com.departments.model.Employee;
+import com.departments.model.EmployeeWithDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeWithDepartment findEmployeeWithDepartmentById(Long id) {
+        Assert.notNull(id,"id must not be null");
+        Assert.isTrue(id>0,"id must greater than 0 ");
+        return employeeDao.findEmployeeWithDepartmentById(id);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<Employee> findAllEmployees() {
         return employeeDao.findAllEmployees();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<EmployeeWithDepartment> findAllEmployeesWithDepartments() {
+        return employeeDao.findAllEmployeesWithDepartments();
     }
 
     @Override
@@ -47,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Assert.notNull(employee);
         Assert.notNull(employee.getFirstName(),"First name must be not null");
         Assert.notNull(employee.getLastName(),"Last Name must be not null");
-        Assert.isTrue(employee.getSalary()>=0,"salary must greater or equally than 0 ");
+//        Assert.isTrue(employee.getSalary()>=0,"salary must greater or equally than 0 ");
         Assert.isTrue(employee.getDob().before(new Date()),"Day of Birth  must be up to today ");
         Long id=employeeDao.save(employee);
         return id;

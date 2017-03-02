@@ -1,0 +1,89 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: alex
+  Date: 17.2.17
+  Time: 11.40
+  To change this template use File | Settings | File Templates.
+-->
+<!--
+  Created by IntelliJ IDEA.
+  User: ALex
+  Date: 26.11.2016
+  Time: 17:31
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="no"/>
+
+    <c:out value="List of employees with an average salary"/>
+
+    <spring:message code="label_employee" var="labelEmployee"/>
+    <spring:message code="label_employee_id" var="labelEmployeeId"/>
+    <spring:message code="label_employee_first_name" var="labelEmployeeFirstName"/>
+    <spring:message code="label_employee_last_name" var="labelEmployeeLastName"/>
+    <spring:message code="label_employee_dob" var="labelEmployeeDob"/>
+    <spring:message code="label_employee_salary" var="labelEmployeeSalary"/>
+    <spring:message code="label_employee_department_name" var="labelEmployeeDepartment"/>
+
+    <spring:message code="label_operations" var="labelOperations"/>
+
+    <spring:message code="label_employee_show" var="labelEmployeeShow"/>
+    <spring:message code="label_employee_with_departments" var="labelListEmployeesWithDepartments"/>
+    <spring:message code="label_employee_update" var="labelEmployeeUpdate"/>
+    <spring:message code="label_employee_delete" var="labelEmployeeDelete"/>
+    <spring:message code="label_employee_create" var="labelEmployeeCreate"/>
+
+    <spring:message code="date_format_pattern" var="dateFormatPattern"/>
+    <spring:url value="/employee/updateEmployee" var="updateEmployeeUrl"/>
+    <spring:url value="/employee/deleteEmployee" var="deleteEmployeeUrl"/>
+    <spring:url value="/employee/showEmployee" var="showEmployeeUrl"/>
+    <spring:url value="/employee/createEmployee" var="createEmployeeUrl"/>
+    <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
+
+
+    <h1>${labelEmployeeShow}</h1>
+
+    <c:if test="${not empty messsage}">
+        <div id="message" class="${message.type}">${message.message}</div>
+    </c:if>
+    <div class="container" style="width: 600px;">
+        <table border="4">
+            <thead>
+            <tr>
+                <th>${labelEmployeeId}</th>
+                <th>${labelEmployeeFirstName}</th>
+                <th>${labelEmployeeLastName}</th>
+                <th>${labelEmployeeDob}</th>
+                <th>${labelEmployeeSalary}</th>
+                <th>${labelEmployeeDepartment}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>${employeeWithDepartment.id}</td>
+                <td>${employeeWithDepartment.firstName}</td>
+                <td>${employeeWithDepartment.lastName}</td>
+                <td>${employeeWithDepartment.dob}</td>
+                <td>${employeeWithDepartment.salary}</td>
+                <td>${employeeWithDepartment.nameDepartment}</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+    <br/>
+    <a href="${updateEmployeeUrl}/${employeeWithDepartment.id}?formUpdate"> ${labelEmployeeUpdate}</a>
+    <br/>
+    <a href="${deleteEmployeeUrl}/${employeeWithDepartment.id}?formDelete"> ${labelEmployeeDelete}</a>
+    <br/>
+    <a href="${listEmployeesWithDepartmentsUrl}"> ${labelListEmployeesWithDepartments}</a>
+
+
+</jsp:root>

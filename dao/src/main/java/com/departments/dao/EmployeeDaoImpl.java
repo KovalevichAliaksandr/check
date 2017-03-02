@@ -4,6 +4,7 @@ import com.departments.dao.exception.employee.DeleteEmployeeException;
 import com.departments.dao.exception.employee.EmptyResultEmployeeException;
 import com.departments.dao.exception.employee.UpdateEmployeeException;
 import com.departments.model.Employee;
+import com.departments.model.EmployeeWithDepartment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -42,8 +43,12 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
 
     @Value("${employee.selectEmployeeById}")
     String SQL_FIND_EMPLOYEE_BY_ID;
+    @Value("${employee.selectEmployeeWithDepartmentById}")
+    String SQL_FIND_EMPLOYEE_WITH_DEPARTMENT_BY_ID;
     @Value("${employee.selectListEmployees}")
     String SQL_FIND_ALL_EMPLOYEES;
+    @Value("${employee.selectListEmployeesWithDepartment}")
+    String SQL_FIND_ALL_EMPLOYEES_WITH_DEPARTMENT;
     @Value("${employee.saveEmployee}")
     String SQL_SAVE_EMPLOYEE;
     @Value("${employee.updateEmployee}")
@@ -79,14 +84,32 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
         }catch (EmptyResultDataAccessException e){
             throw new EmptyResultEmployeeException(id);
         }
-
     }
+    @Override
+    public EmployeeWithDepartment findEmployeeWithDepartmentById(Long id) {
+        log.info("Find employee wit department by id={} ",id);
+        Map<String,Object> namedParameters=new HashMap<>();
+        namedParameters.put("id",id);
+        try {
+            return namedParameterJdbcTemplate.queryForObject(SQL_FIND_EMPLOYEE_WITH_DEPARTMENT_BY_ID,namedParameters,new EmployeeWithDepartmentRowMapper());
+        }catch (EmptyResultDataAccessException e){
+            throw new EmptyResultEmployeeException(id);
+        }
+    }
+
 
     @Override
     public List<Employee> findAllEmployees() throws DataAccessException{
         log.info("Find all employees ");
         return namedParameterJdbcTemplate.query(SQL_FIND_ALL_EMPLOYEES,new EmployeeRowMapper());
     }
+
+    @Override
+    public List<EmployeeWithDepartment> findAllEmployeesWithDepartments()  throws DataAccessException {
+        log.info("Find all employees with departments ");
+        return namedParameterJdbcTemplate.query(SQL_FIND_ALL_EMPLOYEES_WITH_DEPARTMENT,new EmployeeWithDepartmentRowMapper());
+    }
+
 
     @Override
     @Transactional
@@ -136,6 +159,21 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
             return employee;
         }
     }
+    private static final class EmployeeWithDepartmentRowMapper implements RowMapper<EmployeeWithDepartment> {
+        @Override
+        public EmployeeWithDepartment mapRow(ResultSet resultSet, int i) throws SQLException {
+            EmployeeWithDepartment employeeWithDepartment=new EmployeeWithDepartment();
+            employeeWithDepartment.setId(resultSet.getLong("id"));
+            employeeWithDepartment.setFirstName(resultSet.getString("first_name"));
+            employeeWithDepartment.setLastName(resultSet.getString("last_Name"));
+            employeeWithDepartment.setDob(resultSet.getTimestamp("dob"));
+            employeeWithDepartment.setSalary(resultSet.getInt("salary"));
+            employeeWithDepartment.setIdDepartment(resultSet.getLong("id_department"));
+            employeeWithDepartment.setNameDepartment(resultSet.getString("name_department"));
+            return employeeWithDepartment;
+        }
+    }
+
     private MapSqlParameterSource mapSqlParameterSource(Employee employee) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id", employee.getId());

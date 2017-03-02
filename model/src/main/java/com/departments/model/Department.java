@@ -12,10 +12,9 @@ import java.util.Objects;
 
 public class Department implements Serializable {
 
-    @NotNull(message =" id  not be null")
+
     private long id ;
     @NotNull(message =" Department name not be null")
-
     @Size(min = 1,max = 45,message="Department name should be between 1 - 45 symbols")
     private String nameDepartment;
 

@@ -1,6 +1,7 @@
 package com.departments.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 public class Employee {
 
-    @NotNull(message =" id  not be null")
+
     private Long id;
 
     @NotNull(message =" First name not be null")
@@ -26,17 +27,24 @@ public class Employee {
     private String lastName;
 
     @Past
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
     private Date dob;
 
     @Min(value = 0,message="Salary  should be  >=0 ")
     private Integer salary;
 
-    @NotNull
+    @NotNull(message="department  should be  not null ")
+    @Min(value = 1,message="department  id should be >0 ")
     private Long idDepartment;
 
     public Employee() {
 
+    }
+
+    public Employee(String firstName, String lastName, Long idDepartment) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.idDepartment = idDepartment;
     }
 
     public Employee(Long id, String firstName, String lastName, Date dob, Integer salary, Long idDepartment) {

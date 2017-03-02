@@ -22,11 +22,6 @@
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
 
 
-    <style>
-        .error {
-            color: #ff0000;
-        }
-    </style>
 
 
     <div id="departmentDelete">

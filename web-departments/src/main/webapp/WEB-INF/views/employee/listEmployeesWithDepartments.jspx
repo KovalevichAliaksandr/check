@@ -56,6 +56,7 @@
     <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a>
     <br/>
 
+
     <p/>
         <table border="4" align="centr">
             <thead>

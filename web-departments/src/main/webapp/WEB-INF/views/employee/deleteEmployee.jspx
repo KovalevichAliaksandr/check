@@ -9,44 +9,67 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="no"/>
 
-    <spring:message code="label_department" var="labelDepartment"/>
-    <spring:message code="label_department_id" var="labelDepartmentId"/>
-    <spring:message code="label_department_name" var="labelDepartmentName"/>
-    <spring:message code="label_department_update" var="labelDepartmentUpdate"/>
-    <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
-    <spring:message code="label_department_list" var="labelDepartmentList"/>
+    <spring:message code="label_employee" var="labelEmployee"/>
+    <spring:message code="label_employee_id" var="labelEmployeeId"/>
+    <spring:message code="label_employee_first_name" var="labelEmployeeFirstName"/>
+    <spring:message code="label_employee_last_name" var="labelEmployeeLastName"/>
+    <spring:message code="label_employee_dob" var="labelEmployeeDob"/>
+    <spring:message code="label_employee_salary" var="labelEmployeeSalary"/>
+    <spring:message code="label_employee_department_name" var="labelEmployeeDepartment"/>
+
+    <spring:message code="label_operations" var="labelOperations"/>
+
+    <spring:message code="label_employee_show" var="labelEmployeeShow"/>
+    <spring:message code="label_employee_with_departments" var="labelListEmployeesWithDepartments"/>
+    <spring:message code="label_employee_update" var="labelEmployeeUpdate"/>
+    <spring:message code="label_employee_delete" var="labelEmployeeDelete"/>
+    <spring:message code="label_employee_create" var="labelEmployeeCreate"/>
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
-    <spring:url value="/department/editDepartment" var="editDepartmentUrl"/>
-    <spring:url value="/department/deleteDepartment}" var="deleteDepartmentUrl"/>
-    <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
+    <spring:url value="/employee/updateEmployee" var="updateEmployeeUrl"/>
+    <spring:url value="/employee/deleteEmployee" var="deleteEmployeeUrl"/>
+    <spring:url value="/employee/showEmployee" var="showEmployeeUrl"/>
+    <spring:url value="/employee/createEmployee" var="createEmployeeUrl"/>
+    <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
 
 
+    <h1>${labelEmployeeDelete}</h1>
 
-
-    <div id="departmentDelete">
+    <div id="employeeDelete">
         <p style="text-align: center">
-        <form:form modelAttribute="department" id="departmentDeleteForm" method="delete" action="">
-            <spring:message code="label_department_list" var="labelDepartmentList"/>
+        <form:form modelAttribute="employee" id="employeetDeleteForm" method="delete" action="">
+
             <table border="4">
+                <thead>
                 <tr>
-                    <td>${labelDepartmentId}</td>
-                    <td>${department.id}</td>
+                    <th>${labelEmployeeId}</th>
+                    <th>${labelEmployeeFirstName}</th>
+                    <th>${labelEmployeeLastName}</th>
+                    <th>${labelEmployeeDob}</th>
+                    <th>${labelEmployeeSalary}</th>
+                    <th>${labelEmployeeDepartment}</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr>
-                    <td>${labelDepartmentName}</td>
-                    <td>${department.nameDepartment}</td>
+                    <td>${employeeWithDepartment.id}</td>
+                    <td>${employeeWithDepartment.firstName}</td>
+                    <td>${employeeWithDepartment.lastName}</td>
+                    <td>${employeeWithDepartment.dob}</td>
+                    <td>${employeeWithDepartment.salary}</td>
+                    <td>${employeeWithDepartment.nameDepartment}</td>
                 </tr>
 
-                </table>
+                </tbody>
+            </table>
             <br/>
-            <p style="text-align: center">
+            <!--<p style="text-align: center">-->
                 <button type="submit">Delete</button>
-                <!--<button type="submit" formmethod="get" value="/department/listDepartmentsWitAvgSalary">Reset</button>-->
-            </p>
+                <!--<button type="submit" formmethod="get" value="${listEmployeesWithDepartmentsUrl}">Reset</button>-->
+            <!--</p>-->
         </form:form>
     </p>
     </div>
 
-    <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a>
+    <a href="${listEmployeesWithDepartmentsUrl}"> ${labelListEmployeesWithDepartments}</a>
 </jsp:root>

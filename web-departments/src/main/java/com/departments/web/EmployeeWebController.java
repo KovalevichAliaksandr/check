@@ -34,7 +34,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping(value = "/employee")
-public class EmployeeWebController {
+public class EmployeeWebController implements EmployeeWebControllerInterface {
     private static final Logger log = LoggerFactory.getLogger(DepartmentWebController.class);
 
     public static final String URL_GET_LIST_EMPLOYEES = "http://localhost:8080/rest/employee/listEmployees";
@@ -48,11 +48,13 @@ public class EmployeeWebController {
 
 
     private MessageSource messageSource;
+    RestTemplate restTemplate =new RestTemplate();
 
     @Autowired
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
+
 
     @InitBinder
     public void initBinder(WebDataBinder binder){
@@ -60,10 +62,10 @@ public class EmployeeWebController {
                 new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
     }
 
+    @Override
     @RequestMapping(value = "/listEmployees", method = RequestMethod.GET)
     public String listEmployees(Model model) {
         log.debug("start listEmployees");
-        RestTemplate restTemplate = new RestTemplate();
         List<Employee> listEmployees =
                 restTemplate.getForObject(URL_GET_LIST_EMPLOYEES, List.class);
         model.addAttribute("listEmployees", listEmployees);
@@ -71,10 +73,10 @@ public class EmployeeWebController {
         return "employee/listEmployees";
     }
 
+    @Override
     @RequestMapping(value = "/listEmployeesWithDepartments", method = RequestMethod.GET)
     public String listEmployeesWithDepartments(Model model) {
         log.debug("start listEmployeesWithDepartments");
-        RestTemplate restTemplate = new RestTemplate();
         List<EmployeeWithDepartment> listEmployeesWithDepartments =
                 restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_DEPARTMENTS, List.class);
         model.addAttribute("listEmployeesWithDepartments", listEmployeesWithDepartments);
@@ -82,10 +84,10 @@ public class EmployeeWebController {
         return "employee/listEmployeesWithDepartments";
     }
 
+    @Override
     @RequestMapping(value = "/showEmployee/{id}", method = RequestMethod.GET)
     public String findContactById(@PathVariable Long id, Model model) {
         log.debug("show employee{}", id);
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
         EmployeeWithDepartment employeeWithDepartment =
@@ -94,15 +96,15 @@ public class EmployeeWebController {
         log.debug("fetch employeeWithDepartment  ={}", employeeWithDepartment);
         return "employee/showEmployee";
     }
+
+    @Override
     @RequestMapping(value = "/createEmployee", method = RequestMethod.POST)
     public String create(@Valid Employee employee, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+        log.debug("Create employee ", employee);
 
-        RestTemplate restTemplate = new RestTemplate();
         List<Department> listDepartments;
         ResponseEntity<Department[]> responseEntity;
-
-        log.debug("Create employee ", employee);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", new Message("error",
@@ -133,9 +135,9 @@ public class EmployeeWebController {
         }
     }
 
+    @Override
     @RequestMapping(value = "/createEmployee", params = "formCreate", method = RequestMethod.GET)
     public String createForm(Model model) {
-        RestTemplate restTemplate=new RestTemplate();
         ResponseEntity<Department[]> responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
         List<Department> listDepartments = Arrays.asList(responseEntity.getBody());
         model.addAttribute("listDepartments",listDepartments);
@@ -143,29 +145,38 @@ public class EmployeeWebController {
         return "employee/createEmployee";
     }
 
+    @Override
     @RequestMapping(value = "/updateEmployee/{id}", params = "formUpdate", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model model) {
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
         Employee employee = restTemplate.getForObject(URL_GET_EMPLOYEE_BY_ID, Employee.class, params);
         model.addAttribute("employee", employee);
-        return "employee/updateEmployee";
+        ResponseEntity<Department[]> responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
+        List<Department> listDepartments = Arrays.asList(responseEntity.getBody());
+        model.addAttribute("listDepartments",listDepartments);
+        return "employee/createEmployee";
     }
 
+    @Override
     @RequestMapping(value = "/updateEmployee/{id}", params = "formUpdate", method = RequestMethod.POST)
     public String update(@Valid Employee employee, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
                          Locale locale) {
-        log.info("Updating employee");
+        log.info("Updating employee ={}", employee);
+        List<Department> listDepartments;
+        ResponseEntity<Department[]> responseEntity;
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
             model.addAttribute("employee", employee);
-            return "employee/updateEmployee";
+            responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
+            listDepartments = Arrays.asList(responseEntity.getBody());
+            model.addAttribute("listDepartments",listDepartments);
+            return "employee/createEmployee";
         }
 //        model.asMap().clear();
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Employee> requestUpdate = new HttpEntity<>(employee, headers);
@@ -174,16 +185,19 @@ public class EmployeeWebController {
                     Employee.class, employee.getId());
             redirectAttributes.addFlashAttribute("message", new Message("success",
                     messageSource.getMessage("employee_update_success", new Object[]{}, locale)));
-            return "redirect:/employee/listEmployees";
+            return "redirect:/employee/listEmployeesWithDepartments";
         } catch (Exception e) {
             model.addAttribute("message", new Message("error",
-                    messageSource.getMessage("employee_already_exists", new Object[]{}, locale)));
-            return "employee/updateEmployee";
+                    messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
+            responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
+            listDepartments = Arrays.asList(responseEntity.getBody());
+            model.addAttribute("listDepartments",listDepartments);
+            return "employee/createEmployee";
         }
     }
+    @Override
     @RequestMapping(value = "/deleteEmployee/{id}", params = "formDelete", method = RequestMethod.DELETE)
     public String delete(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
         Employee employee = restTemplate.getForObject(URL_GET_EMPLOYEE_BY_ID, Employee.class, params);
@@ -197,16 +211,18 @@ public class EmployeeWebController {
             redirectAttributes.addFlashAttribute("message", new Message("error",
                     messageSource.getMessage("employee_can_not_be_removed", new Object[]{}, locale)));
         }
-        return "redirect:/department/listEmployees";
+        return "redirect:/employee/listEmployeesWithDepartments";
     }
 
+    @Override
     @RequestMapping(value = "/deleteEmployee/{id}", params = "formDelete", method = RequestMethod.GET)
     public String deleteForm(@PathVariable("id") Long id, Model model) {
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
-        Employee employee = restTemplate.getForObject(URL_GET_EMPLOYEE_BY_ID, Employee.class, params);
-        model.addAttribute("employee", employee);
+        EmployeeWithDepartment employeeWithDepartment =
+                restTemplate.getForObject(URL_GET_EMPLOYEE_WITH_DEPARTMENT_BY_ID, EmployeeWithDepartment.class, params);
+        model.addAttribute("employeeWithDepartment", employeeWithDepartment);
+        model.addAttribute("employeeWithDepartment", employeeWithDepartment);
         return "/employee/deleteEmployee";
     }
 

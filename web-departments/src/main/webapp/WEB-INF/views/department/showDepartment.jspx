@@ -27,8 +27,10 @@
     <spring:message code="label_department_update" var="labelDepartmentUpdate"/>
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
-    <spring:url value="/department/updateDepartment" var="updateDepartmentUrl"/>
+    <spring:url value="/department/updateDepartment" var="updateDepartment"/>
     <spring:url value="/department/deleteDepartment" var="deleteDepartmentUrl"/>
+    <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
+    <spring:url value="/department/createDepartment" var="createDepartmentUrl"/>
 
 
     <h1>${labelDepartment}</h1>

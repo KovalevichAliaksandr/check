@@ -17,9 +17,6 @@
           xsi:schemaLocation="http://www.joda.org/joda/time/tags ">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
 
-
-    <c:out value="List of employees with an average salary"/>
-
     <spring:message code="label_employee" var="labelEmployee"/>
     <spring:message code="label_employee_id" var="labelEmployeeId"/>
     <spring:message code="label_employee_first_name" var="labelEmployeeFirstName"/>
@@ -29,9 +26,7 @@
     <spring:message code="label_employee_department_name" var="labelEmployeeDepartment"/>
     <spring:message code="label_employee_department_id" var="labelDepartmentId"/>
 
-
     <spring:message code="label_operations" var="labelOperations"/>
-
     <spring:message code="label_employee_show" var="labelEmployeeShow"/>
     <spring:message code="label_employee_with_departments" var="labelListEmployeesWithDepartments"/>
     <spring:message code="label_employee_update" var="labelEmployeeUpdate"/>
@@ -55,8 +50,9 @@
         }
     </style>
 
-
-    <c:out value="${labelEmployeeCreate}"/>
+    <spring:eval expression="employee.id==null ? labelEmployeeCreate:labelEmployeeUpdate" var="formTitle"/>
+    <!--<c:out value="${labelEmployeeCreate}"/>-->
+    <h1 align="center">${formTitle}</h1>
 
     <div id="employeeCreate">
         <form:form modelAttribute="employee" id="employeeCreateForm" method="post">
@@ -79,16 +75,16 @@
             </div>
             <p/>
 
-            <form:label path="dob">${labelEmployeeDob} (yyyy-MM-dd) </form:label>
-            <form:input type="date" path="dob" />
+            <form:label path="dob">${labelEmployeeDob}*  </form:label>
+            <form:input type="date" pattern="yyyy-MM-dd" path="dob" />
             <!--<form:input path="dob"/>-->
             <div>
                 <form:errors path="dob" cssClass="error"/>
             </div>
             <p/>
 
-            <form:label path="salary">${labelEmployeeSalary}</form:label>
-            <form:input path="salary" />
+            <form:label path="salary" >${labelEmployeeSalary}*</form:label>
+            <form:input path="salary" pattern="\d*"/>
             <div>
                 <form:errors path="salary" cssClass="error"/>
             </div>
@@ -96,7 +92,7 @@
 
             <form:label path="idDepartment">${labelDepartment}</form:label>
             <form:select path="idDepartment">
-                <form:option value="0" label="--- Select ---" />
+                <!--<form:option value="0" label="-&#45;&#45; Select -&#45;&#45;" />-->
                 <form:options items="${listDepartments}" itemValue="id" itemLabel="nameDepartment"/>
             </form:select>
             <div>
@@ -108,7 +104,7 @@
             <button type="reset">Reset</button>
         </form:form>
     </div>
-    <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a>
+    <a href="${listEmployeesWithDepartmentsUrl}"> ${labelListEmployeesWithDepartments}</a>
     <!--<a href ="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>-->
     <!--<a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete }</a>-->
 </jsp:root>

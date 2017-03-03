@@ -24,8 +24,10 @@
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
-    <spring:url value="/department/deleteDepartment" var="editDepartmentUrl"/>
+    <spring:url value="/department/updateDepartment" var="updateDepartment"/>
+    <spring:url value="/department/deleteDepartment" var="deleteDepartmentUrl"/>
     <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
+    <spring:url value="/department/createDepartment" var="createDepartmentUrl"/>
 
 
     <style>
@@ -52,12 +54,7 @@
 
             <button type="submit">Save</button>
             <button type="submit">Reset</button>
-            <!--<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">-->
-                <!--<span class="ui-button-text">Save</span>-->
-            <!--</button>-->
-            <!--<button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">-->
-                <!--<span class="ui-button-text">Reset</span>-->
-            <!--</button>-->
+
         </form:form>
     </div>
 

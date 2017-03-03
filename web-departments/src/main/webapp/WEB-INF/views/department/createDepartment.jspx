@@ -26,19 +26,23 @@
     <spring:message code="label_department_list" var="labelDepartmentList"/>
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
-    <spring:url value="/department/deleteDepartment" var="editDepartmentUrl"/>
+    <spring:url value="/department/updateDepartment" var="updateDepartmentUrl"/>
+    <spring:url value="/department/deleteDepartment" var="deleteDepartmentUrl"/>
     <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
+    <spring:url value="/department/createDepartment" var="createDepartmentUrl"/>
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
 
     <style>
         .error {
             color: #ff0000;
         }
+
     </style>
+
 
     <c:out value="Create department"/>
 
-    <div id="departmentUpdate">
+    <div id="myTableStyle">
         <form:form modelAttribute="department" id="departmentUpdateForm" method="post">
 
             <c:if test="${not empty message}">
@@ -57,6 +61,5 @@
         </form:form>
     </div>
     <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a>
-    <!--<a href ="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>-->
-    <!--<a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete }</a>-->
+
 </jsp:root>

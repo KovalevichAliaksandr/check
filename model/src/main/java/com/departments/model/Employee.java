@@ -3,10 +3,7 @@ package com.departments.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,15 +23,18 @@ public class Employee {
     @Size(min = 1,max = 45,message="Last name should be between 1 - 45 symbols")
     private String lastName;
 
-    @Past
+    @Past(message =" Day of birth  should  be  less than the current date")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @NotNull(message =" Day of birth  should  be  not null")
     private Date dob;
 
+    //    @Pattern(regexp="[\\d]{*}",message = "Salary should by digital")
     @Min(value = 0,message="Salary  should be  >=0 ")
+    @NotNull(message="Salary  should be not null")
     private Integer salary;
 
     @NotNull(message="department  should be  not null ")
-    @Min(value = 1,message="department  id should be >0 ")
+    @Min(value = 1,message="department  id should be  ")
     private Long idDepartment;
 
     public Employee() {

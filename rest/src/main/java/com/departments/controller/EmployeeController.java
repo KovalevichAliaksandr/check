@@ -17,6 +17,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/employee")
+@CrossOrigin
 public class EmployeeController {
     private static final Logger log= LoggerFactory.getLogger(EmployeeController.class);
 
@@ -25,6 +26,13 @@ public class EmployeeController {
 
     public EmployeeController(EmployeeService employeeService) {
           this.employeeService=employeeService;
+    }
+
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler({IllegalArgumentException.class})
+    public String incorrectDataError() {
+        return "{  \"response\" : \"Incorrect Data Error\" }";
     }
 
     @ResponseBody

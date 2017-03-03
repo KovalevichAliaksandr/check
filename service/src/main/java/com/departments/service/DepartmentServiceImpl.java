@@ -24,12 +24,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentDao departmentDao;
 
-    public  DepartmentServiceImpl(DepartmentDao departmentDao){
-        this.departmentDao=departmentDao;
-    }
-
-
-
     @Override
     @Transactional(readOnly = true)
     public Department findDepartmentById(Long id) {

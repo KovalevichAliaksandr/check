@@ -57,9 +57,9 @@ public class DepartmentDaoImpl implements DepartmentDao, InitializingBean {
     @Value("${department.selectListDepartmentsWithAvgSalary}")
     String SQL_GET_DEPARTMENTS_WITH_AVG_SALARY;
 
-    public DepartmentDaoImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+//    public DepartmentDaoImpl(DataSource dataSource) {
+//        this.dataSource = dataSource;
+//    }
 
 
     @Override

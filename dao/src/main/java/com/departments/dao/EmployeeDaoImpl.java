@@ -58,9 +58,9 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
 
     private static final Logger log= LoggerFactory.getLogger(EmployeeDaoImpl.class);
 
-    public EmployeeDaoImpl(DataSource dataSource) {
-        this.dataSource=dataSource;
-    }
+//    public EmployeeDaoImpl(DataSource dataSource) {
+//        this.dataSource=dataSource;
+//    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

@@ -25,10 +25,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDao employeeDao;
 
-    public  EmployeeServiceImpl(EmployeeDao employeeDao){
-        this.employeeDao=employeeDao;
-    }
-
     @Override
     @Transactional(readOnly = true)
     public Employee findEmployeeById(Long id) {
@@ -61,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Assert.notNull(employee);
         Assert.notNull(employee.getFirstName(),"First name must be not null");
         Assert.notNull(employee.getLastName(),"Last Name must be not null");
-//        Assert.isTrue(employee.getSalary()>=0,"salary must greater or equally than 0 ");
+        Assert.isTrue(employee.getSalary()>=0,"salary must greater or equally than 0 ");
         Assert.isTrue(employee.getDob().before(new Date()),"Day of Birth  must be up to today ");
         Long id=employeeDao.save(employee);
         return id;

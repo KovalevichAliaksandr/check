@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "/department")
-public class DepartmentWebController {
+public class DepartmentWebController implements DepartmentWebControllerInterface {
     private static final Logger log = LoggerFactory.getLogger(DepartmentWebController.class);
 
     public static final String URL_GET_LIST_DEPARTMENTS = "http://localhost:8080/rest/department/listDepartments";
@@ -43,7 +43,7 @@ public class DepartmentWebController {
 
 
     private MessageSource messageSource;
-
+    RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     public void setMessageSource(MessageSource messageSource) {
@@ -51,10 +51,11 @@ public class DepartmentWebController {
     }
 
 
+
+    @Override
     @RequestMapping(value = "/listDepartmentsWitAvgSalary", method = RequestMethod.GET)
     public String listDepartmentsWitAvgSalary(Model model) {
         log.debug("start listDepartmentsWitAvgSalary");
-        RestTemplate restTemplate = new RestTemplate();
         List<DepartmentsWithAvgSalary> listDepartmentsWitAvgSalary =
                 restTemplate.getForObject(URL_GET_LIST_DEPARTMENTS_WIT_AVG_SALARY, List.class);
         model.addAttribute("listDepartmentsWitAvgSalary", listDepartmentsWitAvgSalary);
@@ -62,10 +63,10 @@ public class DepartmentWebController {
         return "department/listDepartmentsWitAvgSalary";
     }
 
+    @Override
     @RequestMapping(value = "/listDepartments", method = RequestMethod.GET)
     public String listDepartments(Model model) {
         log.debug("start /listDepartments");
-        RestTemplate restTemplate = new RestTemplate();
         List<Department> listDepartments =
                 restTemplate.getForObject(URL_GET_LIST_DEPARTMENTS, List.class);
         model.addAttribute("listDepartments", listDepartments);
@@ -73,10 +74,10 @@ public class DepartmentWebController {
         return "department/listDepartments";
     }
 
+    @Override
     @RequestMapping(value = "/showDepartment/{id}", method = RequestMethod.GET)
     public String findDepartmentById(@PathVariable Long id, Model model) {
         log.debug("show department/{}", id);
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
         Department department =
@@ -86,6 +87,7 @@ public class DepartmentWebController {
         return "department/showDepartment";
     }
 
+    @Override
     @RequestMapping(value = "/createDepartment", method = RequestMethod.POST)
     public String create(@Valid Department department, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -96,7 +98,6 @@ public class DepartmentWebController {
             model.addAttribute("department", department);
             return "department/createDepartment";
         }
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Department> requestCreate = new HttpEntity<>(department, headers);
@@ -113,15 +114,16 @@ public class DepartmentWebController {
         }
     }
 
+    @Override
     @RequestMapping(value = "/createDepartment", params = "formCreate", method = RequestMethod.GET)
     public String createForm(Model model) {
         model.addAttribute("department", new Department());
         return "department/createDepartment";
     }
 
+    @Override
     @RequestMapping(value = "/updateDepartment/{id}", params = "formUpdate", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model model) {
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
         Department department = restTemplate.getForObject(URL_GET_DEPARTMENT_BY_ID, Department.class, params);
@@ -129,6 +131,7 @@ public class DepartmentWebController {
         return "department/updateDepartment";
     }
 
+    @Override
     @RequestMapping(value = "/updateDepartment/{id}", params = "formUpdate", method = RequestMethod.POST)
     public String update(@Valid Department department, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
@@ -141,7 +144,6 @@ public class DepartmentWebController {
             return "department/updateDepartment";
         }
 //        model.asMap().clear();
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Department> requestUpdate = new HttpEntity<>(department, headers);
@@ -159,9 +161,9 @@ public class DepartmentWebController {
 
     }
 
+    @Override
     @RequestMapping(value = "/deleteDepartment/{id}", params = "formDelete", method = RequestMethod.DELETE)
     public String delete(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
         Department department = restTemplate.getForObject(URL_GET_DEPARTMENT_BY_ID, Department.class, params);
@@ -179,9 +181,9 @@ public class DepartmentWebController {
 
     }
 
+    @Override
     @RequestMapping(value = "/deleteDepartment/{id}", params = "formDelete", method = RequestMethod.GET)
     public String deleteForm(@PathVariable("id") Long id, Model model) {
-        RestTemplate restTemplate = new RestTemplate();
         Map<String, Long> params = new HashMap<String, Long>();
         params.put("id", id);
         Department department = restTemplate.getForObject(URL_GET_DEPARTMENT_BY_ID, Department.class, params);

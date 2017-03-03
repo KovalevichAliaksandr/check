@@ -12,16 +12,18 @@
           xmlns:spring="http://www.springframework.org/tags"
           version="2.0" xmlns:joda="http://java.sun.com/jsf/composite">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <c:out value="List of departments with an average salary"/>
+
 
     <spring:message code="label_department" var="labelDepartment"/>
     <spring:message code="label_department_id" var="labelDepartmentId"/>
 
     <spring:message code="label_department_name" var="labelDepartmentName"/>
+    <spring:message code="label_department_name" var="labelDepartmentName"/>
     <spring:message code="label_department_show" var="labelDepartmentShow"/>
     <spring:message code="label_department_update" var="labelDepartmentUpdate"/>
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
     <spring:message code="label_department_create" var="labelDepartmentCreate"/>
+
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
     <spring:url value="/department/updateDepartment" var="updateDepartment"/>
@@ -29,18 +31,22 @@
     <spring:url value="/department/showDepartment" var="showDepartmentUrl"/>
     <spring:url value="/department/createDepartment" var="createDepartmentUrl"/>
 
+    <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
+    <spring:message code="label_employee_with_departments" var="labelListEmployeesWithDepartments"/>
+
     <!--<c:if test="$(not empty listDepartmentsWitAvgSalary)">-->
-
-
-    <style>
-        .error {
-            color: #ff0000;
-        }
-    </style>
+    <h1 align="centr">List of departments with an average salary</h1>
+    <h1 align="center">${labelEmployeeList}</h1>
 
     <c:if test="${not empty message}">
         <div id="message" class="${message.type}" >${message.message}</div>
     </c:if>
+
+    <br/>
+    <a href="${listEmployeesWithDepartmentsUrl}"> ${labelListEmployeesWithDepartments}</a>
+    <br/>
+    <a href="${createDepartmentUrl}?formCreate"> ${labelDepartmentCreate}</a>
+
 
         <table border="4">
             <thead>
@@ -48,7 +54,6 @@
                 <th>Department</th>
                 <th>Average salary</th>
                 <th>Operation</th>
-
             </tr>
             </thead>
             <tbody>
@@ -66,9 +71,5 @@
             </tbody>
         </table>
     <!--</c:if>-->
-    <a href="${createDepartmentUrl}?formCreate"> ${labelDepartmentCreate}</a>
-    <!--<a href ="${editDepartmentUrl}/${department.id}?formUpdate"> ${labelDepartmentUpdate}</a>-->
-    <!--<a href="${deleteDepartmentUrl}/${department.id}?formDelete"> ${labelDepartmentDelete }</a>-->
-
 
 </jsp:root>

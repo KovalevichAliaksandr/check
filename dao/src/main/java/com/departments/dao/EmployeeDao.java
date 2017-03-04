@@ -3,6 +3,7 @@ package com.departments.dao;
 import com.departments.model.Employee;
 import com.departments.model.EmployeeWithDepartment;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ public interface EmployeeDao {
 
      Employee findEmployeeById(Long id);
      EmployeeWithDepartment findEmployeeWithDepartmentById(Long id);
+     public List<EmployeeWithDepartment> findEmployeeWithFilter(Date startDate, Date endDate);
      List<Employee> findAllEmployees();
      List<EmployeeWithDepartment> findAllEmployeesWithDepartments();
      Long save(Employee Employee);

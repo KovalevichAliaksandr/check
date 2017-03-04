@@ -53,6 +53,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<EmployeeWithDepartment> findAllEmployeesWithFilter(Date startDate,Date endDate) {
+        return employeeDao.findEmployeeWithFilter(startDate,endDate);
+    }
+
+    @Override
     public Long save(Employee employee) {
         Assert.notNull(employee);
         Assert.notNull(employee.getFirstName(),"First name must be not null");

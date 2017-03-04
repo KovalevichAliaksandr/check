@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +48,13 @@ public class EmployeeController {
     @RequestMapping(value = "/listEmployeesWithDepartments",method = RequestMethod.GET)
     public List<EmployeeWithDepartment> listDataWithDepartments(){
         return employeeService.findAllEmployeesWithDepartments();
+    }
+
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.FOUND)
+    @RequestMapping(value = "/listEmployeesWithFilter/{startDate}/{endDate}",method = RequestMethod.GET)
+    public List<EmployeeWithDepartment> listEmployeesWithFilter(@PathVariable Date startDate,@PathVariable Date endDate){
+        return employeeService.findAllEmployeesWithFilter(startDate,endDate);
     }
 
     @ResponseBody

@@ -2,6 +2,7 @@ package com.departments.dao;
 
 import com.departments.dao.exception.employee.DeleteEmployeeException;
 import com.departments.dao.exception.employee.EmptyResultEmployeeException;
+import com.departments.dao.exception.employee.EmptyResultEmployeeWithFilterException;
 import com.departments.dao.exception.employee.UpdateEmployeeException;
 import com.departments.model.Employee;
 import com.departments.model.EmployeeWithDepartment;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,8 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
     String SQL_FIND_EMPLOYEE_WITH_DEPARTMENT_BY_ID;
     @Value("${employee.selectListEmployees}")
     String SQL_FIND_ALL_EMPLOYEES;
+    @Value("${employee.selectEmployeeWithFilter}")
+    String SQL_FIND_EMPLOYEES_WITH_FILTER;
     @Value("${employee.selectListEmployeesWithDepartment}")
     String SQL_FIND_ALL_EMPLOYEES_WITH_DEPARTMENT;
     @Value("${employee.saveEmployee}")
@@ -97,7 +101,6 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
         }
     }
 
-
     @Override
     public List<Employee> findAllEmployees() throws DataAccessException{
         log.info("Find all employees ");
@@ -110,6 +113,18 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
         return namedParameterJdbcTemplate.query(SQL_FIND_ALL_EMPLOYEES_WITH_DEPARTMENT,new EmployeeWithDepartmentRowMapper());
     }
 
+    @Override
+    public List<EmployeeWithDepartment> findEmployeeWithFilter(Date startDate,Date endDate)throws DataAccessException {
+        log.info("Find employees wit date filter startDate={} endDate={} ",startDate,endDate);
+        Map<String,Object> namedParameters=new HashMap<>();
+        namedParameters.put("startDate",startDate);
+        namedParameters.put("endDate",endDate);
+        try {
+            return namedParameterJdbcTemplate.query(SQL_FIND_EMPLOYEES_WITH_FILTER,namedParameters,new EmployeeWithDepartmentRowMapper());
+        }catch (EmptyResultDataAccessException e){
+            throw new EmptyResultEmployeeWithFilterException(startDate,endDate);
+        }
+    }
 
     @Override
     @Transactional

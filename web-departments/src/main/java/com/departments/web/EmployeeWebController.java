@@ -47,6 +47,8 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
     public static final String URL_UPDATE_EMPLOYEE_BY_ID = "http://localhost:8080/rest/employee/updateEmployee/{id}";
     public static final String URL_DELETE_EMPLOYEE_BY_ID = "http://localhost:8080/rest/employee/deleteEmployee/{id}";
     public static final String URL_GET_LIST_DEPARTMENTS = "http://localhost:8080/rest/department/listDepartments";
+    public static final String URL_GET_LIST_EMPLOYEES_WITH_FILTER = "http://localhost:8080/rest/employee//listEmployeesWithFilter/{startDate}/{endDate}";
+
 
 
     private MessageSource messageSource;
@@ -91,16 +93,15 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
 //    public String listEmployeesWithFilterDate(@PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate, Model model) {
      @RequestMapping(value = "/listEmployeesWithFilterDate", method = RequestMethod.POST)
        public String listEmployeesWithFilterDate(FilterDate filterDate ,Model model) {
-        log.debug("start listEmployeesWithFilterDate");
-         log.debug("start date = {}",filterDate.getStartDate());
-         log.debug("end date = {}",filterDate.getEndDate());
-//        List<EmployeeWithDepartment> listEmployeesWithDepartments =new ArrayList<>();
-//        listEmployeesWithDepartments.add(new EmployeeWithDepartment("name1","name2",3,))
-        List<EmployeeWithDepartment> listEmployeesWithDepartments =
-                restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_DEPARTMENTS, List.class);
-        model.addAttribute("listEmployeesWithDepartments", listEmployeesWithDepartments);
+        log.debug("start listEmployeesWithFilterDate startDate = {} endDate ={}",filterDate.getStartDate(),filterDate.getEndDate());
+         Map<String, Date> params = new HashMap<String, Date>();
+         params.put("startDate", filterDate.getStartDate());
+         params.put("endDate", filterDate.getEndDate());
+        List<EmployeeWithDepartment> listEmployeesWithFilterDate =
+                restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_FILTER,List.class,params);
+        model.addAttribute("listEmployeesWithDepartments", listEmployeesWithFilterDate);
         model.addAttribute("filterDate",new FilterDate());
-        log.debug("size listEmployees is ={}", listEmployeesWithDepartments.size());
+        log.debug("size listEmployees is ={}", listEmployeesWithFilterDate.size());
         return "employee/listEmployeesWithDepartments";
     }
 

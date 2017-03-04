@@ -3,6 +3,7 @@ package com.departments.web;
 
 import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
+import com.departments.web.message.FilterDate;
 import com.departments.web.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by alex on 9.2.17.
@@ -44,6 +42,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
 
     private MessageSource messageSource;
     RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
 
     @Autowired
     public void setMessageSource(MessageSource messageSource) {
@@ -96,7 +95,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
             model.addAttribute("department", department);
             return "department/createDepartment";
         }
-        HttpHeaders headers = new HttpHeaders();
+//        model.asMap().clear();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Department> requestCreate = new HttpEntity<>(department, headers);
         try {
@@ -126,7 +125,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         params.put("id", id);
         Department department = restTemplate.getForObject(URL_GET_DEPARTMENT_BY_ID, Department.class, params);
         model.addAttribute("department", department);
-        return "department/updateDepartment";
+        return "department/createDepartment";
     }
 
     @Override
@@ -139,10 +138,9 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("department_save_fail", new Object[]{}, locale)));
             model.addAttribute("department", department);
-            return "department/updateDepartment";
+            return "department/createDepartment";
         }
 //        model.asMap().clear();
-        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Department> requestUpdate = new HttpEntity<>(department, headers);
         try {
@@ -154,7 +152,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         } catch (Exception e) {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("department_already_exists", new Object[]{}, locale)));
-            return "department/updateDepartment";
+            return "department/createDepartment";
         }
 
     }

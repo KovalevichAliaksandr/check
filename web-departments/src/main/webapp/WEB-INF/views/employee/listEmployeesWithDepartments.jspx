@@ -10,7 +10,8 @@
           xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
           xmlns="http://www.w3.org/1999/xhtml"
           xmlns:spring="http://www.springframework.org/tags"
-          version="2.0" xmlns:joda="http://java.sun.com/jsf/composite">
+          version="2.0" xmlns:joda="http://java.sun.com/jsf/composite"
+          xmlns:form="http://www.springframework.org/tags/form">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
 
     <spring:message code="label_employee_list" var="labelEmployeeList"/>
@@ -24,10 +25,14 @@
 
     <spring:message code="label_operations" var="labelOperations"/>
 
+
     <spring:message code="label_employee_show" var="labelEmployeeShow"/>
     <spring:message code="label_employee_update" var="labelEmployeeUpdate"/>
     <spring:message code="label_employee_delete" var="labelEmployeeDelete"/>
     <spring:message code="label_employee_create" var="labelEmployeeCreate"/>
+    <spring:message code="label_start_date" var="labelStartDate"/>
+    <spring:message code="label_end_date" var="labelEndDate"/>
+    <spring:message code="label_filter_date" var="labelFilterDate"/>
 
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
     <spring:url value="/employee/updateEmployee" var="updateEmployee"/>
@@ -35,6 +40,8 @@
     <spring:url value="/employee/showEmployee" var="showEmployeeUrl"/>
     <spring:url value="/employee/createEmployee" var="createEmployeeUrl"/>
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalaryUrl"/>
+    <spring:url value="/employee/listEmployeesWithFilterDate/{startDate}/{endDate}" var="ListEmployeesWithFilterDateUrl"/>
+
 
 
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
@@ -45,17 +52,31 @@
 
     <!--<c:if test="$(not empty listEmployeesWithDepartments)">-->
 
-
-
     <c:if test="${not empty message}">
         <div id="message" class="${message.type}" >${message.message}</div>
     </c:if>
 
-    <a  href="${createEmployeeUrl}?formCreate" style="text-align:center"> ${labelEmployeeCreate}</a>
+    <a  href="${createEmployeeUrl}?formCreate" style="text-align:center"> ${labelEmployeeCreate}</a><br/>
+    <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a><br/><br/>
+    <c:out value="${labelFilterDate}"/>
     <br/>
-    <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a>
-    <br/>
-
+    <div id="filtrEmployees">
+        <form:form modelAttribute="filterDate" id="filterDate" action="${ListEmployeesWithFilterDateUrl}" method="post">
+            <form:label path="startDate">${labelStartDate} </form:label>
+            <form:input type="date" pattern="yyyy-MM-dd" path="startDate"/>
+            <div>
+                <form:errors path="startDate" cssClass="error"/>
+            </div>
+            <form:label path="endDate">${labelEndDate} </form:label>
+            <form:input type="date" pattern="yyyy-MM-dd" path="endDate"/>
+            <div>
+                <form:errors path="endDate" cssClass="error"/>
+            </div>
+            <br/>
+            <button type="submit">Accept</button>
+            <button type="reset">Reset</button>
+        </form:form>
+    </div>
 
     <p/>
         <table border="4" align="centr">

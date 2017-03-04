@@ -6,6 +6,7 @@ package com.departments.web;
 import com.departments.model.Department;
 import com.departments.model.Employee;
 import com.departments.model.EmployeeWithDepartment;
+import com.departments.web.message.FilterDate;
 import com.departments.web.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
 
     private MessageSource messageSource;
     RestTemplate restTemplate =new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
 
     @Autowired
     public void setMessageSource(MessageSource messageSource) {
@@ -80,6 +82,19 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         List<EmployeeWithDepartment> listEmployeesWithDepartments =
                 restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_DEPARTMENTS, List.class);
         model.addAttribute("listEmployeesWithDepartments", listEmployeesWithDepartments);
+        model.addAttribute("filterDate",new FilterDate());
+        log.debug("size listEmployees is ={}", listEmployeesWithDepartments.size());
+        return "employee/listEmployeesWithDepartments";
+    }
+    @RequestMapping(value = "/listEmployeesWithFilterDate/{startDate}/{endDate}", method = RequestMethod.POST)
+    public String listEmployeesWithFilterDate(@PathVariable Date startDate,@PathVariable Date endDate,Model model) {
+        log.debug("start listEmployeesWithFilterDate");
+//        List<EmployeeWithDepartment> listEmployeesWithDepartments =new ArrayList<>();
+//        listEmployeesWithDepartments.add(new EmployeeWithDepartment("name1","name2",3,))
+        List<EmployeeWithDepartment> listEmployeesWithDepartments =
+                restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_DEPARTMENTS, List.class);
+        model.addAttribute("listEmployeesWithDepartments", listEmployeesWithDepartments);
+        model.addAttribute("filterDate",new FilterDate());
         log.debug("size listEmployees is ={}", listEmployeesWithDepartments.size());
         return "employee/listEmployeesWithDepartments";
     }
@@ -109,7 +124,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
             model.addAttribute("employee", employee);
             return "employee/createEmployee";
         }
-        HttpHeaders headers = new HttpHeaders();
+//        model.asMap().clear();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Employee> requestCreate = new HttpEntity<>(employee, headers);
         try {
@@ -160,7 +175,6 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
             return "employee/createEmployee";
         }
 //        model.asMap().clear();
-        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Employee> requestUpdate = new HttpEntity<>(employee, headers);
         try {
@@ -212,5 +226,4 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         model.addAttribute("employeeWithDepartment", employeeWithDepartment);
         return "/employee/deleteEmployee";
     }
-
 }

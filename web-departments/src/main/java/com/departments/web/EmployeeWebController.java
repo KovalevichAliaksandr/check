@@ -102,20 +102,13 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
     public String create(@Valid Employee employee, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
         log.debug("Create employee ", employee);
-
-        List<Department> listDepartments;
-        ResponseEntity<Department[]> responseEntity;
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
-            responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
-            listDepartments = Arrays.asList(responseEntity.getBody());
-            model.addAttribute("listDepartments",listDepartments);
+            model.addAttribute("listDepartments",getListDepartments());
             model.addAttribute("employee", employee);
             return "employee/createEmployee";
         }
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Employee> requestCreate = new HttpEntity<>(employee, headers);
@@ -126,9 +119,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
             log.debug("Department create successfully with info {}", employee);
             return "redirect:/employee/listEmployeesWithDepartments";
         } catch (RuntimeException e) {
-            responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
-            listDepartments = Arrays.asList(responseEntity.getBody());
-            model.addAttribute("listDepartments",listDepartments);
+            model.addAttribute("listDepartments",getListDepartments());
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail_not_department", new Object[]{}, locale)));
             return "employee/createEmployee";
@@ -138,9 +129,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
     @Override
     @RequestMapping(value = "/createEmployee", params = "formCreate", method = RequestMethod.GET)
     public String createForm(Model model) {
-        ResponseEntity<Department[]> responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
-        List<Department> listDepartments = Arrays.asList(responseEntity.getBody());
-        model.addAttribute("listDepartments",listDepartments);
+        model.addAttribute("listDepartments",getListDepartments());
         model.addAttribute("employee", new Employee());
         return "employee/createEmployee";
     }
@@ -152,9 +141,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         params.put("id", id);
         Employee employee = restTemplate.getForObject(URL_GET_EMPLOYEE_BY_ID, Employee.class, params);
         model.addAttribute("employee", employee);
-        ResponseEntity<Department[]> responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
-        List<Department> listDepartments = Arrays.asList(responseEntity.getBody());
-        model.addAttribute("listDepartments",listDepartments);
+        model.addAttribute("listDepartments",getListDepartments());
         return "employee/createEmployee";
     }
 
@@ -164,16 +151,12 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
                          Locale locale) {
         log.info("Updating employee ={}", employee);
-        List<Department> listDepartments;
-        ResponseEntity<Department[]> responseEntity;
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
             model.addAttribute("employee", employee);
-            responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
-            listDepartments = Arrays.asList(responseEntity.getBody());
-            model.addAttribute("listDepartments",listDepartments);
+            model.addAttribute("listDepartments",getListDepartments());
             return "employee/createEmployee";
         }
 //        model.asMap().clear();
@@ -189,12 +172,17 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         } catch (Exception e) {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
-            responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
-            listDepartments = Arrays.asList(responseEntity.getBody());
-            model.addAttribute("listDepartments",listDepartments);
+            model.addAttribute("listDepartments",getListDepartments());
             return "employee/createEmployee";
         }
     }
+    private List<Department> getListDepartments(){
+        ResponseEntity<Department[]> responseEntity;
+        responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
+        List<Department> listDepartments = Arrays.asList(responseEntity.getBody());
+        return listDepartments;
+    }
+
     @Override
     @RequestMapping(value = "/deleteEmployee/{id}", params = "formDelete", method = RequestMethod.DELETE)
     public String delete(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
@@ -221,7 +209,6 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         params.put("id", id);
         EmployeeWithDepartment employeeWithDepartment =
                 restTemplate.getForObject(URL_GET_EMPLOYEE_WITH_DEPARTMENT_BY_ID, EmployeeWithDepartment.class, params);
-        model.addAttribute("employeeWithDepartment", employeeWithDepartment);
         model.addAttribute("employeeWithDepartment", employeeWithDepartment);
         return "/employee/deleteEmployee";
     }

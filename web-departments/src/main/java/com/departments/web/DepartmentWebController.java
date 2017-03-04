@@ -50,8 +50,6 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         this.messageSource = messageSource;
     }
 
-
-
     @Override
     @RequestMapping(value = "/listDepartmentsWitAvgSalary", method = RequestMethod.GET)
     public String listDepartmentsWitAvgSalary(Model model) {

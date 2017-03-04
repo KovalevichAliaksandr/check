@@ -34,6 +34,13 @@
     <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
     <spring:message code="label_employee_with_departments" var="labelListEmployeesWithDepartments"/>
 
+
+    <style>
+        .error {
+            color: #ff0000;
+        }
+
+    </style>
     <!--<c:if test="$(not empty listDepartmentsWitAvgSalary)">-->
     <h1 align="centr">List of departments with an average salary</h1>
     <h1 align="center">${labelEmployeeList}</h1>

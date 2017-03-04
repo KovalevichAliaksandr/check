@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,9 +87,13 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         log.debug("size listEmployees is ={}", listEmployeesWithDepartments.size());
         return "employee/listEmployeesWithDepartments";
     }
-    @RequestMapping(value = "/listEmployeesWithFilterDate/{startDate}/{endDate}", method = RequestMethod.POST)
-    public String listEmployeesWithFilterDate(@PathVariable Date startDate,@PathVariable Date endDate,Model model) {
+//    @RequestMapping(value = "/listEmployeesWithFilterDate/{startDate}/{endDate}", method = RequestMethod.POST)
+//    public String listEmployeesWithFilterDate(@PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate, Model model) {
+     @RequestMapping(value = "/listEmployeesWithFilterDate", method = RequestMethod.POST)
+       public String listEmployeesWithFilterDate(FilterDate filterDate ,Model model) {
         log.debug("start listEmployeesWithFilterDate");
+         log.debug("start date = {}",filterDate.getStartDate());
+         log.debug("end date = {}",filterDate.getEndDate());
 //        List<EmployeeWithDepartment> listEmployeesWithDepartments =new ArrayList<>();
 //        listEmployeesWithDepartments.add(new EmployeeWithDepartment("name1","name2",3,))
         List<EmployeeWithDepartment> listEmployeesWithDepartments =

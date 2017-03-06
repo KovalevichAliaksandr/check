@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -53,8 +55,19 @@ public class EmployeeController {
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/listEmployeesWithFilter/{startDate}/{endDate}",method = RequestMethod.GET)
-    public List<EmployeeWithDepartment> listEmployeesWithFilter(@PathVariable Date startDate,@PathVariable Date endDate){
-        return employeeService.findAllEmployeesWithFilter(startDate,endDate);
+    public List<EmployeeWithDepartment> listEmployeesWithFilter(@PathVariable String startDate,@PathVariable String endDate){
+        return employeeService.findAllEmployeesWithFilter(convertStringToDate(startDate),convertStringToDate(endDate));
+    }
+
+    private Date convertStringToDate(String stringDate){
+        Date date=null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = formatter.parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     @ResponseBody

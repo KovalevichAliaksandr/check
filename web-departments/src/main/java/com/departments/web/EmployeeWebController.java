@@ -1,8 +1,6 @@
 package com.departments.web;
 
 
-
-
 import com.departments.model.Department;
 import com.departments.model.Employee;
 import com.departments.model.EmployeeWithDepartment;
@@ -28,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -50,9 +49,8 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
     public static final String URL_GET_LIST_EMPLOYEES_WITH_FILTER = "http://localhost:8080/rest/employee//listEmployeesWithFilter/{startDate}/{endDate}";
 
 
-
     private MessageSource messageSource;
-    RestTemplate restTemplate =new RestTemplate();
+    RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
 
     @Autowired
@@ -62,8 +60,8 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
 
 
     @InitBinder
-    public void initBinder(WebDataBinder binder){
-        binder.registerCustomEditor(       Date.class,
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class,
                 new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
     }
 
@@ -85,24 +83,31 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         List<EmployeeWithDepartment> listEmployeesWithDepartments =
                 restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_DEPARTMENTS, List.class);
         model.addAttribute("listEmployeesWithDepartments", listEmployeesWithDepartments);
-        model.addAttribute("filterDate",new FilterDate());
+        model.addAttribute("filterDate", new FilterDate());
         log.debug("size listEmployees is ={}", listEmployeesWithDepartments.size());
         return "employee/listEmployeesWithDepartments";
     }
-//    @RequestMapping(value = "/listEmployeesWithFilterDate/{startDate}/{endDate}", method = RequestMethod.POST)
+
+    //    @RequestMapping(value = "/listEmployeesWithFilterDate/{startDate}/{endDate}", method = RequestMethod.POST)
 //    public String listEmployeesWithFilterDate(@PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate, Model model) {
-     @RequestMapping(value = "/listEmployeesWithFilterDate", method = RequestMethod.POST)
-       public String listEmployeesWithFilterDate(FilterDate filterDate ,Model model) {
-        log.debug("start listEmployeesWithFilterDate startDate = {} endDate ={}",filterDate.getStartDate(),filterDate.getEndDate());
-         Map<String, Date> params = new HashMap<String, Date>();
-         params.put("startDate", filterDate.getStartDate());
-         params.put("endDate", filterDate.getEndDate());
+    @RequestMapping(value = "/listEmployeesWithFilterDate", method = RequestMethod.POST)
+    public String listEmployeesWithFilterDate(FilterDate filterDate, Model model) {
+        log.debug("start listEmployeesWithFilterDate startDate = {} endDate ={}", filterDate.getStartDate(), filterDate.getEndDate());
+        Map<String, String> params = new HashMap<>();
+        params.put("startDate", convertDateToString(filterDate.getStartDate()));
+        params.put("endDate", convertDateToString(filterDate.getEndDate()));
         List<EmployeeWithDepartment> listEmployeesWithFilterDate =
-                restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_FILTER,List.class,params);
+                restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_FILTER, List.class, params);
         model.addAttribute("listEmployeesWithDepartments", listEmployeesWithFilterDate);
-        model.addAttribute("filterDate",new FilterDate());
+        model.addAttribute("filterDate", new FilterDate());
         log.debug("size listEmployees is ={}", listEmployeesWithFilterDate.size());
         return "employee/listEmployeesWithDepartments";
+    }
+
+    private String convertDateToString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String stringDate = dateFormat.format(date);
+        return stringDate;
     }
 
     @Override
@@ -126,7 +131,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
-            model.addAttribute("listDepartments",getListDepartments());
+            model.addAttribute("listDepartments", getListDepartments());
             model.addAttribute("employee", employee);
             return "employee/createEmployee";
         }
@@ -140,7 +145,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
             log.debug("Department create successfully with info {}", employee);
             return "redirect:/employee/listEmployeesWithDepartments";
         } catch (RuntimeException e) {
-            model.addAttribute("listDepartments",getListDepartments());
+            model.addAttribute("listDepartments", getListDepartments());
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail_not_department", new Object[]{}, locale)));
             return "employee/createEmployee";
@@ -150,7 +155,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
     @Override
     @RequestMapping(value = "/createEmployee", params = "formCreate", method = RequestMethod.GET)
     public String createForm(Model model) {
-        model.addAttribute("listDepartments",getListDepartments());
+        model.addAttribute("listDepartments", getListDepartments());
         model.addAttribute("employee", new Employee());
         return "employee/createEmployee";
     }
@@ -162,7 +167,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         params.put("id", id);
         Employee employee = restTemplate.getForObject(URL_GET_EMPLOYEE_BY_ID, Employee.class, params);
         model.addAttribute("employee", employee);
-        model.addAttribute("listDepartments",getListDepartments());
+        model.addAttribute("listDepartments", getListDepartments());
         return "employee/createEmployee";
     }
 
@@ -177,7 +182,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
             model.addAttribute("employee", employee);
-            model.addAttribute("listDepartments",getListDepartments());
+            model.addAttribute("listDepartments", getListDepartments());
             return "employee/createEmployee";
         }
 //        model.asMap().clear();
@@ -192,11 +197,12 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         } catch (Exception e) {
             model.addAttribute("message", new Message("error",
                     messageSource.getMessage("employee_save_fail", new Object[]{}, locale)));
-            model.addAttribute("listDepartments",getListDepartments());
+            model.addAttribute("listDepartments", getListDepartments());
             return "employee/createEmployee";
         }
     }
-    private List<Department> getListDepartments(){
+
+    private List<Department> getListDepartments() {
         ResponseEntity<Department[]> responseEntity;
         responseEntity = restTemplate.getForEntity(URL_GET_LIST_DEPARTMENTS, Department[].class);
         List<Department> listDepartments = Arrays.asList(responseEntity.getBody());

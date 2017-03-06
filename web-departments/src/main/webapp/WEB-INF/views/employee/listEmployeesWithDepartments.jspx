@@ -40,7 +40,6 @@
     <spring:url value="/employee/showEmployee" var="showEmployeeUrl"/>
     <spring:url value="/employee/createEmployee" var="createEmployeeUrl"/>
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalaryUrl"/>
-    <!--<spring:url value="/employee/listEmployeesWithFilterDate/{startDate}/{endDate}" var="ListEmployeesWithFilterDateUrl"/>-->
     <spring:url value="/employee/listEmployeesWithFilterDate" var="ListEmployeesWithFilterDateUrl"/>
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
     <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
@@ -54,15 +53,15 @@
 
     <h1 align="center">${labelEmployeeList}</h1>
 
-    <!--<c:if test="$(not empty listEmployeesWithDepartments)">-->
-
     <c:if test="${not empty message}">
         <div id="message" class="${message.type}" >${message.message}</div>
     </c:if>
 
     <a  href="${createEmployeeUrl}?formCreate" style="text-align:center"> ${labelEmployeeCreate}</a><br/>
     <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a><br/><br/>
+
     <c:out value="${labelFilterDate}"/>
+
     <br/>
     <div id="filterEmployees">
         <form:form modelAttribute="filterDate" id="filterDate" action="${ListEmployeesWithFilterDateUrl}" method="post">
@@ -114,8 +113,6 @@
             </c:forEach>
             </tbody>
         </table>
-    <!--</c:if>-->
-
 
 
 </jsp:root>

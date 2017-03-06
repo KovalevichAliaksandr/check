@@ -12,26 +12,29 @@ import java.util.Date;
  */
 public class FilterDate {
     @AssertTrue(message = "should by start day < end day")
-    public boolean isShouldStartDateOrEndData(){
-        Boolean result=true;
-        if(startDate.after(endDate)){
-            result=false;
+    public boolean isShouldStartDateOrEndData() {
+        Boolean result = true;
+        if (startDate != null && endDate != null) {
+            if (startDate.after(endDate)) {
+                result = false;
+            }
         }
         return result;
     }
 
-    @Past(message =" Start day of birth  should  be  less than the current date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    @NotNull(message =" Start day of birth  should  be  not null")
+    @Past(message = " Start day of birth  should  be  less than the current date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull(message = " Start day of birth  should  be  not null")
     private Date startDate;
 
-    @Past(message =" End day of birth  should  be  less than the current date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    @NotNull(message =" Day of birth  should  be  not null")
+    @Past(message = " End day of birth  should  be  less than the current date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull(message = " Day of birth  should  be  not null")
     private Date endDate;
 
     public FilterDate() {
     }
+
     public FilterDate(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;

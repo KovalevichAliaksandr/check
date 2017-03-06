@@ -42,12 +42,15 @@
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalaryUrl"/>
     <!--<spring:url value="/employee/listEmployeesWithFilterDate/{startDate}/{endDate}" var="ListEmployeesWithFilterDateUrl"/>-->
     <spring:url value="/employee/listEmployeesWithFilterDate" var="ListEmployeesWithFilterDateUrl"/>
-
-
-
     <spring:url value="/department/listDepartmentsWitAvgSalary" var="listDepartmentsWitAvgSalary"/>
+    <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
     <spring:message code="label_department_list" var="labelDepartmentList"/>
 
+    <style>
+        .error {
+            color: #ff0000;
+        }
+    </style>
 
     <h1 align="center">${labelEmployeeList}</h1>
 
@@ -61,10 +64,10 @@
     <a href="${listDepartmentsWitAvgSalary}"> ${labelDepartmentList}</a><br/><br/>
     <c:out value="${labelFilterDate}"/>
     <br/>
-    <div id="filtrEmployees">
+    <div id="filterEmployees">
         <form:form modelAttribute="filterDate" id="filterDate" action="${ListEmployeesWithFilterDateUrl}" method="post">
             <form:label path="startDate">${labelStartDate} </form:label>
-            <form:input type="date" pattern="yyyy-MM-dd" path="startDate"/>
+            <form:input type="date" pattern="yyyy-MM-dd" path="startDate" />
             <div>
                 <form:errors path="startDate" cssClass="error"/>
             </div>
@@ -73,11 +76,12 @@
             <div>
                 <form:errors path="endDate" cssClass="error"/>
             </div>
-            <br/>
             <button type="submit">Accept</button>
             <button type="reset">Reset</button>
         </form:form>
     </div>
+
+    <input type="button"  onclick="location.href='${listEmployeesWithDepartmentsUrl}'" value='Clear filter'/>
 
     <p/>
         <table border="4" align="centr">

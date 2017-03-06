@@ -88,16 +88,20 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return "employee/listEmployeesWithDepartments";
     }
 
-    //    @RequestMapping(value = "/listEmployeesWithFilterDate/{startDate}/{endDate}", method = RequestMethod.POST)
-//    public String listEmployeesWithFilterDate(@PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate, Model model) {
     @RequestMapping(value = "/listEmployeesWithFilterDate", method = RequestMethod.POST)
-    public String listEmployeesWithFilterDate(FilterDate filterDate, Model model) {
+    public String listEmployeesWithFilterDate(@Valid FilterDate filterDate,  BindingResult bindingResult,Model model, RedirectAttributes redirectAttributes,Locale locale) {
         log.debug("start listEmployeesWithFilterDate startDate = {} endDate ={}", filterDate.getStartDate(), filterDate.getEndDate());
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute ("message", new Message("error",
+                    messageSource.getMessage("employee_date_filter_fail", new Object[]{}, locale)));
+            return "employee/listEmployeesWithDepartments";
+        }
         Map<String, String> params = new HashMap<>();
         params.put("startDate", convertDateToString(filterDate.getStartDate()));
         params.put("endDate", convertDateToString(filterDate.getEndDate()));
         List<EmployeeWithDepartment> listEmployeesWithFilterDate =
                 restTemplate.getForObject(URL_GET_LIST_EMPLOYEES_WITH_FILTER, List.class, params);
+
         model.addAttribute("listEmployeesWithDepartments", listEmployeesWithFilterDate);
         model.addAttribute("filterDate", new FilterDate());
         log.debug("size listEmployees is ={}", listEmployeesWithFilterDate.size());

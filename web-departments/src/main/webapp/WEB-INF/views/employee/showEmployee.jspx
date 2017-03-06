@@ -46,6 +46,11 @@
     <spring:url value="/employee/createEmployee" var="createEmployeeUrl"/>
     <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
 
+    <style>
+        .error {
+            color: #ff0000;
+        }
+    </style>
 
     <h1>${labelEmployeeShow}</h1>
 

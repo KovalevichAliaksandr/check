@@ -35,7 +35,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping(value = "/employee")
-public class EmployeeWebController implements EmployeeWebControllerInterface {
+public class EmployeeWebController  {
     private static final Logger log = LoggerFactory.getLogger(DepartmentWebController.class);
 
     public static final String URL_GET_LIST_EMPLOYEES = "http://localhost:8080/rest/employee/listEmployees";
@@ -65,7 +65,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
                 new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
     }
 
-    @Override
+
     @RequestMapping(value = "/listEmployees", method = RequestMethod.GET)
     public String listEmployees(Model model) {
         log.debug("start listEmployees");
@@ -76,7 +76,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return "employee/listEmployees";
     }
 
-    @Override
+
     @RequestMapping(value = "/listEmployeesWithDepartments", method = RequestMethod.GET)
     public String listEmployeesWithDepartments(Model model) {
         log.debug("start listEmployeesWithDepartments");
@@ -114,7 +114,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return stringDate;
     }
 
-    @Override
+
     @RequestMapping(value = "/showEmployee/{id}", method = RequestMethod.GET)
     public String findContactById(@PathVariable Long id, Model model) {
         log.debug("show employee{}", id);
@@ -127,7 +127,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return "employee/showEmployee";
     }
 
-    @Override
+
     @RequestMapping(value = "/createEmployee", method = RequestMethod.POST)
     public String create(@Valid Employee employee, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -156,7 +156,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         }
     }
 
-    @Override
+
     @RequestMapping(value = "/createEmployee", params = "formCreate", method = RequestMethod.GET)
     public String createForm(Model model) {
         model.addAttribute("listDepartments", getListDepartments());
@@ -164,7 +164,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return "employee/createEmployee";
     }
 
-    @Override
+
     @RequestMapping(value = "/updateEmployee/{id}", params = "formUpdate", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model model) {
         Map<String, Long> params = new HashMap<String, Long>();
@@ -175,7 +175,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return "employee/createEmployee";
     }
 
-    @Override
+
     @RequestMapping(value = "/updateEmployee/{id}", params = "formUpdate", method = RequestMethod.POST)
     public String update(@Valid Employee employee, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
@@ -213,7 +213,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return listDepartments;
     }
 
-    @Override
+
     @RequestMapping(value = "/deleteEmployee/{id}", params = "formDelete", method = RequestMethod.DELETE)
     public String delete(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
         Map<String, Long> params = new HashMap<String, Long>();
@@ -232,7 +232,7 @@ public class EmployeeWebController implements EmployeeWebControllerInterface {
         return "redirect:/employee/listEmployeesWithDepartments";
     }
 
-    @Override
+
     @RequestMapping(value = "/deleteEmployee/{id}", params = "formDelete", method = RequestMethod.GET)
     public String deleteForm(@PathVariable("id") Long id, Model model) {
         Map<String, Long> params = new HashMap<String, Long>();

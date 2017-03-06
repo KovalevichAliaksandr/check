@@ -29,7 +29,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping(value = "/department")
-public class DepartmentWebController implements DepartmentWebControllerInterface {
+public class DepartmentWebController  {
     private static final Logger log = LoggerFactory.getLogger(DepartmentWebController.class);
 
     public static final String URL_GET_LIST_DEPARTMENTS = "http://localhost:8080/rest/department/listDepartments";
@@ -49,7 +49,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         this.messageSource = messageSource;
     }
 
-    @Override
+
     @RequestMapping(value = "/listDepartmentsWitAvgSalary", method = RequestMethod.GET)
     public String listDepartmentsWitAvgSalary(Model model) {
         log.debug("start listDepartmentsWitAvgSalary");
@@ -60,7 +60,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         return "department/listDepartmentsWitAvgSalary";
     }
 
-    @Override
+
     @RequestMapping(value = "/listDepartments", method = RequestMethod.GET)
     public String listDepartments(Model model) {
         log.debug("start /listDepartments");
@@ -71,7 +71,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         return "department/listDepartments";
     }
 
-    @Override
+
     @RequestMapping(value = "/showDepartment/{id}", method = RequestMethod.GET)
     public String findDepartmentById(@PathVariable Long id, Model model) {
         log.debug("show department/{}", id);
@@ -84,7 +84,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         return "department/showDepartment";
     }
 
-    @Override
+
     @RequestMapping(value = "/createDepartment", method = RequestMethod.POST)
     public String create(@Valid Department department, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -111,14 +111,14 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         }
     }
 
-    @Override
+
     @RequestMapping(value = "/createDepartment", params = "formCreate", method = RequestMethod.GET)
     public String createForm(Model model) {
         model.addAttribute("department", new Department());
         return "department/createDepartment";
     }
 
-    @Override
+
     @RequestMapping(value = "/updateDepartment/{id}", params = "formUpdate", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model model) {
         Map<String, Long> params = new HashMap<String, Long>();
@@ -128,7 +128,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
         return "department/createDepartment";
     }
 
-    @Override
+
     @RequestMapping(value = "/updateDepartment/{id}", params = "formUpdate", method = RequestMethod.POST)
     public String update(@Valid Department department, BindingResult bindingResult, Model model,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
@@ -157,7 +157,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
 
     }
 
-    @Override
+
     @RequestMapping(value = "/deleteDepartment/{id}", params = "formDelete", method = RequestMethod.DELETE)
     public String delete(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes, Locale locale) {
         Map<String, Long> params = new HashMap<String, Long>();
@@ -177,7 +177,7 @@ public class DepartmentWebController implements DepartmentWebControllerInterface
 
     }
 
-    @Override
+
     @RequestMapping(value = "/deleteDepartment/{id}", params = "formDelete", method = RequestMethod.GET)
     public String deleteForm(@PathVariable("id") Long id, Model model) {
         Map<String, Long> params = new HashMap<String, Long>();

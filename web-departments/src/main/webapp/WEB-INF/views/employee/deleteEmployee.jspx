@@ -56,7 +56,6 @@
                     <td>${employeeWithDepartment.firstName}</td>
                     <td>${employeeWithDepartment.lastName}</td>
                     <td><fmt:formatDate value="${employeeWithDepartment.dob}" pattern="yyyy-MM-dd"/></td>
-                    <!--<td>${employeeWithDepartment.dob}</td>-->
                     <td>${employeeWithDepartment.salary}</td>
                     <td>${employeeWithDepartment.nameDepartment}</td>
                 </tr>

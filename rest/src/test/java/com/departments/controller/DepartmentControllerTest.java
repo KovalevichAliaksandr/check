@@ -1,25 +1,19 @@
 package com.departments.controller;
 
-import com.departments.dao.DepartmentDao;
 import com.departments.model.Department;
 import com.departments.model.DepartmentsWithAvgSalary;
-import com.departments.model.Employee;
 import com.departments.service.DepartmentService;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 
 import java.util.ArrayList;

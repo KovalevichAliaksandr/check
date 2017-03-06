@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/employee")
 @CrossOrigin
-public class EmployeeController {
+public class EmployeeController implements EmployeeControllerInterface {
     private static final Logger log= LoggerFactory.getLogger(EmployeeController.class);
 
     @Autowired
@@ -38,6 +38,7 @@ public class EmployeeController {
         return "{  \"response\" : \"Incorrect Data Error\" }";
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/listEmployees",method = RequestMethod.GET)
@@ -45,6 +46,7 @@ public class EmployeeController {
         return employeeService.findAllEmployees();
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/listEmployeesWithDepartments",method = RequestMethod.GET)
@@ -52,10 +54,11 @@ public class EmployeeController {
         return employeeService.findAllEmployeesWithDepartments();
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/listEmployeesWithFilter/{startDate}/{endDate}",method = RequestMethod.GET)
-    public List<EmployeeWithDepartment> listEmployeesWithFilter(@PathVariable String startDate,@PathVariable String endDate){
+    public List<EmployeeWithDepartment> listEmployeesWithFilter(@PathVariable String startDate, @PathVariable String endDate){
         return employeeService.findAllEmployeesWithFilter(convertStringToDate(startDate),convertStringToDate(endDate));
     }
 
@@ -70,6 +73,7 @@ public class EmployeeController {
         return date;
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/getEmployeeWithDepartment/{id}",method = RequestMethod.GET)
@@ -77,6 +81,7 @@ public class EmployeeController {
         return employeeService.findEmployeeWithDepartmentById(id);
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/getEmployee/{id}",method = RequestMethod.GET)
@@ -84,20 +89,22 @@ public class EmployeeController {
         return employeeService.findEmployeeById(id);
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/createEmployee",method = RequestMethod.POST)
-    public Long create (@RequestBody Employee employee){
+    public Long create(@RequestBody Employee employee){
         log.debug("Create employee " , employee);
         Long id=employeeService.save(employee);
         log.debug("Employee create successfully with info{}", employee );
         return id;
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/updateEmployee/{id}",method = RequestMethod.PUT)
-    public Employee update (@RequestBody Employee employee, @PathVariable Long id){
+    public Employee update(@RequestBody Employee employee, @PathVariable Long id){
         log.debug("Update employee {}" , employee);
         employee.setId(id);
         employeeService.update(employee);
@@ -105,6 +112,7 @@ public class EmployeeController {
         return employee;
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/deleteEmployee/{id}",method = RequestMethod.DELETE)

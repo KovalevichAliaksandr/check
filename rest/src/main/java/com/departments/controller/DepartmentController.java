@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/department")
 @CrossOrigin
-public class DepartmentController {
+public class DepartmentController implements DepartmentControllerInterface {
 
-    private static final Logger log= LoggerFactory.getLogger(DepartmentController.class);
+    private static final Logger log= LoggerFactory.getLogger(DepartmentControllerInterface.class);
 
     @Autowired
     DepartmentService departmentService;
@@ -36,6 +35,7 @@ public class DepartmentController {
         return "{  \"response\" : \"Incorrect Data Error\" }";
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/listDepartments",method = RequestMethod.GET)
@@ -43,6 +43,7 @@ public class DepartmentController {
         return  departmentService.findAllDepartments() ;
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/listDepartmentsWitAvgSalary",method = RequestMethod.GET)
@@ -50,6 +51,7 @@ public class DepartmentController {
         return  departmentService.findDepartmentsWithAvgSalary();
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(value = HttpStatus.FOUND)
     @RequestMapping(value = "/getDepartment/{id}",method = RequestMethod.GET)
@@ -57,20 +59,22 @@ public class DepartmentController {
         return departmentService.findDepartmentById(id);
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/createDepartment",method = RequestMethod.POST)
-    public  Long create (@RequestBody Department department){
+    public  Long create(@RequestBody Department department){
         log.debug("Create department " , department);
         Long id=departmentService.save(department);
         log.debug("Department create successfully with id = {}", id );
         return id;
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/updateDepartment/{id}",method = RequestMethod.PUT)
-    public Department update (@RequestBody Department department, @PathVariable Long id){
+    public Department update(@RequestBody Department department, @PathVariable Long id){
         log.debug("Update department {}" , department);
         department.setId(id);
         departmentService.update(department);
@@ -78,6 +82,7 @@ public class DepartmentController {
         return department;
     }
 
+    @Override
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/deleteDepartment/{id}",method = RequestMethod.DELETE)

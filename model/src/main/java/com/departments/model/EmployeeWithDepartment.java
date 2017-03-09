@@ -6,26 +6,25 @@ import java.util.Date;
  * The class(DTO) is used to pass the employee and the department name  on it between
  * the layers of the program.
  */
-public class EmployeeWithDepartment extends Employee{
+public class EmployeeWithDepartment {
+    private Employee employee;
 
-private String nameDepartment;
+    private String nameDepartment;
 
     public EmployeeWithDepartment() {
     }
 
-    public EmployeeWithDepartment(String firstName, String lastName, Long idDepartment, String nameDepartment) {
-        super(firstName, lastName, idDepartment);
+    public EmployeeWithDepartment(Employee employee, String nameDepartment) {
+        this.employee = employee;
         this.nameDepartment = nameDepartment;
     }
 
-    public EmployeeWithDepartment(Long id, String firstName, String lastName, Date dob, Integer salary, Long idDepartment, String nameDepartment) {
-        super(id, firstName, lastName, dob, salary, idDepartment);
-        this.nameDepartment = nameDepartment;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public EmployeeWithDepartment(String firstName, String lastName, Date dob, Integer salary, Long idDepartment, String nameDepartment) {
-        super(firstName, lastName, dob, salary, idDepartment);
-        this.nameDepartment = nameDepartment;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public String getNameDepartment() {
@@ -35,6 +34,7 @@ private String nameDepartment;
     public void setNameDepartment(String nameDepartment) {
         this.nameDepartment = nameDepartment;
     }
-
 }
+
+
 

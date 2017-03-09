@@ -33,7 +33,7 @@
     <spring:url value="/department/createDepartment" var="createDepartmentUrl"/>
 
 
-    <h1>${labelDepartment}</h1>
+    <h3>${labelDepartment}</h3>
 
     <c:if test="${not empty messsage}">
         <div id="message" class="${message.type}">${message.message}</div>

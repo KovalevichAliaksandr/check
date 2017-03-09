@@ -23,6 +23,7 @@
     <spring:message code="label_department_update" var="labelDepartmentUpdate"/>
     <spring:message code="label_department_delete" var="labelDepartmentDelete"/>
     <spring:message code="label_department_create" var="labelDepartmentCreate"/>
+    <spring:message code="label_department_list_with_avg_salary" var="labelDepartmentListWithAvg"/>
 
 
 
@@ -34,17 +35,17 @@
 
     <spring:url value="/employee/listEmployeesWithDepartments" var="listEmployeesWithDepartmentsUrl"/>
     <spring:message code="label_employee_with_departments" var="labelListEmployeesWithDepartments"/>
-
+    <spring:url value="/resources/standard.css" var="mainCss" />
+    <link href="${mainCss}"  type="text/css" rel="stylesheet" />
 
     <style>
         .error {
             color: #ff0000;
         }
-
     </style>
-    <!--<c:if test="$(not empty listDepartmentsWitAvgSalary)">-->
-    <h1 align="centr">List of departments with an average salary</h1>
-    <h1 align="center">${labelEmployeeList}</h1>
+
+
+    <h3>${labelDepartmentListWithAvg}</h3>
 
     <c:if test="${not empty message}">
         <div id="message" class="${message.type}">${message.message}</div>
@@ -67,18 +68,18 @@
         <c:forEach items="${listDepartmentsWitAvgSalary}" var="departmentsWithAvgSalary">
             <tr>
                 <td>
-                    <a href="${showDepartmentUrl}/${departmentsWithAvgSalary.id}?formShow">${departmentsWithAvgSalary.nameDepartment}</a>
+                    <a href="${showDepartmentUrl}/${departmentsWithAvgSalary.department.id}?formShow">${departmentsWithAvgSalary.department.nameDepartment}</a>
                 </td>
                 <td>${departmentsWithAvgSalary.avgSalary}</td>
                 <td>
-                    <a href="${updateDepartment}/${departmentsWithAvgSalary.id}?formUpdate"> ${labelDepartmentUpdate}</a>
+                    <a href="${updateDepartment}/${departmentsWithAvgSalary.department.id}?formUpdate"> ${labelDepartmentUpdate}</a>
                     <br/>
-                    <a href="${deleteDepartmentUrl}/${departmentsWithAvgSalary.id}?formDelete"> ${labelDepartmentDelete}</a>
+                    <a href="${deleteDepartmentUrl}/${departmentsWithAvgSalary.department.id}?formDelete"> ${labelDepartmentDelete}</a>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <!--</c:if>-->
+
 
 </jsp:root>

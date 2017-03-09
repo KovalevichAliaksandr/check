@@ -51,7 +51,7 @@
         }
     </style>
 
-    <h1 align="center">${labelEmployeeList}</h1>
+    <h3>${labelEmployeeList}</h3>
 
     <c:if test="${not empty message}">
         <div id="message" class="${message.type}" >${message.message}</div>
@@ -96,18 +96,18 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${listEmployeesWithDepartments}" var="employee">
+            <c:forEach items="${listEmployeesWithDepartments}" var="employeeWithDepartment">
                 <tr>
-                    <td><a href="${showEmployeeUrl}/${employee.id}?formShow">${employee.id}</a></td>
-                    <td>${employee.firstName}</td>
-                    <td>${employee.lastName}</td>
-                    <td>${employee.dob}</td>
-                    <td>${employee.salary}</td>
-                    <td>${employee.nameDepartment}</td>
+                    <td><a href="${showEmployeeUrl}/${employeeWithDepartment.employee.id}?formShow">${employeeWithDepartment.employee.id}</a></td>
+                    <td>${employeeWithDepartment.employee.firstName}</td>
+                    <td>${employeeWithDepartment.employee.lastName}</td>
+                    <td>${employeeWithDepartment.employee.dob}</td>
+                    <td>${employeeWithDepartment.employee.salary}</td>
+                    <td>${employeeWithDepartment.nameDepartment}</td>
                     <td>
-                        <a href="${updateEmployee}/${employee.id}?formUpdate"> ${labelEmployeeUpdate}</a>
+                        <a href="${updateEmployee}/${employeeWithDepartment.employee.id}?formUpdate"> ${labelEmployeeUpdate}</a>
                         <br/>
-                        <a href="${deleteEmployeeUrl}/${employee.id}?formDelete"> ${labelEmployeeDelete}</a>
+                        <a href="${deleteEmployeeUrl}/${employeeWithDepartment.employee.id}?formDelete"> ${labelEmployeeDelete}</a>
                     </td>
                 </tr>
             </c:forEach>

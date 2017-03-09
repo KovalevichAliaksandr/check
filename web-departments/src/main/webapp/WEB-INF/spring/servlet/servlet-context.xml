@@ -22,7 +22,8 @@
         <!--</mvc:message-converters>-->
     <!--</mvc:annotation-driven>-->
 
-    <resources mapping="/resources/**" location="/" />
+
+    <mvc:resources mapping="/resources/**" location="/"/>
 
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/views/"/>
@@ -40,6 +41,10 @@
     </beans:bean>
 
     <mvc:annotation-driven validator="validator"/>
+
+
+
+    <!--<beans:bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" id="themeSource"/>-->
 
 
 

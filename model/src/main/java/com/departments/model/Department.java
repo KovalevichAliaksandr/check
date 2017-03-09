@@ -63,8 +63,4 @@ public class Department implements Serializable {
                 Objects.equals(nameDepartment, that.nameDepartment);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nameDepartment);
-    }
 }

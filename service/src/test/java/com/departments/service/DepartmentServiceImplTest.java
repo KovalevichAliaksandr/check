@@ -60,8 +60,10 @@ public class DepartmentServiceImplTest {
     @Test
     public void findDepartmentsWithAvgSalaryShouldReturnTrue() throws Exception {
         List<DepartmentsWithAvgSalary> departmentsWithAvgSalaryList = new ArrayList<>();
-        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L, "credit", 100));
-        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(2L, "cash", 200));
+        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(new Department(1L, "credit"), 100));
+        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(new Department(2L, "cash"), 200));
+//        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L, "credit", 100));
+//        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(2L, "cash", 200));
 
         when(departmentDao.findDepartmentsWithAvgSalary()).thenReturn(departmentsWithAvgSalaryList);
         assertEquals(departmentsWithAvgSalaryList.size(), departmentService.findDepartmentsWithAvgSalary().size());

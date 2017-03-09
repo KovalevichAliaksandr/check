@@ -52,7 +52,7 @@
         }
     </style>
 
-    <h1>${labelEmployeeShow}</h1>
+    <h3>${labelEmployeeShow}</h3>
 
     <c:if test="${not empty messsage}">
         <div id="message" class="${message.type}">${message.message}</div>
@@ -71,11 +71,11 @@
             </thead>
             <tbody>
             <tr>
-                <td>${employeeWithDepartment.id}</td>
-                <td>${employeeWithDepartment.firstName}</td>
-                <td>${employeeWithDepartment.lastName}</td>
-                <td><fmt:formatDate value="${employeeWithDepartment.dob}" pattern="yyyy-MM-dd"/></td>
-                <td>${employeeWithDepartment.salary}</td>
+                <td>${employeeWithDepartment.employee.id}</td>
+                <td>${employeeWithDepartment.employee.firstName}</td>
+                <td>${employeeWithDepartment.employee.lastName}</td>
+                <td><fmt:formatDate value="${employeeWithDepartment.employee.dob}" pattern="yyyy-MM-dd"/></td>
+                <td>${employeeWithDepartment.employee.salary}</td>
                 <td>${employeeWithDepartment.nameDepartment}</td>
             </tr>
 
@@ -84,9 +84,9 @@
         </table>
     </div>
     <br/>
-    <a href="${updateEmployeeUrl}/${employeeWithDepartment.id}?formUpdate"> ${labelEmployeeUpdate}</a>
+    <a href="${updateEmployeeUrl}/${employeeWithDepartment.employee.id}?formUpdate"> ${labelEmployeeUpdate}</a>
     <br/>
-    <a href="${deleteEmployeeUrl}/${employeeWithDepartment.id}?formDelete"> ${labelEmployeeDelete}</a>
+    <a href="${deleteEmployeeUrl}/${employeeWithDepartment.employee.id}?formDelete"> ${labelEmployeeDelete}</a>
     <br/>
     <a href="${listEmployeesWithDepartmentsUrl}"> ${labelListEmployeesWithDepartments}</a>
 

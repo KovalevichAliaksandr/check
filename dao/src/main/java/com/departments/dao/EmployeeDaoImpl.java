@@ -178,13 +178,22 @@ public class EmployeeDaoImpl implements EmployeeDao,InitializingBean {
         @Override
         public EmployeeWithDepartment mapRow(ResultSet resultSet, int i) throws SQLException {
             EmployeeWithDepartment employeeWithDepartment=new EmployeeWithDepartment();
-            employeeWithDepartment.setId(resultSet.getLong("id"));
-            employeeWithDepartment.setFirstName(resultSet.getString("first_name"));
-            employeeWithDepartment.setLastName(resultSet.getString("last_Name"));
-            employeeWithDepartment.setDob(resultSet.getTimestamp("dob"));
-            employeeWithDepartment.setSalary(resultSet.getInt("salary"));
-            employeeWithDepartment.setIdDepartment(resultSet.getLong("id_department"));
+            Employee employee=new Employee();
+            employee.setId(resultSet.getLong("id"));
+            employee.setFirstName(resultSet.getString("first_name"));
+            employee.setLastName(resultSet.getString("last_Name"));
+            employee.setDob(resultSet.getTimestamp("dob"));
+            employee.setSalary(resultSet.getInt("salary"));
+            employee.setIdDepartment(resultSet.getLong("id_department"));
+            employeeWithDepartment.setEmployee(employee);
+//            employeeWithDepartment.setId(resultSet.getLong("id"));
+//            employeeWithDepartment.setFirstName(resultSet.getString("first_name"));
+//            employeeWithDepartment.setLastName(resultSet.getString("last_Name"));
+//            employeeWithDepartment.setDob(resultSet.getTimestamp("dob"));
+//            employeeWithDepartment.setSalary(resultSet.getInt("salary"));
+//            employeeWithDepartment.setIdDepartment(resultSet.getLong("id_department"));
             employeeWithDepartment.setNameDepartment(resultSet.getString("name_department"));
+
             return employeeWithDepartment;
         }
     }

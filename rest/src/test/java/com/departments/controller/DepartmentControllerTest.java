@@ -46,7 +46,7 @@ public class DepartmentControllerTest {
 
     public static final String DEPARTMENT_STRING = "{\"id\":1,\"nameDepartment\":\"credit\"}";
     public static final String DEPARTMENTS_LIST = "["+ DEPARTMENT_STRING+"]";
-    public static final String DEPARTMENTS_LIST_AVG_SALARY = "[{\"id\":1,\"nameDepartment\":\"credit\",\"avgSalary\":300}]";
+    public static final String DEPARTMENTS_LIST_AVG_SALARY = "[{\"department\":{\"id\":1,\"nameDepartment\":\"credit\"},\"avgSalary\":300}]";
 
     @Mock
     private DepartmentService departmentService;
@@ -85,7 +85,8 @@ public class DepartmentControllerTest {
     @Test
     public void listDepartmentsWitAvgShouldReturnStatusIsFound() throws Exception {
         List<DepartmentsWithAvgSalary> departmentsWithAvgSalaryList = new ArrayList<>();
-        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L, "credit", 300));
+        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(new Department(1L, "credit"), 300));
+//        departmentsWithAvgSalaryList.add(new DepartmentsWithAvgSalary(1L, "credit", 300));
         when(departmentService.findDepartmentsWithAvgSalary()).thenReturn(departmentsWithAvgSalaryList);
 
         this.mockMvc.perform(get(URL_LIST_DEPARTMENTS_WIT_AVG_SALARY)

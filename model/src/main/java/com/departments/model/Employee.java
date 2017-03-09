@@ -137,8 +137,4 @@ public class Employee {
                 Objects.equals(idDepartment, employee.idDepartment);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, dob, salary, idDepartment);
-    }
 }

@@ -30,6 +30,7 @@
         }
     </style>
 
+    <h3>${labelDepartmentDelete}</h3>
 
     <div id="departmentDelete">
         <p style="text-align: center">

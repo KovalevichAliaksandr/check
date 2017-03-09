@@ -86,8 +86,6 @@ public class DepartmentDaoImplTest {
         assertEquals(department,newDepartment);
     }
 
-
-
     @Test
     public void findDepartmentsWithAvgSalary() throws Exception {
         List<DepartmentsWithAvgSalary> departmentsWithAvgSalaries = departmentDao.findDepartmentsWithAvgSalary();

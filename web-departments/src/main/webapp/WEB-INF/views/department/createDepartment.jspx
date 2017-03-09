@@ -40,7 +40,7 @@
     </style>
 
     <spring:eval expression="department.id==null ? labelDepartmentCreate:labelDepartmentUpdate" var="formTitle"/>
-    <h1 align="center">${formTitle}</h1>
+    <h3>${formTitle}</h3>
 
     <div id="departmentCreate">
         <form:form modelAttribute="department" id="departmentUpdateForm" method="post">

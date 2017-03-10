@@ -14,8 +14,8 @@ public interface DepartmentControllerInterface {
 
     List<Department> listDepartments();
     List<DepartmentsWithAvgSalary> listDepartmentsWitAvgSalary();
-    Department findContactById(@PathVariable Long id);
-    Long create(@RequestBody Department department);
-    Department update(@RequestBody Department department, @PathVariable Long id);
-    void delete(@PathVariable Long id);
+    Department findContactById(Long id);
+    Long create(Department department);
+    Department update(Department department, Long id);
+    void delete(Long id);
 }

@@ -14,17 +14,17 @@
 
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <!--<property name="driverClassName" value="${jdbc.DriverClassName}"/>-->
-        <!--<property name="url" value="${jdbc.url}"/>-->
-        <!--<property name="username" value="${jdbc.username}"/>-->
-        <!--<property name="password" value="${jdbc.password}"/>-->
+        <property name="driverClassName" value="${jdbc.DriverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
 
-    <!--<jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">-->
-        <!--<jdbc:script location="classpath*:script/mysql-schema.sql"/>-->
-        <!--<jdbc:script location="classpath*:script/mysql-test-data.sql"/>-->
-    <!--</jdbc:initialize-database>-->
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
+        <jdbc:script location="classpath*:script/mysql-schema.sql"/>
+        <jdbc:script location="classpath*:script/mysql-test-data.sql"/>
+    </jdbc:initialize-database>
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
